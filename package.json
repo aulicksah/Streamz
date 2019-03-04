@@ -15,8 +15,9 @@
   "bugs": {
     "url": "https://github.com/arnenupharsah/Streamz/issues"
   },
-  "homepage": "https://github.com/arnenupharsah/Streamz#readme",
+  "homepage": "https://github.com/arnenupharsah/Streamz",
   "dependencies": {
     "json-server": "^0.14.2"
-  }
+  },
+  "devDependencies": {}
 }
