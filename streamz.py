@@ -10,6 +10,10 @@ urls = (
 	'/video','Video',
 	'/home', 'Homepage',
 	'/register', 'Register',
+	'/about', 'About',
+	'/uploads', 'Uploads',
+	'/statistics', 'Statistics',
+	'/uploadvideo','Uploadvideo',
  
 )
 
@@ -64,6 +68,34 @@ class Video:
 		""" Show page """
 		
 		return render.video()
+
+class About:
+
+	def GET(self):
+		""" Show page """
+		
+		return render.about()
+
+class Uploads:
+
+	def GET(self):
+		""" Show page """
+		
+		return render.uploads()
+
+class Statistics:
+
+	def GET(self):
+		""" Show page """
+		
+		return render.statistics()
+
+class Uploadvideo:
+
+	def GET(self):
+		""" Show page """
+		
+		return render.uploadvideo()
 
 class Register:
 	register = form.Form(
