@@ -1,6 +1,6 @@
 """ Basic todo list using webpy 0.3 """
 import web
-import json
+import model
 from web import form
 
 ### Url mappings
@@ -14,6 +14,7 @@ urls = (
 	'/uploads', 'Uploads',
 	'/statistics', 'Statistics',
 	'/uploadvideo','Uploadvideo',
+	'/getuser','Getuser'
  
 )
 
@@ -40,22 +41,19 @@ class Index:
 
 	def POST(self):
 		login = self.login()
-		if not login.validates():
-			return "Unsuccesful Login"
-		else:
-			return login.d.email,login.d.password
+		if not login.validates():            
+			return "Unsuccessful"
 
-		""" Add new entry 
-		form = self.form()
-		if not form.validates():
-		    todos = model.get_todos()
-		    return render.index(todos, form)
-		model.new_todo(form.d.title)
-		raise web.seeother('/')
-"""
+		un=login.d.email
+		pwd=login.d.password
+		s = model.check_user(un,pwd)
+		return s
+
 		
 
 class Homepage:
+
+
 
 	def GET(self):
 		""" Show page """
@@ -64,10 +62,25 @@ class Homepage:
 
 class Video:
 
+	searchform = form.Form(
+	form.Textbox('searchtext'),
+	form.Button('Search'),
+	)
+
 	def GET(self):
 		""" Show page """
-		
-		return render.video()
+		searchform = self.searchform()
+		return render.video(searchform)
+
+	def POST(self):
+		searchform = self.searchform()
+		if not searchform.validates():            
+			return "Unsuccessful"
+		txt=searchform.d.searchtext
+		s = model.send_search(txt)
+		return s
+	
+
 
 class About:
 
@@ -114,10 +127,24 @@ class Register:
 
 	def POST(self):
 		register = self.register()
-		if not register.validates():
-			return "Unsuccesful Registration"
-		else:
-			return register.d.firstname,register.d.lastname,register.d.phone,register.d.email,register.d.password
+		if not register.validates():            
+			return "Unsuccessful"
+
+		fn=register.d.firstname
+		ln=register.d.lastname
+		ph=register.d.phone
+		eml=register.d.email
+		pwd=register.d.password
+		s = model.new_user(fn,ln,ph,eml,pwd)
+		return s
+
+class Getuser:
+
+	def POST(self):
+		""" Show page """
+		user = web.data()
+		return user
+
 
 app = web.application(urls, globals())
 

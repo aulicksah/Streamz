@@ -1,3 +1,4 @@
+$def with (searchform)
 <title>::VIDEO::</title>
 <style>
     /*
@@ -277,9 +278,9 @@
           color:#000;
         }
         
-        .topnav .search-container button {
+        .topnav .search-container .button {
           float: right;
-          padding: 0px 10px;
+          padding: 6px 10px;
           margin-top: 8px;
           margin-right: 0px;
           background-color: #e46226;
@@ -288,6 +289,7 @@
           cursor: pointer;
           text-align:center;
           width:20%;
+          
         }
         
         .topnav .search-container button:hover {
@@ -436,10 +438,10 @@
             <a class="options" href="#home"><i class="fa fa-list fa-2x"></i></a>
             <a class="options" href="#about">About</a>
             
-            <div class="search-container" style="">
-                <form action="">
-                <input type="text" placeholder="Search.." name="search">
-                <button type="submit"><i class="fa fa-search"></i></button>
+            <div class="search-container">
+                <form method="POST">
+                <input type="text" id="searchtext" placeholder="Search.." class="input" name="searchtext"><div class="post" style="display: none;"></div>    
+                <input for="Search" type="submit" class="button fa-fa-search" value="Search" id="searchbtn"><div class="post" style="display: none;"></div>
                 </form>
             </div>
             &nbsp &nbsp &nbsp
