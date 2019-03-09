@@ -287,19 +287,6 @@
           text-align:center;
           width:20%;
         }
-
-        .button{
-            padding: 0px 10px;
-          margin-top: 8px;
-          margin-right: 0px;
-          background-color: #e46226;
-          font-size: 17px;
-          border: none;
-          cursor: pointer;
-          text-align:center;
-          width:20%;
-
-        }
         
         .topnav .search-container button:hover {
           background: #ccc;
@@ -333,6 +320,18 @@
         
     }  
 
+    .button{
+        float:right;
+            padding:10px;
+          
+          background-color: #e46226;
+          font-size: 17px;
+          border: none;
+          cursor: pointer;
+          text-align:center;
+          width:20%;
+
+        }
     @media screen and (min-width: 750px) and (max-width: 900px)
 {
         .search-container
@@ -465,40 +464,66 @@
             </div>
 
             
+                -->
+
+
+                <div class="grid-container">
+                        <div class="video-content" >
+                            <video autoplay muted loop width="100%" src="static/video/2 Minute Timer.mp4" type="video/mp4" controls>
+                                    Your browser does not support the video tag.
+                            </video>
+                            <h1 style="font-family: 'Ubuntu', sans-serif; color:white;"> URL:http//:8080/dfgh</h1>
+                            <hr/>
+                        </div>
+                        <div class="recommendation" style="padding:0 10%;">
+                              
+                                <div class="container">
+                                        
+                                    
+                                </div>
+                                <div class="panel panel-default" style=" background-color: #000; color:#FFF; border:none;">
+                                        <div class="panel-heading" style=" background-color: #1a1818; color:#FFF; border:none;">  
+                                                <form method="POST" action="uploadvideodesc" style="color:#FFF;">
+                                                        <input clas="button" type="submit" class="button"value="PUBLISH" /><br/><br/>
+                                                        <table style="color:#FFF; font-size: 20px;">
+                                                            <tr style="padding:10%; margin:10%;"> 
+                                                                <td><label>Name:</label></td>
+                                                                <td style="width:100%;"><input style="width:100%; color:#000; padding:10px;" type="text" name="name"/></td>
+                                                            </tr>
+                                                        <tr style="padding:10%; margin:10%;">
+                                                                <td><label>Description:</label></td>
+                                                                <td style="width:100%;"><textarea style="width:100%; color:#000; padding:10px;" type="text" name="description"></textarea></td>
+                                                            </tr>
+                                                        <tr style="padding:10%; margin:10%;">
+                                                                <td><label>Tags:</label></td>
+                                                                <td style="width:100%;"><input style="width:100%; color:#000; padding:10px;" type="text" name="tags"/></td>
+                                                            </tr>
+
+                                                        </table>
+                                                        <p>RESTRICTION</p>
+                                                        <table style="color:#FFF; font-size: 20px;">
+                                                                <tr style="padding:10%; margin:10%;"> 
+                                                                    <td><label>Name:</label></td>
+                                                                    <td style="width:100%;"><input style="width:100%; color:#000; padding:10px;" type="text" name="name"/></td>
+                                                                </tr>
+                                                            <tr style="padding:10%; margin:10%;">
+                                                                    <td><label>Description:</label></td>
+                                                                    <td style="width:100%;"><textarea style="width:100%; color:#000; padding:10px;" type="text" name="description"></textarea></td>
+                                                                </tr>
+                                                            <tr style="padding:10%; margin:10%;">
+                                                                    <td><label>Tags:</label></td>
+                                                                    <td style="width:100%;"><input style="width:100%; color:#000; padding:10px;" type="text" name="tags"/></td>
+                                                                </tr>
+    
+                                                            </table>
+                                                        
             
-
-            <div style="padding:80px 5% 5% 80px;; ">
-                <div style="border:solid #FFF; height:400px; padding:auto; padding-top:200px; color:#FFF;">
-                        <center><form method="POST" enctype="multipart/form-data" action="uploaded">
-                            <input type="file" name="myfile"/>
-                            <br/>
-                            <input type="submit" class="button"value="UPLOAD" />
-                            </form></center>
-                </div><br/><br/>
-                
-                        <div class="panel panel-default" style=" background-color: #000; color:#FFF; border:none;">
-                                <div class="panel-heading" style=" background-color: #1a1818; color:#FFF; border:none;">  
-                                <p>HELP AND SUGGESTIONS</p>
-                                
-                                </div>
-                                <div class="panel-body container col-md-12" style=" background-color: #3a3535; color:#FFF;">
-                                            
-                                    <p>By submitting your videos to Streamz you acknowledge that you agree to Streamz's <b><u>Terms of service</u></b> and <b><u>Community Guidelines</u></b></p>
-                                    <p>Please be sure not to violate other's copyright and Privacy Rights</p>
-                                    </table>
-                                </div>
-                            </div>
-             
-                
-                                     
-                                  
-                            
-            </div>
-
-
+                                                        
+                                                </form> 
+                                        </div>
                     </div>
-                    
-                  </div>
+    
+                </div>
 
 
                   

@@ -1,4 +1,3 @@
-$def with (searchform)
 <title>::VIDEO::</title>
 <style>
     /*
@@ -15,12 +14,7 @@ $def with (searchform)
     }
  
     
-    </style>
-    
-    
-    
-    
-    
+    </style>   
     <style>
             .fa-2x{
                 font-size:2em;
@@ -193,9 +187,11 @@ $def with (searchform)
     
     .grid-container {
         display: grid;
-        grid-template-areas:'video'
+        grid-template-areas:'video '
         'recom'
-        'comments';
+        'comment';
+        padding:10px;
+      
     }
     
     .main-menu
@@ -324,6 +320,32 @@ $def with (searchform)
         
     }  
 
+    .comment-container input[type=text] {
+          padding: 6px;
+          border-radius:25px 0 0 25px;
+          margin-top: 8px;
+          font-size: 17px;
+          border: none;
+          width:80%;
+          background:#ffffff;
+          color:#000;
+ 	-webkit-text-security:circle;
+}
+       
+    .comment-container .button {
+          float: right;
+          padding: 6px 10px;
+          margin-top: 8px;
+          margin-right: 0px;
+          background-color: #e46226;
+          font-size: 17px;
+          border: none;
+          cursor: pointer;
+          text-align:center;
+          width:20%;
+          
+        }
+
     @media screen and (min-width: 750px) and (max-width: 900px)
 {
         .search-container
@@ -439,9 +461,9 @@ $def with (searchform)
             <a class="options" href="#about">About</a>
             
             <div class="search-container">
-                <form method="POST">
-                <input type="text" id="searchtext" placeholder="Search.." class="input" name="searchtext"><div class="post" style="display: none;"></div>    
-                <input for="Search" type="submit" class="button fa-fa-search" value="Search" id="searchbtn"><div class="post" style="display: none;"></div>
+                <form method="POST" action="searchresults">
+                <input type="text"  placeholder="Search.."  name="searchtext">
+                <input  type="submit" class="button fa-fa-search" value="Search" >
                 </form>
             </div>
             &nbsp &nbsp &nbsp
@@ -456,8 +478,7 @@ $def with (searchform)
             </div>
 
             
-                -->
-
+            
 
             <div class="grid-container">
                     <div class="video-content" >
@@ -467,84 +488,64 @@ $def with (searchform)
                         <h1 style="font-family: 'Ubuntu', sans-serif; color:white;"> 2 Minute Timer</h1>
                         <hr/>
                         <h4 style="color:white; font-family: 'Montserrat', sans-serif; font-weight: bold;">DESCRIPTION</h4>
+
                         <p style="font-family: 'Karla', sans-serif; font-weight: 100; color:white; font-size: 22px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod temp or incididunt ut labore et dolore magna aliqua. Ut enim ad minim.</p>
+                        <hr/>
                     </div>
                     <div class="recommendation" style="padding:0 10%;">
-                            <p style="color:white; font-family: 'Montserrat', sans-serif;">RECOMMENDATIONS</p>
-                            <div class="recommended-videos">
-                                <div style="padding:2%"><img src="static/image/video1.png" width=100%>
-                                </div>
+                        <p style="color:white; font-family: 'Montserrat', sans-serif;">RECOMMENDATIONS</p>
+                        <div class="recommended-videos">
+                            <div style="padding:2%"><img src="static/image/video1.png" width=100%>
+                            </div>
+                            <div>
+                                <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">3 Min Timer</p>
+                                <p style="font-family: 'Patua One', cursive; font-size: 20px">Plays for 3 mins</p>
+                            </div>
+                        </div>
+
+                        <div class="recommended-videos">
+                            <div style="padding:2%"><img src="static/image/video1.png" width=100%>
+                            </div>
                                 <div>
                                     <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">3 Min Timer</p>
                                     <p style="font-family: 'Patua One', cursive; font-size: 20px">Plays for 3 mins</p>
                                 </div>
+                        </div>
+
+                        <div class="recommended-videos">
+                            <div style="padding:2%"><img src="static/image/video1.png" width=100%>
                             </div>
+                                <div>
+                                    <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">3 Min Timer</p>
+                                    <p style="font-family: 'Patua One', cursive; font-size: 20px">Plays for 3 mins</p>
+                                </div>
+                        </div>
 
-                            <div class="recommended-videos">
-                                    <div style="padding:2%"><img src="static/image/video1.png" width=100%>
+                        <div class="recommended-videos">
+                            <div style="padding:2%"><img src="static/image/video1.png" width=100%>
+                            </div>
+                                <div>
+                                    <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">3 Min Timer</p>
+                                    <p style="font-family: 'Patua One', cursive; font-size: 20px">Plays for 3 mins</p>
                                 </div>
-                                    <div>
-                                        <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">3 Min Timer</p>
-                                        <p style="font-family: 'Patua One', cursive; font-size: 20px">Plays for 3 mins</p>
-                                    </div>
-                                </div>
+                        </div>
 
-                                <div class="recommended-videos">
-                                        <div style="padding:2%"><img src="static/image/video1.png" width=100%>
-                                </div>
-                                        <div>
-                                            <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">3 Min Timer</p>
-                                            <p style="font-family: 'Patua One', cursive; font-size: 20px">Plays for 3 mins</p>
-                                        </div>
-                                    </div>
-                                    <div class="recommended-videos">
-                                            <div style="padding:2%"><img src="static/image/video1.png" width=100%>
-                                </div>
-                                            <div>
-                                                <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">3 Min Timer</p>
-                                                <p style="font-family: 'Patua One', cursive; font-size: 20px">Plays for 3 mins</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="recommended-videos">
-                                               <div style="padding:2%"><img src="static/image/video1.png" width=100%>
-                                </div>
-                                                <div>
-                                                    <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">3 Min Timer</p>
-                                                    <p style="font-family: 'Patua One', cursive; font-size: 20px">Plays for 3 mins</p>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="recommended-videos">
-                                                    <div style="padding:2%"><img src="static/image/video1.png" width=100%>
-                                </div>
-                                                    <div>
-                                                        <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">3 Min Timer</p>
-                                                        <p style="font-family: 'Patua One', cursive; font-size: 20px">Plays for 3 mins</p>
-                                                    </div>
-                                                </div>
-
-                                                <div class="recommended-videos">
-                                                        <div style="padding:2%"><img src="static/image/video1.png" width=100%>
-                                </div>
-                                                        <div>
-                                                            <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">3 Min Timer</p>
-                                                            <p style="font-family: 'Patua One', cursive; font-size: 20px">Plays for 3 mins</p>
-                                                        </div>
-                                                    </div>
                                                    
 
 
 
                     </div>
-                    <div class="comments">
+                    <div class="comments" method="POST" action="comment">
                             <p style="color:white; font-family: 'Montserrat', sans-serif;">COMMENTS</p>
-                      
+                            <div class="comment-container">
+                                <form action="comment"method="POST">
+                                <input type="text" placeholder="Write your comments here..." name="commenttext">    
+                                <input type="submit" class="button fa-fa-search" value="Comment" >
+                                </form>
+                            </div>
                         
                     </div>
                   </div>
-
 
  <script>
                         function openNav() {
