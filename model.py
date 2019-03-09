@@ -2,18 +2,18 @@ import requests
 import json
 
 
-url1 = 'http://0.0.0.0:8080/getuser'
+url = 'http://0.0.0.0:9090/register'
+url1 = 'http://0.0.0.0:9090/login'
 
-
-def new_user(firstname,lastname,phone,email,password):
-    params = {'firstname': firstname,'lastname':lastname,'phone':phone,'email':email,'password':password} 
-    #requests.post(url1, data=json.dumps(params))
-    return json.dumps(params)
+def new_user(firstname,lastname,phone,email,username,password):
+    params = {'firstname': firstname,'lastname':lastname,'phone':phone,'email':email,'username':username,'password':password} 
+    requests.post(url, data=json.dumps(params))
+    #return json.dumps(params)
 
 def check_user(username,password):
     params = {'username': username,'password':password} 
-    #requests.post(url1, data=json.dumps(params))
-    return json.dumps(params)
+    requests.post(url1, data=json.dumps(params))
+    #return json.dumps(params)
 
 def send_search(search_text):
     params = {'search_text':search_text} 

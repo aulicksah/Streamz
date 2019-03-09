@@ -25,7 +25,14 @@ urls = (
 
 ### Templates
 render = web.template.render('templates', base='base')
-render1 = web.template.render('templates', base='topnav')
+
+app = web.application(urls, globals())
+
+if web.config.get('_session') is None:
+    session = web.session.Session(app, web.session.DiskStore('sessions'), {'user':'username'})
+    web.config._session = session
+else:
+    session = web.config._session
 
 class UploadVideoDesc:
 
@@ -77,31 +84,39 @@ class Index:
 	)
 
 	def GET(self):
-		""" Show page """
-		
+
 		login = self.login()
 		return render.index(login)
+		
 
+		""" Show page """
+		"""print 'session', session
+		session.user='arnenupharsah'
+		if session.user=='username':
+		   return render.index(login)
+		else:
+			return 'Hello, %s!' % session.user"""
+		
 
+				
 
 	def POST(self):
 		login = self.login()
 		if not login.validates():            
-			return "Unsuccessful"
-
-		un=login.d.email
-		pwd=login.d.password
-		s = model.check_user(un,pwd)
-		return s
-
-		
-
+			return render.index(login)
+		else:
+			un=login.d.email
+			pwd=login.d.password
+			s= model.check_user(un,pwd)
+			return s
+			"""if s:
+				session.loggedin = True
+        		session.username = i.username
+        		raise web.seeother('/home')  
+		"""
 
 
 class Homepage:
-
-
-
 	def GET(self):
 		""" Show page """		
 		return render.homepage()
@@ -111,7 +126,7 @@ class Video:
 
 	def GET(self):
 		""" Show page """
-		return render.video()
+		return render.homepage()
 
 class About:
 
@@ -146,6 +161,7 @@ class Register:
 	form.Textbox('lastname'),
 	form.Textbox('phone'),
 	form.Textbox('email'),
+	form.Password('username'),
 	form.Password('password'),
 	form.Button('Register'),
 	)
@@ -164,12 +180,12 @@ class Register:
 		ln=register.d.lastname
 		ph=register.d.phone
 		eml=register.d.email
+		un=register.d.username
 		pwd=register.d.password
-		s = model.new_user(fn,ln,ph,eml,pwd)
-		return s
+		model.new_user(fn,ln,ph,eml,un,pwd)
+		
 
 
-app = web.application(urls, globals())
 
-if __name__ == '__main__':
-    app.run()
+if __name__ == "__main__":
+   app.run()
