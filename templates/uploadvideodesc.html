@@ -1,3 +1,4 @@
+$def with (video_name)
 <title>::VIDEO::</title>
 <style>
     /*
@@ -463,15 +464,12 @@
 
             </div>
 
-            
-                -->
-
 
                 <div class="grid-container">
                         <div class="video-content" >
-                            <video autoplay muted loop width="100%" src="static/video/2 Minute Timer.mp4" type="video/mp4" controls>
-                                    Your browser does not support the video tag.
-                            </video>
+                        <video autoplay loop width="100%"src="http://0.0.0.0:8080/static/video/$video_name" type="video/mp4" controls>
+                                Your browser does not support the video tag.
+                        </video>
                             <h1 style="font-family: 'Ubuntu', sans-serif; color:white;"> URL:http//:8080/dfgh</h1>
                             <hr/>
                         </div>
@@ -483,9 +481,13 @@
                                 </div>
                                 <div class="panel panel-default" style=" background-color: #000; color:#FFF; border:none;">
                                         <div class="panel-heading" style=" background-color: #1a1818; color:#FFF; border:none;">  
-                                                <form method="POST" action="uploadvideodesc" style="color:#FFF;">
+                                                <form method="POST" action="/uploadvideoinfo" style="color:#FFF;">
                                                         <input clas="button" type="submit" class="button"value="PUBLISH" /><br/><br/>
                                                         <table style="color:#FFF; font-size: 20px;">
+                                                            <tr style="padding:10%; margin:10%; visibility:hidden"> 
+                                                                <td><label>Location:</label></td>
+                                                                <td style="width:100%;"><input value="$video_name" style="width:100%; color:#000; padding:10px;" type="text" name="location"/></td>
+                                                            </tr>
                                                             <tr style="padding:10%; margin:10%;"> 
                                                                 <td><label>Name:</label></td>
                                                                 <td style="width:100%;"><input style="width:100%; color:#000; padding:10px;" type="text" name="name"/></td>
@@ -501,25 +503,15 @@
 
                                                         </table>
                                                         <p>RESTRICTION</p>
-                                                        <table style="color:#FFF; font-size: 20px;">
-                                                                <tr style="padding:10%; margin:10%;"> 
-                                                                    <td><label>Name:</label></td>
-                                                                    <td style="width:100%;"><input style="width:100%; color:#000; padding:10px;" type="text" name="name"/></td>
-                                                                </tr>
-                                                            <tr style="padding:10%; margin:10%;">
-                                                                    <td><label>Description:</label></td>
-                                                                    <td style="width:100%;"><textarea style="width:100%; color:#000; padding:10px;" type="text" name="description"></textarea></td>
-                                                                </tr>
-                                                            <tr style="padding:10%; margin:10%;">
-                                                                    <td><label>Tags:</label></td>
-                                                                    <td style="width:100%;"><input style="width:100%; color:#000; padding:10px;" type="text" name="tags"/></td>
-                                                                </tr>
-    
-                                                            </table>
+                                                        
                                                         
             
                                                         
-                                                </form> 
+                                                </form>
+                                                
+                                                <video autoplay loop width="100%"src="static/video/2 Minute Timer.mp4" type="video/mp4" controls>
+                                Your browser does not support the video tag.
+                        </video>
                                         </div>
                     </div>
     

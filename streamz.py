@@ -17,7 +17,9 @@ urls = (
 	'/uploaded','Uploaded',
 	'/comment','Comment',
 	'/searchresults','SearchResults',
-	'/uploadvideodesc','UploadVideoDesc'
+	'/uploadvideodesc/(.*)','UploadVideoDesc',
+	'/uploadvideoinfo','UploadVideoInfo',
+	'/registerResponse','RegisterResponse',
 
  
 )
@@ -34,30 +36,59 @@ if web.config.get('_session') is None:
 else:
     session = web.config._session
 
-class UploadVideoDesc:
+class RegisterResponse:
 
 	def GET(self):
-		return render.uploadvideodesc()
+		i = web.input()
+		raise web.seeother('/home') 
+
+	def POST(self):
+		i = web.input()
+		raise web.seeother('/home') 
+
+class Register:
+	register = form.Form(
+	form.Textbox('firstname'),
+	form.Textbox('lastname'),
+	form.Textbox('phone'),
+	form.Textbox('email'),
+	form.Password('username'),
+	form.Password('password'),
+	form.Button('Register'),
+	)
+
+	def GET(self):
+		""" Show page """
+		register = self.register()
+		return render.register(register)
+
+	def POST(self):
+		register = self.register()
+		if not register.validates():            
+			return "Unsuccessful"
+
+		fn=register.d.firstname
+		ln=register.d.lastname
+		ph=register.d.phone
+		eml=register.d.email
+		un=register.d.username
+		pwd=register.d.password
+		model.new_user(fn,ln,ph,eml,un,pwd)
+		
+
+class UploadVideoDesc:
+
+	def GET(self,video_name):		
+		return render.uploadvideodesc(video_name)
 
 	def POST(self):
 		x = web.input()
-		
 
-		
-
-class Uploaded:
-
-	def POST(self):
-		x = web.input(myfile={})
-		filedir = 'static/video' # change this to the directory you want to store the file in.
-		if 'myfile' in x: # to check if the file-object is created
-			filepath=x.myfile.filename.replace('\\','/') # replaces the windows-style slashes with linux ones.
-			filename=filepath.split('/')[-1] # splits the and chooses the last part (the filename with extension)
-			fout = open(filedir +'/'+ filename,'w') # creates the file where the uploaded file should be stored
-			fout.write(x.myfile.file.read()) # writes the uploaded file to the newly created file.
-			fout.close() # closes the file, upload complete.
-			s = model.upload_video(filename)
-			return s
+class UploadVideoInfo:
+	def GET(self):
+		i = web.input()
+		s = model.upload_video(i.name,i.description,i.tags,i.location)
+		return s
 
 class SearchResults:
 
@@ -126,7 +157,7 @@ class Video:
 
 	def GET(self):
 		""" Show page """
-		return render.homepage()
+		return render.video()
 
 class About:
 
@@ -155,34 +186,18 @@ class Uploadvideo:
 		""" Show page """		
 		return render.uploadvideo()
 
-class Register:
-	register = form.Form(
-	form.Textbox('firstname'),
-	form.Textbox('lastname'),
-	form.Textbox('phone'),
-	form.Textbox('email'),
-	form.Password('username'),
-	form.Password('password'),
-	form.Button('Register'),
-	)
-
-	def GET(self):
-		""" Show page """
-		register = self.register()
-		return render.register(register)
-
 	def POST(self):
-		register = self.register()
-		if not register.validates():            
-			return "Unsuccessful"
+		x = web.input(myfile={})
+		filedir = 'static/video' # change this to the directory you want to store the file in.
+		if 'myfile' in x: # to check if the file-object is created
+			filepath=x.myfile.filename.replace('\\','/') # replaces the windows-style slashes with linux ones.
+			filename=filepath.split('/')[-1] # splits the and chooses the last part (the filename with extension)
+			fout = open(filedir +'/'+ filename,'w') # creates the file where the uploaded file should be stored
+			fout.write(x.myfile.file.read()) # writes the uploaded file to the newly created file.
+			fout.close() # closes the file, upload complete.
+			raise web.seeother('/uploadvideodesc/'+filename)
 
-		fn=register.d.firstname
-		ln=register.d.lastname
-		ph=register.d.phone
-		eml=register.d.email
-		un=register.d.username
-		pwd=register.d.password
-		model.new_user(fn,ln,ph,eml,un,pwd)
+
 		
 
 
