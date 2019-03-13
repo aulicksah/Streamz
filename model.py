@@ -1,26 +1,28 @@
 import requests
 import json
+import responses
 
 
-url = 'http://0.0.0.0:9090/register'
-url1 = 'http://0.0.0.0:9090/login'
 
 def new_user(firstname,lastname,phone,email,username,password):
     params = {'firstname': firstname,'lastname':lastname,'phone':phone,'email':email,'username':username,'password':password} 
-    requests.post(url, data=json.dumps(params))
+    p=requests.post('http://0.0.0.0:9090/register', data=json.dumps(params))
+    return p
     #return json.dumps(params)
 
 def check_user(username,password):
     params = {'username': username,'password':password} 
-    requests.post(url1, data=json.dumps(params))
+    p=requests.post('http://0.0.0.0:9090/login', data=json.dumps(params))
+    return p
     #return json.dumps(params)
 
 """--------------------------------------Search---------------------------------"""
 
 def send_search(search_text):
-    params = {'search_text':search_text} 
-    #requests.post(url1, data=json.dumps(params))
-    return json.dumps(params)
+    params = {'keyword': search_text} 
+    p=requests.post('http://0.0.0.0:7070/search', data=json.dumps(params))
+    return p
+    #return json.dumps(params)
 
 def search_upload_video(path):
     params = {'name':name,'description':description,'tags':tags} 

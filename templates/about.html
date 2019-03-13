@@ -1,3 +1,4 @@
+$def with (username)
 <title>::ABOUT::</title>
 <style>
     /*
@@ -433,7 +434,7 @@
     
                 <ul class="logout">
                     <li>
-                        <a href="">
+                        <a href="/logout">
                             <i class="fa fa-power-off fa-2x"></i>
                             <span class="nav-text">Logout</span>
                         </a>
@@ -447,11 +448,11 @@
             <a id="navicon"  onclick="openNav()" style=" width:0px;"><i class="fa fa-navicon fa-2x" style="padding:0px; margin:0px"></i></a>
             <a class="logo" href="/">STREAMZ</a>
             <a class="options" href="#home"><i class="fa fa-list fa-2x"></i></a>
-            <a class="options" href="#about">About</a>
+            <a class="options" href="#about">$username</a>
             
             <div class="search-container" style="">
                 <form action="">
-                <input type="text" placeholder="Search.." name="search">
+                <input type="text" placeholder="Search.." id="search" name="search">
                 <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
             </div>

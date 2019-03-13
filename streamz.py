@@ -1,8 +1,10 @@
 """ Basic todo list using webpy 0.3 """
 import web
+import requests
 import model
 from web import form
-
+import json
+import responses
 ### Url mappings
 
 urls = (
@@ -16,10 +18,9 @@ urls = (
 	'/uploadvideo','Uploadvideo',
 	'/uploaded','Uploaded',
 	'/comment','Comment',
-	'/searchresults','SearchResults',
 	'/uploadvideodesc/(.*)','UploadVideoDesc',
-	'/uploadvideoinfo','UploadVideoInfo',
-	'/registerResponse','RegisterResponse',
+	'/logout','Logout',
+	'/search','Search'
 
  
 )
@@ -36,15 +37,32 @@ if web.config.get('_session') is None:
 else:
     session = web.config._session
 
-class RegisterResponse:
+class Index:
+
+	login = form.Form(
+	form.Textbox('username'),
+	form.Password('password'),
+	form.Button('Login'),
+	)
 
 	def GET(self):
-		i = web.input()
-		raise web.seeother('/home') 
 
+		login = self.login()
+		return render.index(login)
+		
 	def POST(self):
-		i = web.input()
-		raise web.seeother('/home') 
+		login = self.login()
+		if not login.validates():            
+			return render.index(login)
+		else:
+			un=login.d.username
+			pwd=login.d.password
+			s= model.check_user(un,pwd)			
+			if s!= "NotLoggedIn":
+				session.loggedin = True
+        		session.user = un
+			#return session.user
+        	raise web.seeother('/home') 
 
 class Register:
 	register = form.Form(
@@ -73,8 +91,45 @@ class Register:
 		eml=register.d.email
 		un=register.d.username
 		pwd=register.d.password
-		model.new_user(fn,ln,ph,eml,un,pwd)
-		
+		p=model.new_user(fn,ln,ph,eml,un,pwd)
+		return p
+
+class Logout:
+    def GET(self):
+        session.kill()
+        raise web.seeother('/')
+
+class Homepage:
+	def GET(self):
+		""" Show page """
+		if session.user=='username':
+				raise web.seeother('/')
+		else: 	
+			return render.homepage(session.user)
+
+class Video:
+	def GET(self):
+		""" Show page """
+		if session.user=='username':
+				raise web.seeother('/')
+		else: 	
+			return render.video(session.user)
+
+class Uploadvideo:
+	def GET(self):
+		""" Show page """		
+		return render.uploadvideo()
+
+	def POST(self):
+		x = web.input(myfile={})
+		filedir = 'static/video' # change this to the directory you want to store the file in.
+		if 'myfile' in x: # to check if the file-object is created
+			filepath=x.myfile.filename.replace('\\','/') # replaces the windows-style slashes with linux ones.
+			filename=filepath.split('/')[-1] # splits the and chooses the last part (the filename with extension)
+			fout = open(filedir +'/'+ filename,'w') # creates the file where the uploaded file should be stored
+			fout.write(x.myfile.file.read()) # writes the uploaded file to the newly created file.
+			fout.close() # closes the file, upload complete.
+			raise web.seeother('/uploadvideodesc/'+filename)		
 
 class UploadVideoDesc:
 
@@ -84,87 +139,32 @@ class UploadVideoDesc:
 	def POST(self):
 		x = web.input()
 
-class UploadVideoInfo:
-	def GET(self):
-		i = web.input()
-		s = model.upload_video(i.name,i.description,i.tags,i.location)
-		return s
 
-class SearchResults:
-
+class Search:
 
 	def POST(self):
 		i = web.input()
 		s = model.send_search(i.searchtext)
-		return s
+		return s	
 
 class Comment:
-
 
 	def POST(self):
 		i = web.input()
 		s = model.send_comment(i.commenttext)
-		return s		
-
-class Index:
-
-	login = form.Form(
-	form.Textbox('email'),
-	form.Password('password'),
-	form.Button('Login'),
-	)
-
-	def GET(self):
-
-		login = self.login()
-		return render.index(login)
-		
-
-		""" Show page """
-		"""print 'session', session
-		session.user='arnenupharsah'
-		if session.user=='username':
-		   return render.index(login)
-		else:
-			return 'Hello, %s!' % session.user"""
-		
-
-				
-
-	def POST(self):
-		login = self.login()
-		if not login.validates():            
-			return render.index(login)
-		else:
-			un=login.d.email
-			pwd=login.d.password
-			s= model.check_user(un,pwd)
-			return s
-			"""if s:
-				session.loggedin = True
-        		session.username = i.username
-        		raise web.seeother('/home')  
-		"""
+		return i	
 
 
-class Homepage:
-	def GET(self):
-		""" Show page """		
-		return render.homepage()
+"""------------------------------------------------------------------"""		
 
-class Video:
-
-
-	def GET(self):
-		""" Show page """
-		return render.video()
 
 class About:
-
 	def GET(self):
 		""" Show page """
-		
-		return render.about()
+		if session.user=='username':
+			raise web.seeother('/')
+		else: 	
+			return render.about(session.user)
 
 class Uploads:
 
@@ -179,27 +179,6 @@ class Statistics:
 		""" Show page """
 		
 		return render.statistics()
-
-class Uploadvideo:
-
-	def GET(self):
-		""" Show page """		
-		return render.uploadvideo()
-
-	def POST(self):
-		x = web.input(myfile={})
-		filedir = 'static/video' # change this to the directory you want to store the file in.
-		if 'myfile' in x: # to check if the file-object is created
-			filepath=x.myfile.filename.replace('\\','/') # replaces the windows-style slashes with linux ones.
-			filename=filepath.split('/')[-1] # splits the and chooses the last part (the filename with extension)
-			fout = open(filedir +'/'+ filename,'w') # creates the file where the uploaded file should be stored
-			fout.write(x.myfile.file.read()) # writes the uploaded file to the newly created file.
-			fout.close() # closes the file, upload complete.
-			raise web.seeother('/uploadvideodesc/'+filename)
-
-
-		
-
 
 
 if __name__ == "__main__":

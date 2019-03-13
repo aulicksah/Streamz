@@ -1,3 +1,4 @@
+$def with (username)
 <title>::VIDEO::</title>
 <style>
     /*
@@ -329,7 +330,6 @@
           width:80%;
           background:#ffffff;
           color:#000;
- 	-webkit-text-security:circle;
 }
        
     .comment-container .button {
@@ -458,11 +458,11 @@
             <a id="navicon"  onclick="openNav()" style=" width:0px;"><i class="fa fa-navicon fa-2x" style="padding:0px; margin:0px"></i></a>
             <a class="logo" href="/">STREAMZ</a>
             <a class="options" href="#home"><i class="fa fa-list fa-2x"></i></a>
-            <a class="options" href="#about">About</a>
+            <a class="options" href="#about">$username</a>
             
             <div class="search-container">
-                <form method="POST" action="searchresults">
-                <input type="text"  placeholder="Search.."  name="searchtext">
+                <form method="POST" action="search">
+                <input type="text"  placeholder="Search.." id="searchtext" name="searchtext">
                 <input  type="submit" class="button fa-fa-search" value="Search" >
                 </form>
             </div>
@@ -535,10 +535,10 @@
 
 
                     </div>
-                    <div class="comments" method="POST" action="comment">
+                    <div class="comments" >
                             <p style="color:white; font-family: 'Montserrat', sans-serif;">COMMENTS</p>
                             <div class="comment-container">
-                                <form action="comment"method="POST">
+                                <form action="comment" method="POST">
                                 <input type="text" placeholder="Write your comments here..." name="commenttext">    
                                 <input type="submit" class="button fa-fa-search" value="Comment" >
                                 </form>
