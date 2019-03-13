@@ -210,6 +210,7 @@ $def with (video_name)
       </style>
 
 <style>
+
         * {box-sizing: border-box;}
         
         body {
@@ -321,6 +322,7 @@ $def with (video_name)
         
     }  
 
+
     .button{
         float:right;
             padding:10px;
@@ -368,7 +370,8 @@ $def with (video_name)
         left:0;
         position: relative;
     }  
-    }    
+    }   
+    
       
     
         </style>
@@ -481,10 +484,11 @@ $def with (video_name)
                                 </div>
                                 <div class="panel panel-default" style=" background-color: #000; color:#FFF; border:none;">
                                         <div class="panel-heading" style=" background-color: #1a1818; color:#FFF; border:none;">  
+
                                                 <form method="POST" action="/uploadvideoinfo" style="color:#FFF;">
-                                                        <input clas="button" type="submit" class="button"value="PUBLISH" /><br/><br/>
+                                                        <input class="button" type="submit" value="PUBLISH" /><br/><br/>
                                                         <table style="color:#FFF; font-size: 20px;">
-                                                            <tr style="padding:10%; margin:10%; visibility:hidden"> 
+                                                            <tr style="padding:10%; margin:10%;"> 
                                                                 <td><label>Location:</label></td>
                                                                 <td style="width:100%;"><input value="$video_name" style="width:100%; color:#000; padding:10px;" type="text" name="location"/></td>
                                                             </tr>
@@ -503,15 +507,32 @@ $def with (video_name)
 
                                                         </table>
                                                         <p>RESTRICTION</p>
-                                                        
+                                                        <tr style="padding:10%; margin:10%;">
+                                                                <td><label>Countries:</label></td>
+                                                                <td style="width:100%;"><br/><input  type="checkbox" value="India" name="India"/>India<br/>
+                                                                    <input type="checkbox" value="United States" name="UnitedStates"/>US<br/>
+                                                                    <input type="checkbox" value="Australia" name="Australia"/>Australia<br/>
+                                                                    <input type="checkbox" value="United Kingdom" name="UnitedKingdom"/>UK<br/>
+                                                                    <input type="checkbox" value="Germany" name="Germany"/></td>Germany<br/>
+                                                            </tr>
+                                                            <tr style="padding:10%; margin:10%;">
+                                                                    <td><label>Age:</label></td>
+                                                                    <td style="width:100%;">
+                                                                            <select name="age" style="font-family: 'Patua One', cursive;font-size: 20px;background-color:#FFF;color:#000;padding:5px;margin-top:7px;text-align: center;
+                                                                    ">
+                                                                                    <option value="None" selected>None</option>
+                                                                                    <option value="10+">10+</option>
+                                                                                    <option value="12+">18+</option>
+                                                                                  </select>
+
+                                                                    </td>
+                                                                </tr>
                                                         
             
                                                         
                                                 </form>
                                                 
-                                                <video autoplay loop width="100%"src="static/video/2 Minute Timer.mp4" type="video/mp4" controls>
-                                Your browser does not support the video tag.
-                        </video>
+                                                
                                         </div>
                     </div>
     

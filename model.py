@@ -35,7 +35,7 @@ def send_comment(search_text):
     #requests.post(url1, data=json.dumps(params))
     return json.dumps(params)
 """--------------------------------------Video Upload---------------------------------"""
-def upload_video(name,description,tags,location):
-    params = {'video_name':name,'description':description,'tags':tags,'location':'http://0.0.0.0:5050/static/video/'+location} 
+def upload_video(name,description,tags,location,countries,uploader,age):
+    params = {'video_name':name,'description':description,'tags':tags,'location':'http://0.0.0.0:5050/static/video/'+location,'countries':countries,'uploader':uploader,'age':age} 
     #requests.post(url1, data=json.dumps(params))
     return json.dumps(params)   

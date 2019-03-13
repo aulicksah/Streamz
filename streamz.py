@@ -19,6 +19,7 @@ urls = (
 	'/uploaded','Uploaded',
 	'/comment','Comment',
 	'/uploadvideodesc/(.*)','UploadVideoDesc',
+	'/uploadvideoinfo','UploadVideoInfo',
 	'/logout','Logout',
 	'/search','Search'
 
@@ -136,8 +137,33 @@ class UploadVideoDesc:
 	def GET(self,video_name):		
 		return render.uploadvideodesc(video_name)
 
+class UploadVideoInfo:
+
 	def POST(self):
-		x = web.input()
+
+		i = web.input()
+		#s = search_upload_video(i.searchtext)	
+		
+		countries=[]
+		if hasattr(i, 'India'):
+			countries.append(i.India)
+		if hasattr(i, 'UnitedStates'):
+			countries.append(i.UnitedStates)
+		if hasattr(i, 'Australia'):
+			countries.append(i.Australia)
+		if hasattr(i, 'UnitedKingdom'):
+			countries.append(i.UnitedKingdom)
+		if hasattr(i, 'Germany'):
+			countries.append(i.Germany)
+		if countries==[]:
+			countries= "None"
+		p=model.upload_video(i.name,i.description,i.tags,i.location,countries,session.user,i.age)
+		return p
+		
+		"""if i.Germany:
+			return i.Australia
+		else:
+			return i.Australia"""
 
 
 class Search:
