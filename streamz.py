@@ -21,7 +21,9 @@ urls = (
 	'/uploadvideodesc/(.*)','UploadVideoDesc',
 	'/uploadvideoinfo','UploadVideoInfo',
 	'/logout','Logout',
-	'/search','Search'
+	'/search','Search',
+	'/upload','MyUpload',
+	'/profile','Profile',
 
  
 )
@@ -58,11 +60,12 @@ class Index:
 		else:
 			un=login.d.username
 			pwd=login.d.password
+			
 			s= model.check_user(un,pwd)			
-			if s!= "NotLoggedIn":
+			if s['status']== "LoggedIn":
 				session.loggedin = True
-        		session.user = un
-			#return session.user
+        		session.user = s['username']
+			#return s
         	raise web.seeother('/home') 
 
 class Register:
@@ -92,8 +95,33 @@ class Register:
 		eml=register.d.email
 		un=register.d.username
 		pwd=register.d.password
-		p=model.new_user(fn,ln,ph,eml,un,pwd)
-		return p
+		s=model.new_user(fn,ln,ph,eml,un,pwd)
+		return s
+		"""if s['status']== "Registered":
+			session.loggedin = True
+			session.user = s['username']
+			#return s
+        	raise web.seeother('/profile') """
+
+class Profile:
+	profile = form.Form(
+	form.Textbox('firstname'),
+	form.Textbox('lastname'),
+	form.Textbox('phone'),
+	form.Textbox('email'),
+	form.Password('username'),
+	form.Textbox('dob'),
+	form.Textbox('country'),
+	form.Button('Submit'),
+	)
+
+	def GET(self):
+		profile=self.profile
+		return render.profile(profile,session.user)
+		#p=model.get_profile(session.user)
+		#return p
+
+		
 
 class Logout:
     def GET(self):
@@ -121,16 +149,8 @@ class Uploadvideo:
 		""" Show page """		
 		return render.uploadvideo()
 
-	def POST(self):
-		x = web.input(myfile={})
-		filedir = 'static/video' # change this to the directory you want to store the file in.
-		if 'myfile' in x: # to check if the file-object is created
-			filepath=x.myfile.filename.replace('\\','/') # replaces the windows-style slashes with linux ones.
-			filename=filepath.split('/')[-1] # splits the and chooses the last part (the filename with extension)
-			fout = open(filedir +'/'+ filename,'w') # creates the file where the uploaded file should be stored
-			fout.write(x.myfile.file.read()) # writes the uploaded file to the newly created file.
-			fout.close() # closes the file, upload complete.
-			raise web.seeother('/uploadvideodesc/'+filename)		
+	
+					
 
 class UploadVideoDesc:
 
@@ -143,7 +163,15 @@ class UploadVideoInfo:
 
 		i = web.input()
 		#s = search_upload_video(i.searchtext)	
-		
+		x = web.input(mythumbnail={})
+		filedir = 'http://0.0.0.0:5050/static/image' # change this to the directory you want to store the file in.
+		if 'myfile' in x: # to check if the file-object is created
+			filepath=x.myfile.filename.replace('\\','/') # replaces the windows-style slashes with linux ones.
+			filename=filepath.split('/')[-1] # splits the and chooses the last part (the filename with extension)
+			fout = open(filedir +'/'+ filename,'w') # creates the file where the uploaded file should be stored
+			fout.write(x.myfile.file.read()) # writes the uploaded file to the newly created file.
+			fout.close() # closes the file, upload complete.
+			
 		countries=[]
 		if hasattr(i, 'India'):
 			countries.append(i.India)
@@ -157,8 +185,8 @@ class UploadVideoInfo:
 			countries.append(i.Germany)
 		if countries==[]:
 			countries= "None"
-		p=model.upload_video(i.name,i.description,i.tags,i.location,countries,session.user,i.age)
-		return p
+		#p=model.upload_video_info(i.name,i.description,i.tags,i.location,countries,"category",session.user,i.age)
+		return i.mythumbnail
 		
 		"""if i.Germany:
 			return i.Australia
@@ -168,10 +196,14 @@ class UploadVideoInfo:
 
 class Search:
 
+	def GET(self):
+		return render.search()
+
 	def POST(self):
 		i = web.input()
 		s = model.send_search(i.searchtext)
 		return s	
+		
 
 class Comment:
 
@@ -205,6 +237,13 @@ class Statistics:
 		""" Show page """
 		
 		return render.statistics()
+
+class MyUpload:
+
+	def GET(self):
+		""" Show page """
+		
+		return render.upload()
 
 
 if __name__ == "__main__":

@@ -1,3 +1,4 @@
+$def with (profile,username)
 <title>::VIDEO::</title>
 <style>
     /*
@@ -156,12 +157,9 @@
     .recommendation { grid-area: recom; }
 
     .grid-container {
-        display: grid;
-        grid-template-areas:
-        'video video recom recom recom recom recom recom recom recom';
         padding-top:100px;
         padding-left:120px;
-        flex-wrap: wrap;
+
       }
     
       
@@ -190,9 +188,8 @@
     {
     
     .grid-container {
-        display: grid;
-        grid-template-areas:'video'
-        'recom';
+        padding-top:100px;
+        padding-left:120px;
     }
     
     .main-menu
@@ -209,6 +206,7 @@
       </style>
 
 <style>
+
         * {box-sizing: border-box;}
         
         body {
@@ -287,19 +285,6 @@
           text-align:center;
           width:20%;
         }
-
-        .button{
-            padding: 0px 10px;
-          margin-top: 8px;
-          margin-right: 0px;
-          background-color: #e46226;
-          font-size: 17px;
-          border: none;
-          cursor: pointer;
-          text-align:center;
-          width:20%;
-
-        }
         
         .topnav .search-container button:hover {
           background: #ccc;
@@ -333,6 +318,19 @@
         
     }  
 
+
+    .button{
+        float:right;
+            padding:10px;
+          
+          background-color: #e46226;
+          font-size: 17px;
+          border: none;
+          cursor: pointer;
+          text-align:center;
+          width:20%;
+
+        }
     @media screen and (min-width: 750px) and (max-width: 900px)
 {
         .search-container
@@ -368,7 +366,8 @@
         left:0;
         position: relative;
     }  
-    }    
+    }   
+    
       
     
         </style>
@@ -464,43 +463,79 @@
 
             </div>
 
-            
-            
 
-            <div style="padding:80px 5% 5% 80px;; ">
-                <div style="border:solid #FFF; height:400px; padding:auto; padding-top:200px; color:#FFF;">
-                        <center>
-                            <form id="upvideo"method="POST" enctype="multipart/form-data">
-                            <input type="file" name="files[]"/>
-                            <br/>
-                            <input type="submit" class="button"value="UPLOAD" />
-                            </form>
-                        </center>
-                </div><br/><br/>
-                
-                        <div class="panel panel-default" style=" background-color: #000; color:#FFF; border:none;">
-                                <div class="panel-heading" style=" background-color: #1a1818; color:#FFF; border:none;">  
-                                <p>HELP AND SUGGESTIONS</p>
-                                
-                                </div>
-                                <div class="panel-body container col-md-12" style=" background-color: #3a3535; color:#FFF;">
-                                            
-                                    <p>By submitting your videos to Streamz you acknowledge that you agree to Streamz's <b><u>Terms of service</u></b> and <b><u>Community Guidelines</u></b></p>
-                                    <p>Please be sure not to violate other's copyright and Privacy Rights</p>
-                                    </table>
-                                </div>
+                <div  style="width:100%; padding:10%;  font-size:40px;">
+                    <form method="POST" style="width:100%; ">
+
+
+
+                        <table style=" font-size: 20px; color:#FFF;">
+                            <tr style="padding:10%; margin:10%;"> 
+                                <td><label  for="firstname" class="label">FIRST NAME</label></td>
+                                <td style="width:100%; "><input style="width:100%; color:#000;" id="firstname" type="text" class="input" name="firstname"/><div class="post" style="display: none;"></div></td>
+                            </tr>
+                            <tr style="padding:10%; margin:10%;"> 
+                                <td><label for="lastname" class="label">LAST NAME</label></td>
+                                <td style="width:100%;"><input style="width:100%; color:#000;" id="lastname" type="text" class="input" name="lastname"/><div class="post" style="display: none;"></div></td>
+                            </tr>
+                        <tr style="padding:10%; margin:10%;">
+                                <td><label  for="phone" class="label">PHONE NO.</label></td>
+                                <td style="width:100%;"><input style="width:100%; color:#000;" id="phone" type="text" class="input" name="phone"/><div class="post" style="display: none;"></div></td>
+                            </tr>
+                        <tr style="padding:10%; margin:10%;">
+                                <td><label for="email" class="label">EMAIL ID</label></td>
+                                <td style="width:100%;"><input style="width:100%; color:#000;" id="email" type="text" class="input" name="email"/><div class="post" style="display: none;"></div></td>
+                            </tr>
+                            <tr style="padding:10%; margin:10%;">
+                                <td><label for="username" class="label">USERNAME</label></td>
+                                <td style="width:100%;"><input style="width:100%; color:#000;" id="username" type="text" class="input" value="$username" name="username"/><div class="post" style="display: none;"></div></td>
+                            </tr>
+                            <tr style="padding:10%; margin:10%;">
+                                <td><label for="username" class="label">DATE OF BIRTH</label></td>
+                                <td style="width:100%;"><input   type="date" style="color:#000;"/><div class="post" style="display: none;"></div></td>
+                            </tr>
+                            <tr></tr>
+                            <td><label>Country:</label></td>
+                                                                <td style="width:100%;">
+                                                                        <select name="age" style="font-family: 'Patua One', cursive;font-size: 20px;background-color:#FFF;color:#000;padding:5px;margin-top:7px;text-align: center;">
+                                                                                <option value="None" selected>None</option>
+                                                                                <option value="India">India</option>
+                                                                                <option value="UnitedStates">US</option>
+                                                                                <option value="Australia">Australia</option>
+                                                                                <option value="UnitedKingdom">UK</option>
+                                                                                <option value="Germany">Germany</option>
+                                                                              </select>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Category:</label></td>
+                                                                <td style="width:100%;">
+                                                                        <select name="age" style="font-family: 'Patua One', cursive;font-size: 20px;background-color:#FFF;color:#000;padding:5px;margin-top:7px;text-align: center;">
+                                                                                <option value="None" selected>None</option>
+                                                                                <option value="Cartoon">Cartoon</option>
+                                                                                <option value="Series">Series</option>
+                                                                                <option value="Movies">Movies</option>
+                                                                                <option value="Educational">Educational</option>
+                                                                                <option value="Motivational">Motivational</option>
+                                                                                <option value="Comedy">Comedy</option>
+                                                                                <option value="Horror">Horror</option>
+                                                                                <option value="Animated">Animated</option>
+                                                                              </select>
+
+                            </td>
+                        </tr>
+                            </table>
+                        </form>     
+                      
+                        <div class="group">
+                                <input for="Submit" type="submit"  value="SET PROFILE" style="margin-top: 8px;margin-right: 0px;background-color: #e46226;font-size: 40px;border: none;cursor: pointer;text-align:center;width:20%;"id="Register"><div class="post" style="display: none;"></div>
                             </div>
-             
-                
-                                     
-                                  
-                            
-            </div>
-
-
-                    </div>
+                        
                     
-                  </div>
+                    </div>
+    
+                </div>
 
 
                   
@@ -517,31 +552,5 @@
                                            
                         
                         </script>
-<script>
-
-const url = 'http://0.0.0.0:5050/upload'
-const form = document.querySelector('form')
-
-document.getElementById("upvideo").addEventListener('submit', e => {
-  e.preventDefault()
-
-  const files = document.querySelector('[type=file]').files
-  const formData = new FormData()
-
-  for (let i = 0; i < files.length; i++) {
-    let file = files[i]
-
-    formData.append('files[]', file)
-  }
-
-  fetch(url, {
-    method: 'POST',
-    body: formData,
-  }).then(response => {
-    console.log(responseText)
-  })
-})
-
-</script>
 
 

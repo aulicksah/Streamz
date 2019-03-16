@@ -1,36 +1,48 @@
 import web
 import model
 import json
-
+import requests
 ### Url mappings
 
 urls = (
-    '/', 'Index',
-    '/del/(\d+)', 'Delete'
+	'/upload','Upload',
 )
 
 
-class Index:
 
-    def GET(self):
-        videos = model.get_video()
-        video_list = []
-        for video in videos:
-          video_list.append(video) 
-        return json.dumps(video_list)
 
+urls = (
+    '/', 'Index',
+    '/videos/(.+)', 'Videos',
+    '/upload', 'Upload',
+    '/play/(.+)','Play',
+)
+
+
+### Templates
+render = web.template.render('templates', base='base')
+
+class Play:
+    def GET(self,videoid):
+        return render.play(videoid) 
+
+class Videos:
+    def GET(self,videoid):
+        # GET THE ID OF THE VIDEO
+	return open('videos/video.mp4',"rb").read()
+
+class Upload:
     def POST(self):
-        video = web.data()
-        _id = model.new_video(json.loads(video)['name']['url']['desc']['channel']['uploaded']['uploader']['category']['tags'])
-        return json.dumps({'id': _id})
+        x = web.input()
+        """filedir = './videos' # change this to the directory you want to store the file in.
+       	if 'myfile' in x: # to check if the file-object is created
+       	    filepath=x.myfile.filename.replace('\\','/') # replaces the windows-style slashes with linux ones.
+       	    filename=filepath.split('/')[-1] # splits the and chooses the last part (the filename with extension)
+       	    fout = open(filedir +'/'+ filename,'w') # creates the file where the uploaded file should be stored
+       	    fout.write(x.myfile.file.read()) # writes the uploaded file to the newly created file.
+       	    fout.close() # closes the file, upload complete."""
+        return x
 
-
-class Delete:
-    
-    def POST(self, id):
-        id = int(id)
-        model.del_video(id)
-        web.seeother('/')
 
 
 app = web.application(urls, globals())

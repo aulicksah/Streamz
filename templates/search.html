@@ -1,4 +1,5 @@
-<title>::VIDEO::</title>
+
+<title>::ABOUT::</title>
 <style>
     /*
                 font-family: 'Abel', sans-serif;
@@ -48,7 +49,7 @@
                 bottom:0;
                 height:100%-70px;
                 left:0;
-                width:60px;
+                width:250px;
                 overflow:hidden;
                 transition: width 0.2s linear;
                 z-index:1000;
@@ -152,48 +153,16 @@
     
     <style>
     
-    .video-content { grid-area: video; height:100%;}
-    .recommendation { grid-area: recom; }
+  
+    
+      
 
-    .grid-container {
-        display: grid;
-        grid-template-areas:
-        'video video recom recom recom recom recom recom recom recom';
-        padding-top:100px;
-        padding-left:120px;
-        flex-wrap: wrap;
-      }
-    
-      
-      .grid-container > div {
-        font-size: 30px;
-        width:100%;
-        
-      }
-    
-      .recommended-videos {
-        display: grid;
-        grid-template-columns: 40% 58%;    
-        grid-gap: 2%;    
-        color:#FFFFFF;
-      }
-    
-      .recommended-videos>div {
-     
-        font-size: 30px;
-        width:100%;   
-      }
-      
       
       
       @media screen and (max-width: 750px)
     {
     
-    .grid-container {
-        display: grid;
-        grid-template-areas:'video'
-        'recom';
-    }
+   
     
     .main-menu
     {
@@ -287,19 +256,6 @@
           text-align:center;
           width:20%;
         }
-
-        .button{
-            padding: 0px 10px;
-          margin-top: 8px;
-          margin-right: 0px;
-          background-color: #e46226;
-          font-size: 17px;
-          border: none;
-          cursor: pointer;
-          text-align:center;
-          width:20%;
-
-        }
         
         .topnav .search-container button:hover {
           background: #ccc;
@@ -333,23 +289,64 @@
         
     }  
 
+    .content{
+        padding:70px 10px 10px 260px;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: auto auto;
+      margin:0px;
+      
+      padding: 0;
+     
+    }
+    .grid-item {
+      color:#FFF;
+      
+      padding:;
+      font-size: 30px;
+      text-align: center;
+
+       
+    }
+
+
     @media screen and (min-width: 750px) and (max-width: 900px)
 {
-        .search-container
+    .search-container
     {
         width:20%;
     }
+
+    .content{
+        padding:70px 10px 10px 0px;
+    }
+
+    #navicon{
+        visibility: visible;
+        float: left;
+            display: block;
+            color: #e46226;
+            text-align: center;
+            padding:10px 20px;
+            text-decoration: none;        
+        font-family: 'Abel', sans-serif;
+        font-size: 40px;
+        font-weight: 900;
+        left:0;
+        position: relative;
+    }  
+
 }
         
-    @media screen and (max-width: 750px)
-    {
-    
-
-    .main-menu
+@media screen and (max-width: 750px)
+{
+       .main-menu
     {
         width:0px;
     }
-      
+        
     #lang-selector
     {
         display:none;
@@ -357,24 +354,30 @@
     #navicon{
         visibility: visible;
         float: left;
-          display: block;
-          color: #e46226;
-          text-align: center;
+            display: block;
+            color: #e46226;
+            text-align: center;
             padding:10px 20px;
-          text-decoration: none;        
+            text-decoration: none;        
         font-family: 'Abel', sans-serif;
         font-size: 40px;
         font-weight: 900;
         left:0;
         position: relative;
     }  
-    }    
-      
+    .content{
+        padding:70px 10px 10px 0px;
+    }
+}         
     
-        </style>
+</style>
+<style>
+
+  </style>
 
 </head>
 <body>
+
 
 
         <nav class="main-menu" id="navbar2">
@@ -431,7 +434,7 @@
     
                 <ul class="logout">
                     <li>
-                        <a href="">
+                        <a href="/logout">
                             <i class="fa fa-power-off fa-2x"></i>
                             <span class="nav-text">Logout</span>
                         </a>
@@ -445,11 +448,11 @@
             <a id="navicon"  onclick="openNav()" style=" width:0px;"><i class="fa fa-navicon fa-2x" style="padding:0px; margin:0px"></i></a>
             <a class="logo" href="/">STREAMZ</a>
             <a class="options" href="#home"><i class="fa fa-list fa-2x"></i></a>
-            <a class="options" href="#about">About</a>
+            <a class="options" href="#about">username</a>
             
-            <div class="search-container">
+            <div class="search-container" style="">
                 <form action="">
-                <input type="text" placeholder="Search.." name="search">
+                <input type="text" placeholder="Search.." id="search" name="search">
                 <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
             </div>
@@ -462,48 +465,67 @@
 
             </select>
 
-            </div>
+    </div>
 
             
             
 
-            <div style="padding:80px 5% 5% 80px;; ">
-                <div style="border:solid #FFF; height:400px; padding:auto; padding-top:200px; color:#FFF;">
-                        <center>
-                            <form id="upvideo"method="POST" enctype="multipart/form-data">
-                            <input type="file" name="files[]"/>
-                            <br/>
-                            <input type="submit" class="button"value="UPLOAD" />
-                            </form>
-                        </center>
-                </div><br/><br/>
-                
-                        <div class="panel panel-default" style=" background-color: #000; color:#FFF; border:none;">
-                                <div class="panel-heading" style=" background-color: #1a1818; color:#FFF; border:none;">  
-                                <p>HELP AND SUGGESTIONS</p>
-                                
-                                </div>
-                                <div class="panel-body container col-md-12" style=" background-color: #3a3535; color:#FFF;">
-                                            
-                                    <p>By submitting your videos to Streamz you acknowledge that you agree to Streamz's <b><u>Terms of service</u></b> and <b><u>Community Guidelines</u></b></p>
-                                    <p>Please be sure not to violate other's copyright and Privacy Rights</p>
-                                    </table>
-                                </div>
+                <div class="content">
+
+                        
+
+
+
+                    <img src="static/image/video1.png" width=100%; height=300px;>
+                    <br/><br/>
+                    
+<br/>
+<br/>
+
+
+        <div class="container-fluid">
+                <div class="row">
+                    <div class="recommendation" style="padding:0 10%;">
+                        
+
+                        <div class="recommended-videos">
+                            <div style="padding:2%"><img src="static/image/video1.png" width=100%>
                             </div>
-             
-                
-                                     
-                                  
-                            
-            </div>
+                                <div>
+                                    <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">3 Min Timer</p>
+                                    <p style="font-family: 'Patua One', cursive; font-size: 20px">Plays for 3 mins</p>
+                                </div>
+                        </div>
+
+                        <div class="recommended-videos">
+                            <div style="padding:2%"><img src="static/image/video1.png" width=100%>
+                            </div>
+                                <div>
+                                    <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">3 Min Timer</p>
+                                    <p style="font-family: 'Patua One', cursive; font-size: 20px">Plays for 3 mins</p>
+                                </div>
+                        </div>
+
+                        <div class="recommended-videos">
+                            <div style="padding:2%"><img src="static/image/video1.png" width=100%>
+                            </div>
+                                <div>
+                                    <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">3 Min Timer</p>
+                                    <p style="font-family: 'Patua One', cursive; font-size: 20px">Plays for 3 mins</p>
+                                </div>
+                        </div>
+
+                                                   
+
 
 
                     </div>
-                    
-                  </div>
+                </div>
+        </div>
+</div>
+ 
 
 
-                  
 
  <script>
                         function openNav() {
@@ -517,31 +539,5 @@
                                            
                         
                         </script>
-<script>
-
-const url = 'http://0.0.0.0:5050/upload'
-const form = document.querySelector('form')
-
-document.getElementById("upvideo").addEventListener('submit', e => {
-  e.preventDefault()
-
-  const files = document.querySelector('[type=file]').files
-  const formData = new FormData()
-
-  for (let i = 0; i < files.length; i++) {
-    let file = files[i]
-
-    formData.append('files[]', file)
-  }
-
-  fetch(url, {
-    method: 'POST',
-    body: formData,
-  }).then(response => {
-    console.log(responseText)
-  })
-})
-
-</script>
 
 
