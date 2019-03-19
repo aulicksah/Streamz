@@ -3,7 +3,7 @@ import model
 import json
 import requests
 import hashlib
-import responses
+
 urls = ('/login', 'Login',
         '/logout', 'Logout',
         '/register', 'Register',
@@ -24,7 +24,7 @@ class Register:
                 un=json.loads(data)['username']
                 pwd=json.loads(data)['password']
                 pwd1= hashlib.md5(pwd).hexdigest()
-                p=model.new_user(fn,ln,ph,eml,un,pwd1)
+                p=model.new_user(fn,ln,ph,eml,un,pwd1,0,0,0)
                 return p
 
 	"""Set subscribers and likes to 0"""
@@ -55,13 +55,13 @@ class UpdateProfile:
                 data=web.data()
                 fn=json.loads(data)['firstname']
                 ln=json.loads(data)['lastname']
+                un=json.loads(data)['username']
                 ph=json.loads(data)['phone']
                 eml=json.loads(data)['email']
-                un=json.loads(data)['username']
-		db=json.loads(data)['dob']
-                cnt=json.loads(data)['country']
-                cat=json.loads(data)['category']
-                p=model.update_user_details(fn,ln,ph,eml,un,db,cnt,cat)
+		cat=json.loads(data)['category']
+		dob=json.loads(data)['dob']
+		cntr=json.loads(data)['country']
+                p=model.update_user_details(fn,ln,un,ph,eml,cat,dob,cntr)
                 return p
 
 app = web.application(urls, globals())

@@ -17,8 +17,12 @@ def check_user(username,password):
 def get_profile(username):
     params = {'username':username} 
     p=requests.post('http://0.0.0.0:9090/profile', data=json.dumps(params))
-    return p
+    return p.json()
      
+def update_profile(firstname,lastname,username,phone,email,category,country,dob):
+    params = {'firstname':firstname,'lastname':lastname,'username':username,'phone':phone,'email':email,'category':category,'country':country,'dob':dob} 
+    p=requests.post('http://0.0.0.0:9090/updateprofile', data=json.dumps(params))
+    return p
     #return json.dumps(params)
 
 """--------------------------------------Search---------------------------------"""

@@ -1,4 +1,4 @@
-$def with (profile,username)
+$def with (profile,username,fn,ln,cat,db,eml,ph)
 <title>::VIDEO::</title>
 <style>
     /*
@@ -16,11 +16,6 @@ $def with (profile,username)
  
     
     </style>
-    
-    
-    
-    
-    
     <style>
             .fa-2x{
                 font-size:2em;
@@ -444,7 +439,7 @@ $def with (profile,username)
             <a id="navicon"  onclick="openNav()" style=" width:0px;"><i class="fa fa-navicon fa-2x" style="padding:0px; margin:0px"></i></a>
             <a class="logo" href="/">STREAMZ</a>
             <a class="options" href="#home"><i class="fa fa-list fa-2x"></i></a>
-            <a class="options" href="#about">About</a>
+            <a class="options" href="#about">$username</a>
             
             <div class="search-container">
                 <form action="">
@@ -465,26 +460,23 @@ $def with (profile,username)
 
 
                 <div  style="width:100%; padding:10%;  font-size:40px;">
-                    <form method="POST" style="width:100%; ">
-
-
-
+                    <form method="POST" style="width:100%;" action="updateprofile">
                         <table style=" font-size: 20px; color:#FFF;">
                             <tr style="padding:10%; margin:10%;"> 
                                 <td><label  for="firstname" class="label">FIRST NAME</label></td>
-                                <td style="width:100%; "><input style="width:100%; color:#000;" id="firstname" type="text" class="input" name="firstname"/><div class="post" style="display: none;"></div></td>
+                                <td style="width:100%; "><input style="width:100%; color:#000;" id="firstname" type="text" class="input" value="$fn" name="firstname"/><div class="post" style="display: none;"></div></td>
                             </tr>
                             <tr style="padding:10%; margin:10%;"> 
                                 <td><label for="lastname" class="label">LAST NAME</label></td>
-                                <td style="width:100%;"><input style="width:100%; color:#000;" id="lastname" type="text" class="input" name="lastname"/><div class="post" style="display: none;"></div></td>
+                                <td style="width:100%;"><input style="width:100%; color:#000;" id="lastname" type="text" class="input" value="$ln" name="lastname"/><div class="post" style="display: none;"></div></td>
                             </tr>
                         <tr style="padding:10%; margin:10%;">
                                 <td><label  for="phone" class="label">PHONE NO.</label></td>
-                                <td style="width:100%;"><input style="width:100%; color:#000;" id="phone" type="text" class="input" name="phone"/><div class="post" style="display: none;"></div></td>
+                                <td style="width:100%;"><input style="width:100%; color:#000;" id="phone" type="text" class="input" value="$ph" name="phone"/><div class="post" style="display: none;"></div></td>
                             </tr>
                         <tr style="padding:10%; margin:10%;">
                                 <td><label for="email" class="label">EMAIL ID</label></td>
-                                <td style="width:100%;"><input style="width:100%; color:#000;" id="email" type="text" class="input" name="email"/><div class="post" style="display: none;"></div></td>
+                                <td style="width:100%;"><input style="width:100%; color:#000;" id="email" type="text" class="input" value="$eml" name="email"/><div class="post" style="display: none;"></div></td>
                             </tr>
                             <tr style="padding:10%; margin:10%;">
                                 <td><label for="username" class="label">USERNAME</label></td>
@@ -492,12 +484,12 @@ $def with (profile,username)
                             </tr>
                             <tr style="padding:10%; margin:10%;">
                                 <td><label for="username" class="label">DATE OF BIRTH</label></td>
-                                <td style="width:100%;"><input   type="date" style="color:#000;"/><div class="post" style="display: none;"></div></td>
+                                <td style="width:100%;"><input name="dob" type="date" value="$db" style="color:#000;"/><div class="post" style="display: none;"></div></td>
                             </tr>
                             <tr></tr>
                             <td><label>Country:</label></td>
                                                                 <td style="width:100%;">
-                                                                        <select name="age" style="font-family: 'Patua One', cursive;font-size: 20px;background-color:#FFF;color:#000;padding:5px;margin-top:7px;text-align: center;">
+                                                                        <select name="country" style="font-family: 'Patua One', cursive;font-size: 20px;background-color:#FFF;color:#000;padding:5px;margin-top:7px;text-align: center;">
                                                                                 <option value="None" selected>None</option>
                                                                                 <option value="India">India</option>
                                                                                 <option value="UnitedStates">US</option>
@@ -511,7 +503,7 @@ $def with (profile,username)
                         <tr>
                             <td><label>Category:</label></td>
                                                                 <td style="width:100%;">
-                                                                        <select name="age" style="font-family: 'Patua One', cursive;font-size: 20px;background-color:#FFF;color:#000;padding:5px;margin-top:7px;text-align: center;">
+                                                                        <select name="category" style="font-family: 'Patua One', cursive;font-size: 20px;background-color:#FFF;color:#000;padding:5px;margin-top:7px;text-align: center;">
                                                                                 <option value="None" selected>None</option>
                                                                                 <option value="Cartoon">Cartoon</option>
                                                                                 <option value="Series">Series</option>
@@ -526,11 +518,13 @@ $def with (profile,username)
                             </td>
                         </tr>
                             </table>
+
+                            <div class="group">
+                                    <input for="Submit" type="submit"  value="SET PROFILE" style="margin-top: 8px;margin-right: 0px;background-color: #e46226;font-size: 40px;border: none;cursor: pointer;text-align:center;width:20%;"id="Register"><div class="post" style="display: none;"></div>
+                                </div>
                         </form>     
                       
-                        <div class="group">
-                                <input for="Submit" type="submit"  value="SET PROFILE" style="margin-top: 8px;margin-right: 0px;background-color: #e46226;font-size: 40px;border: none;cursor: pointer;text-align:center;width:20%;"id="Register"><div class="post" style="display: none;"></div>
-                            </div>
+                        
                         
                     
                     </div>

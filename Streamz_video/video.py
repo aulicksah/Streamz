@@ -33,15 +33,20 @@ class Videos:
 
 class Upload:
     def POST(self):
-        x = web.input()
-        """filedir = './videos' # change this to the directory you want to store the file in.
-       	if 'myfile' in x: # to check if the file-object is created
-       	    filepath=x.myfile.filename.replace('\\','/') # replaces the windows-style slashes with linux ones.
-       	    filename=filepath.split('/')[-1] # splits the and chooses the last part (the filename with extension)
-       	    fout = open(filedir +'/'+ filename,'w') # creates the file where the uploaded file should be stored
-       	    fout.write(x.myfile.file.read()) # writes the uploaded file to the newly created file.
-       	    fout.close() # closes the file, upload complete."""
-        return x
+        web.header('Access-Control-Allow-Origin','*')
+	web.header('Access-Control-Allow-Credentials', 'true')
+	x = web.input()
+	print x
+        """filedir = 'static/video'
+        if 'myfile' in x: 
+            filepath=x.myfile.filename 
+            filename=filepath.split('/')[-1] 
+            fout = open(filedir +'/'+ filename,'w')
+            fout.write(x.myfile.file.read()) 
+            fout.close() 
+	_id = model.upload_video(json.loads(filedir +'/'+ filename)['url'])
+	return json.dumps({'id': _id})"""
+	
 
 
 

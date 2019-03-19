@@ -24,6 +24,7 @@ urls = (
 	'/search','Search',
 	'/upload','MyUpload',
 	'/profile','Profile',
+	'/updateprofile','UpdateProfile',
 
  
 )
@@ -96,14 +97,13 @@ class Register:
 		un=register.d.username
 		pwd=register.d.password
 		s=model.new_user(fn,ln,ph,eml,un,pwd)
-		return s
-		"""if s['status']== "Registered":
+		if s['status']== "Registered":
 			session.loggedin = True
 			session.user = s['username']
 			#return s
-        	raise web.seeother('/profile') """
+        	raise web.seeother('/updateprofile') 
 
-class Profile:
+class UpdateProfile:
 	profile = form.Form(
 	form.Textbox('firstname'),
 	form.Textbox('lastname'),
@@ -117,11 +117,19 @@ class Profile:
 
 	def GET(self):
 		profile=self.profile
-		return render.profile(profile,session.user)
-		#p=model.get_profile(session.user)
-		#return p
+		s=model.get_profile(session.user)
+		fn=s['firstname']
+		ln=s['lastname']
+		cat=s['category']
+		db=s['dob']
+		eml=s['email']
+		ph=s['phone']
+		return render.updateprofile(profile,session.user,fn,ln,cat,db,eml,ph)
 
-		
+	def POST(self):
+		i = web.input()
+		s = model.update_profile(i.firstname,i.lastname,i.username,i.phone,i.email,i.category,i.country,i.dob)
+		return s
 
 class Logout:
     def GET(self):

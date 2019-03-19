@@ -463,10 +463,6 @@
             </select>
 
             </div>
-
-            
-            
-
             <div style="padding:80px 5% 5% 80px;; ">
                 <div style="border:solid #FFF; height:400px; padding:auto; padding-top:200px; color:#FFF;">
                         <center>
@@ -478,70 +474,57 @@
                         </center>
                 </div><br/><br/>
                 
-                        <div class="panel panel-default" style=" background-color: #000; color:#FFF; border:none;">
-                                <div class="panel-heading" style=" background-color: #1a1818; color:#FFF; border:none;">  
-                                <p>HELP AND SUGGESTIONS</p>
-                                
-                                </div>
-                                <div class="panel-body container col-md-12" style=" background-color: #3a3535; color:#FFF;">
-                                            
-                                    <p>By submitting your videos to Streamz you acknowledge that you agree to Streamz's <b><u>Terms of service</u></b> and <b><u>Community Guidelines</u></b></p>
-                                    <p>Please be sure not to violate other's copyright and Privacy Rights</p>
-                                    </table>
-                                </div>
-                            </div>
-             
-                
-                                     
-                                  
+                <div class="panel panel-default" style=" background-color: #000; color:#FFF; border:none;">
+                        <div class="panel-heading" style=" background-color: #1a1818; color:#FFF; border:none;">  
+                        <p>HELP AND SUGGESTIONS</p>
+                        
+                </div>
+                <div class="panel-body container col-md-12" style=" background-color: #3a3535; color:#FFF;">
                             
+                    <p>By submitting your videos to Streamz you acknowledge that you agree to Streamz's <b><u>Terms of service</u></b> and <b><u>Community Guidelines</u></b></p>
+                    <p>Please be sure not to violate other's copyright and Privacy Rights</p>
+                    </table>
+                </div>
             </div>
-
-
-                    </div>
-                    
-                  </div>
+        </div>
+    </div>
+</div>
 
 
                   
+<script>
+    function openNav() {
+        var x = document.getElementById("navbar2");
+        if(x.style.width == "250px")
+            x.style.width = "0px";
+        else
+            x.style.width = "250px";
+    }
+</script>
 
- <script>
-                        function openNav() {
-                            var x = document.getElementById("navbar2");
-                            if(x.style.width == "250px")
-                                x.style.width = "0px";
-                            else
-                                x.style.width = "250px";
-                        
-                        }
-                                           
-                        
-                        </script>
 <script>
 
-const url = 'http://0.0.0.0:5050/upload'
-const form = document.querySelector('form')
+    const url = 'http://0.0.0.0:5050/upload'
+    const form = document.querySelector('form')
 
-document.getElementById("upvideo").addEventListener('submit', e => {
-  e.preventDefault()
+    document.getElementById("upvideo").addEventListener('submit', e => {
+    e.preventDefault()
 
-  const files = document.querySelector('[type=file]').files
-  const formData = new FormData()
+    const files = document.querySelector('[type=file]').files
+    const formData = new FormData()
 
-  for (let i = 0; i < files.length; i++) {
-    let file = files[i]
+    for (let i = 0; i < files.length; i++) {
+        let file = files[i]
 
-    formData.append('files[]', file)
-  }
+        formData.append('files[]', file)
+    }
 
-  fetch(url, {
-    method: 'POST',
-    body: formData,
-  }).then(response => {
-    console.log(responseText)
-  })
+    fetch(url, {
+        method: 'POST',
+        body: formData,
+    }).then(response => {
+        console.log(response)
+    })
 })
 
 </script>
-
-
