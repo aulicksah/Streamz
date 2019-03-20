@@ -34,9 +34,9 @@ class Videos:
 class Upload:
     def POST(self):
         web.header('Access-Control-Allow-Origin','*')
-	web.header('Access-Control-Allow-Credentials', 'true')
-	x = web.input()
-	print x
+        web.header('Access-Control-Allow-Credentials', 'true')
+        x = web.input()
+        print x
         """filedir = 'static/video'
         if 'myfile' in x: 
             filepath=x.myfile.filename 

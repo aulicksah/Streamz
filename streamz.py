@@ -4,7 +4,6 @@ import requests
 import model
 from web import form
 import json
-import responses
 ### Url mappings
 
 urls = (
@@ -157,7 +156,20 @@ class Uploadvideo:
 		""" Show page """		
 		return render.uploadvideo()
 
-	
+	def POST(self):
+		
+		x = web.input(myfile={})
+		"""filedir = '/path/where/you/want/to/save' # change this to the directory you want to store the file in.
+		if 'myfile' in x: # to check if the file-object is created
+			filepath=x.myfile.filename.replace('\\','/') # replaces the windows-style slashes with linux ones.
+			filename=filepath.split('/')[-1] # splits the and chooses the last part (the filename with extension)
+			fout = open(filedir +'/'+ filename,'w') # creates the file where the uploaded file should be stored
+			fout.write(x.myfile.file.read()) # writes the uploaded file to the newly created file.
+			fout.close() # closes the file, upload complete."""
+		filepath=x.myfile.filename.replace('\\','/')
+		multipart_form_data = {'image': (x.myfile.filename, open(x.myfile.file, 'rb'))}
+		response = requests.post('http://0.0.0.0:5050/upload', files=multipart_form_data)
+		return response
 					
 
 class UploadVideoDesc:
@@ -203,9 +215,6 @@ class UploadVideoInfo:
 
 
 class Search:
-
-	def GET(self):
-		return render.search()
 
 	def POST(self):
 		i = web.input()

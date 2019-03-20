@@ -220,9 +220,9 @@ $def with (username)
           color:#000;
         }
         
-        .topnav .search-container button {
+        .topnav .search-container .button {
           float: right;
-          padding: 0px 10px;
+          padding: 6px 10px;
           margin-top: 8px;
           margin-right: 0px;
           background-color: #e46226;
@@ -231,8 +231,8 @@ $def with (username)
           cursor: pointer;
           text-align:center;
           width:20%;
+          
         }
-        
         .topnav .search-container button:hover {
           background: #ccc;
         }
@@ -411,10 +411,10 @@ $def with (username)
             <a class="options" href="#home"><i class="fa fa-list fa-2x"></i></a>
             <a class="options" href="/about">$username</a>
             
-            <div class="search-container" style="">
-                <form action="/search">
-                <input type="text" placeholder="Search.." name="search">
-                <button type="submit"><i class="fa fa-search"></i></button>
+            <div class="search-container">
+                <form method="POST" action="search">
+                <input type="text"  placeholder="Search.." id="searchtext" name="searchtext">
+                <input  type="submit" class="button fa-fa-search" value="Search" >
                 </form>
             </div>
             &nbsp &nbsp &nbsp

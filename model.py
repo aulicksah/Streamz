@@ -1,7 +1,5 @@
 import requests
 import json
-import responses
-
 
 
 def new_user(firstname,lastname,phone,email,username,password):
