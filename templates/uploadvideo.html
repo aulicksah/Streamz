@@ -466,8 +466,8 @@
             <div style="padding:80px 5% 5% 80px;; ">
                 <div style="border:solid #FFF; height:400px; padding:auto; padding-top:200px; color:#FFF;">
                         <center>
-                            <form id="upvideo" method="POST" enctype="multipart/form-data">
-                            <input type="file" name="files[]"/>
+                            <form method="POST" action="/uploadvideo" enctype="multipart/form-data">
+                            <input type="file" name="myfile"/>
                             <br/>
                             <input type="submit" class="button"value="UPLOAD" />
                             </form>
@@ -502,29 +502,4 @@
     }
 </script>
 
-<script>
 
-    const url = 'http://0.0.0.0:5050/upload'
-    const form = document.querySelector('form')
-
-    document.getElementById("upvideo").addEventListener('submit', e => {
-    e.preventDefault()
-
-    const files = document.querySelector('[type=file]').files
-    const formData = new FormData()
-
-    for (let i = 0; i < files.length; i++) {
-        let file = files[i]
-
-        formData.append('files[]', file)
-    }
-
-    fetch(url, {
-        method: 'POST',
-        body: formData,
-    }).then(response => {
-        console.log(response)
-    })
-})
-
-</script>

@@ -35,17 +35,12 @@ class Upload:
     def POST(self):
         web.header('Access-Control-Allow-Origin','*')
         web.header('Access-Control-Allow-Credentials', 'true')
-        x = web.input()
-        print x
-        """filedir = 'static/video'
-        if 'myfile' in x: 
-            filepath=x.myfile.filename 
-            filename=filepath.split('/')[-1] 
-            fout = open(filedir +'/'+ filename,'w')
-            fout.write(x.myfile.file.read()) 
-            fout.close() 
-	_id = model.upload_video(json.loads(filedir +'/'+ filename)['url'])
-	return json.dumps({'id': _id})"""
+        data = web.input()
+        filename=data['name']
+        fout = open('static/videos' +'/'+ filename,'w')
+        fout.write(data['file']) 
+        fout.close() 
+        return "Success"
 	
 
 
