@@ -2,34 +2,20 @@ import web
 import model
 import json
 import requests
-### Url mappings
 
-urls = (
-	'/upload','Upload',
+urls = ('/getvideodesc', 'GetVideoDesc',
+        '/upload', 'Upload',
 )
 
+	
 
-
-
-urls = (
-    '/', 'Index',
-    '/videos/(.+)', 'Videos',
-    '/upload', 'Upload',
-    '/play/(.+)','Play',
-)
-
-
-### Templates
-render = web.template.render('templates', base='base')
-
-class Play:
-    def GET(self,videoid):
-        return render.play(videoid) 
-
-class Videos:
-    def GET(self,videoid):
-        # GET THE ID OF THE VIDEO
-	return open('videos/video.mp4',"rb").read()
+class GetVideoDesc:
+    
+        def POST(self):
+                data=web.data()
+                id=json.loads(data)['vid']
+                s=model.get_videodesc(id)
+                return s
 
 class Upload:
     def POST(self):
@@ -40,12 +26,11 @@ class Upload:
         fout = open('static/videos' +'/'+ filename,'w')
         fout.write(data['file']) 
         fout.close() 
-        return "Success"
-	
-
+        res = model.upload_video(filename,'http://0.0.0.0:5050/upload' +'/'+ filename)
+        return res
 
 
 app = web.application(urls, globals())
 
 if __name__ == '__main__':
-    app.run()
+        app.run()

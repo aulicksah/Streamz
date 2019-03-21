@@ -25,7 +25,7 @@ class Register:
                 pwd=json.loads(data)['password']
                 pwd1= hashlib.md5(pwd).hexdigest()
                 p=model.new_user(fn,ln,ph,eml,un,pwd1,0,0,0)
-                return p
+                return data
 
 	"""Set subscribers and likes to 0"""
         

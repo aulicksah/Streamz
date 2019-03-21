@@ -17,7 +17,7 @@ urls = (
 	'/uploadvideo','Uploadvideo',
 	'/uploaded','Uploaded',
 	'/comment','Comment',
-	'/uploadvideodesc/(.*)','UploadVideoDesc',
+	'/uploadvideodesc/(\d+)','UploadVideoDesc',
 	'/uploadvideoinfo','UploadVideoInfo',
 	'/logout','Logout',
 	'/search','Search',
@@ -158,16 +158,18 @@ class Uploadvideo:
 
 	def POST(self):
 		
-		x = web.input(myfile={})		
-		file1 = {'file': x.myfile.file.read(),'name':x.myfile.filename}
-		r = requests.post("http://0.0.0.0:5050/upload", files=file1)
-		return r
+		x = web.input(myfile={})
+		r = model.upload_video(x)
+		id=str(r['id'])
+		raise web.seeother('/uploadvideodesc/'+id)
 					
 
 class UploadVideoDesc:
 
-	def GET(self,video_name):		
-		return render.uploadvideodesc(video_name)
+	def GET(self,video_id):
+		id=int(video_id)
+		s=model.get_videodesc(id)
+		return s
 
 class UploadVideoInfo:
 

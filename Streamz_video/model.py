@@ -1,14 +1,22 @@
 import web
+import json 
 
 db = web.database(dbn='sqlite', db='videos.db')
 
-def get_video():
-    return db.select('videos', order='id')
+def get_videodesc(id):
+	"""authdb = sqlite3.connect('videos.db')
+	c= authdb.execute('select * from video where id=?',[id])
+	row = c.fetchone()
+	nm=row[1]
+	url=row[2]
+	params={'id':id, 'name':nm,'url':url}"""
+	params = {'id': id} 
+	return json.dumps(params)
 
-def upload_video(name,description,tags,video_location,countries,uploader,age):
-	id=db.insert('user', firstname=firstname, lastname=lastname,email=email,username=username,pwd=pwd,phone=phone)
-	params={'status':username,'username':username,'id':id}
-	requests.post(url, data=json.dumps(params))
+def upload_video(name,videopath):
+	id=db.insert('video', name=name, urlpath=videopath)
+	params={'id':id}
+	return json.dumps(params)
 		
 
 def del_video(id):
