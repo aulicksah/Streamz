@@ -1,4 +1,4 @@
-
+$def with (username, results)
 <title>::ABOUT::</title>
 <style>
     /*
@@ -487,33 +487,17 @@
                 <div class="row">
                     <div class="recommendation" style="padding:0 10%;">
                         
-
+                    $for result in results:
                         <div class="recommended-videos">
-                            <div style="padding:2%"><img src="static/image/video1.png" width=100%>
+                            <div style="padding:2%"><img src="http://0.0.0.0:8080/videos/$result['id']" width=100%>
                             </div>
                                 <div>
-                                    <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">3 Min Timer</p>
-                                    <p style="font-family: 'Patua One', cursive; font-size: 20px">Plays for 3 mins</p>
+                                    <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">http://0.0.0.0:8080/videoname/$result['id']</p>
+                                    <p style="font-family: 'Patua One', cursive; font-size: 20px">http://0.0.0.0:8080/videoname/$result['id']</p>
                                 </div>
                         </div>
 
-                        <div class="recommended-videos">
-                            <div style="padding:2%"><img src="static/image/video1.png" width=100%>
-                            </div>
-                                <div>
-                                    <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">3 Min Timer</p>
-                                    <p style="font-family: 'Patua One', cursive; font-size: 20px">Plays for 3 mins</p>
-                                </div>
-                        </div>
-
-                        <div class="recommended-videos">
-                            <div style="padding:2%"><img src="static/image/video1.png" width=100%>
-                            </div>
-                                <div>
-                                    <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">3 Min Timer</p>
-                                    <p style="font-family: 'Patua One', cursive; font-size: 20px">Plays for 3 mins</p>
-                                </div>
-                        </div>
+                       
 
                                                    
 

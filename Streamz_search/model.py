@@ -1,36 +1,53 @@
+#import libraries
 import web
 import json
 import requests
-# Import Elasticsearch package 
 
+# Import Elasticsearch package 
 from elasticsearch import Elasticsearch 
-# Connect to the elastic cluster
-url='http://0.0.0.0:8080/search/'
+
+
+# function to upload details to server
+#details consists of id,channel,uploader,category,title,description and tags
+
+def send_details(details):
+  ids=json.loads(details)['id']
+  # Connect to the elastic cluster
+  es=Elasticsearch([{'host':'localhost','port':9200}])
+  res = es.index(index='streams2',doc_type='video',body=details,id=ids)  #index_name=streams1, doc_type=videos
+  return res
+
+
+# function to search by keywords
+#search based on category,channel,uploader,title,tags
 def send_search(txt):
   txt=str(txt)
   print(txt)
   videos=[]
   es=Elasticsearch([{'host':'localhost','port':9200}])
-  res= es.search(index='streams11',body={"query" : {
+  res= es.search(index='streams2',body={"query" : {
                 "bool" : {
                     "should" : [
-                    { "match" : {"data.channel" : txt}},
-                    { "match" : {"data.category" : txt} },
-                    {"match":{ "data.uploader" : txt }},
-                    {"match": {"data.tags": txt}},
-                    {"match": {"data.title":{"query":"txt","analyzer": "english"}}},
-                    { "range": { "data.restrictions.age": {"gte": 0,"lt": 1}}},
+                    { "match" : {"channel" : txt}},
+                    { "match" : {"category" : txt} },
+                    {"match":{ "uploader" : txt }},
+                    {"match": {"tags": txt}},
+                    {"match": {"title":{"query":txt,"analyzer": "english"}}},
+                    
                      ]
                     }
-                    },
-                    "sort" : [{"data.duration" : {"order" : "asc", "mode" : "avg"}},
-
-                    ]
+                    }
                     })
   for hit in res['hits']['hits']:
-    videos.append(hit['_source']['data']['id'])
-  ids = {'id': videos}  
-  return requests.post(url, data=json.dumps(ids)) 
-   
-	
+    videos.append(hit['_source']['id'])
+  ids = {'id': videos}
+  return json.dumps(ids)
+
+  
+ # function to delete from server 
+def delete(index):
+  #print index
+  es=Elasticsearch([{'host':'localhost','port':9200}])
+  res = es.delete(index='streams2', doc_type='video', id=index)
+  return res	
     

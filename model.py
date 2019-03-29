@@ -1,7 +1,6 @@
 import requests
 import json
 
-
 def new_user(firstname,lastname,phone,email,username,password):
     params = {'firstname': firstname,'lastname':lastname,'phone':phone,'email':email,'username':username,'password':password} 
     p=requests.post('http://0.0.0.0:9090/register', data=json.dumps(params))
@@ -42,7 +41,7 @@ def send_comment(search_text):
     #requests.post(url1, data=json.dumps(params))
     return json.dumps(params)
 
-"""--------------------------------------Video Upload---------------------------------"""
+"""--------------------------------------Video Upload-----------------------------------------"""
 
 def get_videodesc(id):
     params = {'vid': id} 
@@ -51,14 +50,39 @@ def get_videodesc(id):
     #return json.dumps(params)
 
 
-def upload_video(x):
-    file1 = {'file': x.myfile.file.read(),'name':x.myfile.filename}
+def upload_video(x,uploader):
+    file1 = {'file': x.myfile.file.read(),'name':x.myfile.filename,'uploader':uploader}
     p = requests.post("http://0.0.0.0:5050/upload", files=file1)
     return p.json()
 
 
-def upload_video_info(name,description,tags,video_location,countries,category,uploader,age):
-    params = {'video_name':name,'description':description,'tags':tags,'video_location':'http://0.0.0.0:5050/static/video/'+location,'category':category,'countries':countries,'uploader':uploader,'age':age} 
-    #p=requests.post('http://0.0.0.0:7070/search', data=json.dumps(params))
-    return p.json()    
-    #return json.dumps(params)   
+def upload_video_info(id,name,description,tags,countries,category,uploader,age,th):
+
+    params = {'id':id,'video_name':name,'description':description,'tags':tags,'category':category,'countries':json.dumps(countries),'uploader':uploader,'age':age} 
+    p=requests.post('http://0.0.0.0:7070/details', data=json.dumps(params))
+
+    #paramsth = {'thumbnail_file': th.mythumbnail.file.read(),'thumbnail_name':th.mythumbnail.filename,'id':id,'video_name':name,'description':description,'category':category,'countries':json.dumps(countries),'age':age}
+    #q = requests.post('http://0.0.0.0:5050/updatevideo', files=paramsth)
+    #return p.json()    
+    return p
+
+def get_video(id):
+    params = {'vid': id} 
+    p=requests.post('http://0.0.0.0:5050/getvideo', data=json.dumps(params))
+    return p
+    #return json.dumps(params)
+
+def get_thumbnail(id):
+    params = {'vid': id} 
+    p=requests.post('http://0.0.0.0:5050/getthumbnail', data=json.dumps(params))
+    return p
+
+def get_videoname(id):
+    params = {'vid': id} 
+    p=requests.post('http://0.0.0.0:5050/getvideoname', data=json.dumps(params))
+    return p
+
+def get_uploader(id):
+    params = {'vid': id} 
+    p=requests.post('http://0.0.0.0:5050/getuploader', data=json.dumps(params))
+    return p

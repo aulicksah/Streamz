@@ -52,12 +52,9 @@ def get_user(username):
 'category':cat,'subscribers':subs,'likes':lik,'dislikes':dlik}	
 	return json.dumps(param)
 
-def update_user_details(firstname,lastname,username,phone,email,category,dob,country):
-	#id=db.update('user', firstname=firstname, lastname=lastname,username=username,phone=phone,email=email,dob=dob,country=country,category=category)
-	
-	#authdb = sqlite3.connect('streamz.db')
-	#c= authdb.execute('update * from user where username=?',(username))
-	#row = c.fetchone()
+def update_user_details(firstname,lastname,phone,email,username,dob,country,category):
+
+	s=db.update('user', where='username= $username',vars=locals(), firstname=firstname, lastname=lastname,phone=phone,email=email, dob=dob,country=country,category=category)
 	return "success"
 
 	

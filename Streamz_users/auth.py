@@ -11,8 +11,6 @@ urls = ('/login', 'Login',
 	'/updateprofile', 'UpdateProfile',)
 
 
-                
-
 class Register:
    
         def POST(self):
@@ -49,19 +47,32 @@ class Profile:
                 s=model.get_user(user)
                 return s
 
+
 class UpdateProfile:
+
+        def GET(self):
+                fn="aulick3"
+                ln="sah3"
+                ph="1234567890"
+                eml="asdfghjkl@gsdd.com"
+                un="lakshmi"
+                dob="2017-07-07"
+                country="India1"
+                category="Preeti"
+                p=model.update_user_details(fn,ln,eml,un)
+                return p
     
         def POST(self):
                 data=web.data()
                 fn=json.loads(data)['firstname']
                 ln=json.loads(data)['lastname']
-                un=json.loads(data)['username']
                 ph=json.loads(data)['phone']
                 eml=json.loads(data)['email']
-		cat=json.loads(data)['category']
+                un=json.loads(data)['username']
 		dob=json.loads(data)['dob']
-		cntr=json.loads(data)['country']
-                p=model.update_user_details(fn,ln,un,ph,eml,cat,dob,cntr)
+		country=json.loads(data)['country']
+		category=json.loads(data)['category']
+                p=model.update_user_details(fn,ln,ph,eml,un,dob,country,category)
                 return p
 
 app = web.application(urls, globals())

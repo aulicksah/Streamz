@@ -8,7 +8,7 @@ import json
 
 urls = (
 	'/', 'Index',
-	'/video','Video',
+	'/play/(\d+)','Play',
 	'/home', 'Homepage',
 	'/register', 'Register',
 	'/about', 'About',
@@ -24,8 +24,10 @@ urls = (
 	'/upload','MyUpload',
 	'/profile','Profile',
 	'/updateprofile','UpdateProfile',
-
- 
+	'/videos/(\d+)','Videos',
+	'/thumbnails/(\d+)','Thumbnails', 
+	'/videoname/(\d+)','VideoName',
+	'/uploader/(\d+)','Uploader',
 )
 
 
@@ -39,6 +41,128 @@ if web.config.get('_session') is None:
     web.config._session = session
 else:
     session = web.config._session
+
+class Search:
+
+	def GET(self):
+		results=[{'id': 1}, {'id': 3},{'id': 5}, {'id': 7}]
+		return render.search(session.user,results)
+
+
+	def POST(self):
+		i = web.input()
+		s = model.send_search(i.searchtext)
+		s=model.get_videoname(s['id'][0])	
+		return s
+		#return s['id'][0]	
+
+class UpdateProfile:
+	profile = form.Form(
+	form.Textbox('firstname'),
+	form.Textbox('lastname'),
+	form.Textbox('phone'),
+	form.Textbox('email'),
+	form.Password('username'),
+	form.Textbox('dob'),
+	form.Textbox('country'),
+	form.Button('Submit'),
+	)
+
+	def GET(self):
+		profile=self.profile
+		s=model.get_profile(session.user)
+		fn=s['firstname']
+		ln=s['lastname']
+		cat=s['category']
+		db=s['dob']
+		eml=s['email']
+		ph=s['phone']
+		return render.updateprofile(profile,session.user,fn,ln,cat,db,eml,ph)
+
+	def POST(self):
+		i = web.input()
+		s = model.update_profile(i.firstname,i.lastname,i.username,i.phone,i.email,i.category,i.country,i.dob)
+		raise web.seeother('/about')
+
+class UploadVideoInfo:
+
+	def POST(self):
+
+		i = web.input()
+		#s = search_upload_video(i.searchtext)	
+		th = web.input(mythumbnail={})
+			
+		countries=[]
+		if hasattr(i, 'India'):
+			countries.append({'country':i.India})
+		if hasattr(i, 'UnitedStates'):
+			countries.append({'country':i.UnitedStates})
+		if hasattr(i, 'Australia'):
+			countries.append({'country':i.Australia})
+		if hasattr(i, 'UnitedKingdom'):
+			countries.append({'country':i.UnitedKingdom})
+		if hasattr(i, 'Germany'):
+			countries.append({'country':i.Germany})
+		if countries==[]:
+			countries= "None"
+		p=model.upload_video_info(i.id,i.name,i.description,i.tags,countries,i.category,session.user,i.age,th)
+		return p
+		
+
+class UploadVideoDesc:
+
+	def GET(self,video_id):
+		id=int(video_id)
+		s=model.get_videodesc(id)
+		#if s['id']==session.user:
+		id1=s['id']
+		name=s['name']
+		uploader=s['uploader']
+		description=s['description']
+		category=s['category']
+		countries=s['countries']
+		age=s['age']
+	
+		#return type(countries)
+		return render.uploadvideodesc(session.user,id1,name,description,category,countries,age)
+
+class Play:
+	def GET(self,video_id):
+		""" Show page """
+		if session.user=='username':
+			raise web.seeother('/')
+		else: 	
+			return render.video(session.user,video_id)
+
+class Videos:
+    def GET(self,video_id):
+        # GET THE ID OF THE VIDEO
+		id=int(video_id)
+		s=model.get_video(id)		
+		return s
+
+class Thumbnails:
+    def GET(self,video_id):
+        # GET THE ID OF THE VIDEO
+		id=int(video_id)
+		s=model.get_thumbnail(id)		
+		return s
+
+class VideoName:
+    def GET(self,video_id):
+        # GET THE ID OF THE VIDEO
+		id=int(video_id)
+		s=model.get_videoname(id)		
+		return s
+
+class Uploader:
+    def GET(self,video_id):
+        # GET THE ID OF THE VIDEO
+		id=int(video_id)
+		s=model.get_uploader(id)		
+		return s
+
+
 
 class Index:
 
@@ -102,33 +226,7 @@ class Register:
 			#return s
         	raise web.seeother('/updateprofile') 
 
-class UpdateProfile:
-	profile = form.Form(
-	form.Textbox('firstname'),
-	form.Textbox('lastname'),
-	form.Textbox('phone'),
-	form.Textbox('email'),
-	form.Password('username'),
-	form.Textbox('dob'),
-	form.Textbox('country'),
-	form.Button('Submit'),
-	)
 
-	def GET(self):
-		profile=self.profile
-		s=model.get_profile(session.user)
-		fn=s['firstname']
-		ln=s['lastname']
-		cat=s['category']
-		db=s['dob']
-		eml=s['email']
-		ph=s['phone']
-		return render.updateprofile(profile,session.user,fn,ln,cat,db,eml,ph)
-
-	def POST(self):
-		i = web.input()
-		s = model.update_profile(i.firstname,i.lastname,i.username,i.phone,i.email,i.category,i.country,i.dob)
-		return s
 
 class Logout:
     def GET(self):
@@ -143,13 +241,7 @@ class Homepage:
 		else: 	
 			return render.homepage(session.user)
 
-class Video:
-	def GET(self):
-		""" Show page """
-		if session.user=='username':
-				raise web.seeother('/')
-		else: 	
-			return render.video(session.user)
+
 
 class Uploadvideo:
 	def GET(self):
@@ -159,62 +251,11 @@ class Uploadvideo:
 	def POST(self):
 		
 		x = web.input(myfile={})
-		r = model.upload_video(x)
+		r = model.upload_video(x,session.user)
 		id=str(r['id'])
 		raise web.seeother('/uploadvideodesc/'+id)
 					
-
-class UploadVideoDesc:
-
-	def GET(self,video_id):
-		id=int(video_id)
-		s=model.get_videodesc(id)
-		return s
-
-class UploadVideoInfo:
-
-	def POST(self):
-
-		i = web.input()
-		#s = search_upload_video(i.searchtext)	
-		x = web.input(mythumbnail={})
-		filedir = 'http://0.0.0.0:5050/static/image' # change this to the directory you want to store the file in.
-		if 'myfile' in x: # to check if the file-object is created
-			filepath=x.myfile.filename.replace('\\','/') # replaces the windows-style slashes with linux ones.
-			filename=filepath.split('/')[-1] # splits the and chooses the last part (the filename with extension)
-			fout = open(filedir +'/'+ filename,'w') # creates the file where the uploaded file should be stored
-			fout.write(x.myfile.file.read()) # writes the uploaded file to the newly created file.
-			fout.close() # closes the file, upload complete.
-			
-		countries=[]
-		if hasattr(i, 'India'):
-			countries.append(i.India)
-		if hasattr(i, 'UnitedStates'):
-			countries.append(i.UnitedStates)
-		if hasattr(i, 'Australia'):
-			countries.append(i.Australia)
-		if hasattr(i, 'UnitedKingdom'):
-			countries.append(i.UnitedKingdom)
-		if hasattr(i, 'Germany'):
-			countries.append(i.Germany)
-		if countries==[]:
-			countries= "None"
-		#p=model.upload_video_info(i.name,i.description,i.tags,i.location,countries,"category",session.user,i.age)
-		return i.mythumbnail
-		
-		"""if i.Germany:
-			return i.Australia
-		else:
-			return i.Australia"""
-
-
-class Search:
-
-	def POST(self):
-		i = web.input()
-		s = model.send_search(i.searchtext)
-		return s	
-		
+	
 
 class Comment:
 
