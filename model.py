@@ -61,10 +61,10 @@ def upload_video_info(id,name,description,tags,countries,category,uploader,age,t
     params = {'id':id,'video_name':name,'description':description,'tags':tags,'category':category,'countries':json.dumps(countries),'uploader':uploader,'age':age} 
     p=requests.post('http://0.0.0.0:7070/details', data=json.dumps(params))
 
-    #paramsth = {'thumbnail_file': th.mythumbnail.file.read(),'thumbnail_name':th.mythumbnail.filename,'id':id,'video_name':name,'description':description,'category':category,'countries':json.dumps(countries),'age':age}
-    #q = requests.post('http://0.0.0.0:5050/updatevideo', files=paramsth)
+    paramsth = {'thumbnail_file': th.mythumbnail.file.read(),'thumbnail_name':th.mythumbnail.filename,'id':id,'video_name':name,'description':description,'category':category,'countries':json.dumps(countries),'age':age}
+    q = requests.post('http://0.0.0.0:5050/updatevideo', files=paramsth)
     #return p.json()    
-    return p
+    return q
 
 def get_video(id):
     params = {'vid': id} 
@@ -80,9 +80,9 @@ def get_thumbnail(id):
 def get_videoname(id):
     params = {'vid': id} 
     p=requests.post('http://0.0.0.0:5050/getvideoname', data=json.dumps(params))
-    return p
+    return p.json()
 
 def get_uploader(id):
     params = {'vid': id} 
     p=requests.post('http://0.0.0.0:5050/getuploader', data=json.dumps(params))
-    return p
+    return p.json()

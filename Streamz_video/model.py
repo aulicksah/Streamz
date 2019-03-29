@@ -31,7 +31,7 @@ def get_thumbnail(id):
 	authdb = sqlite3.connect('videos.db')
 	c= authdb.execute('select * from video where id=?',[id])
 	row = c.fetchone()
-	url=row[4]
+	url=row[3]
 	return open(url,"rb").read()
 
 def get_videoname(id):
@@ -48,7 +48,7 @@ def get_uploader(id):
 	authdb = sqlite3.connect('videos.db')
 	c= authdb.execute('select * from video where id=?',[id])
 	row = c.fetchone()
-	ul=row[3]
+	ul=row[4]
 	params={'uploader':ul}
 	return json.dumps(params)
 

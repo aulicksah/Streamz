@@ -1,4 +1,4 @@
-$def with (username, results)
+$def with (username, result,videoname,uploader)
 <title>::ABOUT::</title>
 <style>
     /*
@@ -448,7 +448,7 @@ $def with (username, results)
             <a id="navicon"  onclick="openNav()" style=" width:0px;"><i class="fa fa-navicon fa-2x" style="padding:0px; margin:0px"></i></a>
             <a class="logo" href="/">STREAMZ</a>
             <a class="options" href="#home"><i class="fa fa-list fa-2x"></i></a>
-            <a class="options" href="#about">username</a>
+            <a class="options" href="#about">$username</a>
             
             <div class="search-container" style="">
                 <form action="">
@@ -476,7 +476,7 @@ $def with (username, results)
 
 
 
-                    <img src="static/image/video1.png" width=100%; height=300px;>
+                    
                     <br/><br/>
                     
 <br/>
@@ -487,13 +487,13 @@ $def with (username, results)
                 <div class="row">
                     <div class="recommendation" style="padding:0 10%;">
                         
-                    $for result in results:
+                    $for i in range(len(result)):
                         <div class="recommended-videos">
-                            <div style="padding:2%"><img src="http://0.0.0.0:8080/videos/$result['id']" width=100%>
+                            <div style="padding:2%"><img src="http://0.0.0.0:8080/thumbnails/$result[i]" width=100%>
                             </div>
                                 <div>
-                                    <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">http://0.0.0.0:8080/videoname/$result['id']</p>
-                                    <p style="font-family: 'Patua One', cursive; font-size: 20px">http://0.0.0.0:8080/videoname/$result['id']</p>
+                                    <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">$videoname[i]</p>
+                                    <p style="font-family: 'Patua One', cursive; font-size: 20px">$uploader[i]</p>
                                 </div>
                         </div>
 

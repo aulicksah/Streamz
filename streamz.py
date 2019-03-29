@@ -17,7 +17,7 @@ urls = (
 	'/uploadvideo','Uploadvideo',
 	'/uploaded','Uploaded',
 	'/comment','Comment',
-	'/uploadvideodesc/(\d+)','UploadVideoDesc',
+	'/uploadvideoinfo/(\d+)','UploadVideoInfo',
 	'/uploadvideoinfo','UploadVideoInfo',
 	'/logout','Logout',
 	'/search','Search',
@@ -43,18 +43,19 @@ else:
     session = web.config._session
 
 class Search:
-
-	def GET(self):
-		results=[{'id': 1}, {'id': 3},{'id': 5}, {'id': 7}]
-		return render.search(session.user,results)
-
-
 	def POST(self):
 		i = web.input()
 		s = model.send_search(i.searchtext)
-		s=model.get_videoname(s['id'][0])	
-		return s
-		#return s['id'][0]	
+		t=s['id']
+ 		videonames=[]
+		for i in range(len(t)):
+			videonames.append(model.get_videoname(t[i])['name'])
+		uploaders=[]
+		for i in range(len(t)):
+			uploaders.append(model.get_uploader(t[i])['uploader'])
+		return render.search(session.user,t,videonames,uploaders)
+		
+		#return s['id'][0]"""	
 
 class UpdateProfile:
 	profile = form.Form(
@@ -86,6 +87,21 @@ class UpdateProfile:
 
 class UploadVideoInfo:
 
+	def GET(self,video_id):
+		id=int(video_id)
+		s=model.get_videodesc(id)
+		#if s['id']==session.user:
+		id1=s['id']
+		name=s['name']
+		uploader=s['uploader']
+		description=s['description']
+		category=s['category']
+		countries=s['countries']
+		age=s['age']
+	
+		#return type(countries)
+		return render.uploadvideoinfo(session.user,id1,name,description,category,countries,age)
+
 	def POST(self):
 
 		i = web.input()
@@ -105,26 +121,9 @@ class UploadVideoInfo:
 			countries.append({'country':i.Germany})
 		if countries==[]:
 			countries= "None"
-		p=model.upload_video_info(i.id,i.name,i.description,i.tags,countries,i.category,session.user,i.age,th)
-		return p
-		
+		p=model.upload_video_info(i.id,i.name,i.description,i.tags.split(","),countries,i.category,session.user,i.age,th)
+		raise web.seeother('/about')
 
-class UploadVideoDesc:
-
-	def GET(self,video_id):
-		id=int(video_id)
-		s=model.get_videodesc(id)
-		#if s['id']==session.user:
-		id1=s['id']
-		name=s['name']
-		uploader=s['uploader']
-		description=s['description']
-		category=s['category']
-		countries=s['countries']
-		age=s['age']
-	
-		#return type(countries)
-		return render.uploadvideodesc(session.user,id1,name,description,category,countries,age)
 
 class Play:
 	def GET(self,video_id):
@@ -132,7 +131,7 @@ class Play:
 		if session.user=='username':
 			raise web.seeother('/')
 		else: 	
-			return render.video(session.user,video_id)
+			return render.play(session.user,video_id)
 
 class Videos:
     def GET(self,video_id):
