@@ -1,4 +1,4 @@
-$def with (username,videoid)
+$def with (username,videoid,videoname,uploader,videodescription,likestatus,subscribestatus)
 <title>::VIDEO::</title>
 <style>
     /*
@@ -304,7 +304,17 @@ $def with (username,videoid)
         text-align: center;
 
 }
-
+.subscribebutton {
+          float: right;
+          padding: 6px 10px;
+          
+          font-size: 17px;
+          border: none;
+          cursor: pointer;
+          text-align:center;
+          width:20%;
+          
+        }
         #navicon{
         visibility: hidden;
         float: left;
@@ -436,12 +446,15 @@ $def with (username,videoid)
                             <span class="nav-text">
                                 FILTERS
                             </span></a>
-                    </li>   
+                    </li>
+                   
+    
+    
                 </ul>
     
                 <ul class="logout">
                     <li>
-                        <a href="">
+                        <a href="./logout">
                             <i class="fa fa-power-off fa-2x"></i>
                             <span class="nav-text">Logout</span>
                         </a>
@@ -451,28 +464,29 @@ $def with (username,videoid)
             </nav>
 
 
-    <div class="topnav">
-            <a id="navicon"  onclick="openNav()" style=" width:0px;"><i class="fa fa-navicon fa-2x" style="padding:0px; margin:0px"></i></a>
-            <a class="logo" href="/">STREAMZ</a>
-            <a class="options" href="#home"><i class="fa fa-list fa-2x"></i></a>
-            <a class="options" href="#about">$username</a>
-            
-            <div class="search-container">
-                <form method="POST" action="search">
-                <input type="text"  placeholder="Search.." id="searchtext" name="searchtext">
-                <input  type="submit" class="button fa-fa-search" value="Search" >
-                </form>
-            </div>
-            &nbsp &nbsp &nbsp
-            <select id="lang-selector">
-                <option>English</option>
-                <option>Hindi</option>
-                <option>Kannada</option>
-              
 
-            </select>
-
-            </div>
+            <div class="topnav">
+                    <a id="navicon"  onclick="openNav()" style=" width:0px;"><i class="fa fa-navicon fa-2x" style="padding:0px; margin:0px"></i></a>
+                    <a class="logo" href="/">STREAMZ</a>
+                    <a class="options" href="#home"><i class="fa fa-list fa-2x"></i></a>
+                    <a class="options" href="/about">$username</a>
+                    
+                    <div class="search-container">
+                        <form method="POST" action="search">
+                        <input type="text"  placeholder="Search.." id="searchtext" name="searchtext">
+                        <input  type="submit" class="button fa-fa-search" value="Search" >
+                        </form>
+                    </div>
+                    &nbsp &nbsp &nbsp
+                    <select id="lang-selector">
+                        <option>English</option>
+                        <option>Hindi</option>
+                        <option>Kannada</option>
+                      
+        
+                    </select>
+        
+                    </div>
 
             
             
@@ -482,11 +496,68 @@ $def with (username,videoid)
                         <video autoplay loop width="100%"src="http://0.0.0.0:8080/videos/$videoid" type="video/mp4" controls>
                                 Your browser does not support the video tag.
                         </video>
-                        <h1 style="font-family: 'Ubuntu', sans-serif; color:white;"> 2 Minute Timer</h1>
+                        <div>
+                            <h1 style="font-family: 'Ubuntu', sans-serif; color:white; float:left;">$videoname</h1>
+                            $if subscribestatus==1:
+                                <form method="POST" action="/unsubscribe">
+                                    <input value="$videoid" style="display:none;" type="text" name="videoid"/>
+                                    <input value="$username" style="display:none;" type="text" name="username"/>
+                                    <input value="$uploader" style="display:none;" type="text" name="uploader"/>
+                                    <button style="background-color: beige;margin-top:2%" class="subscribebutton">SUBSCRIBED</button>
+                                </form>
+                            $else:
+                                <form method="POST" action="/subscribe">
+                                    <input value="$videoid" style="display:none;" type="text" name="videoid"/>
+                                    <input value="$username" style="display:none;" type="text" name="username"/>
+                                    <input value="$uploader" style="display:none;" type="text" name="uploader"/>
+                                    <button style="background-color:#e46226; margin-top:2%" class="subscribebutton">SUBSCRIBE</button>
+                                </form>
+                            
+
+                        </div>
+                                                <br/><br/>
+                        <div style="padding-right:10%;">
+                            $if likestatus==1:
+                                <form method="POST" action="/dislike">
+                                    <input value="$videoid" style="display:none;" type="text" name="videoid"/>
+                                    <input value="$username" style="display:none;" type="text" name="username"/>
+                                    <button style="float:right; background:none; border:none;" type="submit"><span class="glyphicon glyphicon-thumbs-down"></span></button>
+                                </form>
+                                <form method="POST" action="/nonelike">
+                                    <input value="$videoid" style="display:none;" type="text" name="videoid"/>
+                                    <input value="$username" style="display:none;" type="text" name="username"/>
+                                    <button style="float:right; margin-right:25px; color:#e46226; background:none; border:none;" type="submit"><span  class="glyphicon glyphicon-thumbs-up"></span></button>
+                                </form>
+                                
+                            $elif likestatus==2:
+                                <form method="POST" action="/nonelike">
+                                    <input value="$videoid" style="display:none;" type="text" name="videoid"/>
+                                    <input value="$username" style="display:none;" type="text" name="username"/>
+                                    <button style="float:right; background:none; color:#e46226; border:none;" type="submit"><span class="glyphicon glyphicon-thumbs-down"></span></button>
+                                </form>
+                                <form method="POST" action="/like">
+                                    <input value="$videoid" style="display:none;" type="text" name="videoid"/>
+                                    <input value="$username" style="display:none;" type="text" name="username"/>
+                                    <button style="float:right; margin-right:25px;  background:none; border:none;" type="submit"><span  class="glyphicon glyphicon-thumbs-up"></span></button>
+                                </form>
+                            $else:
+                                <form method="POST" action="/dislike">
+                                    <input value="$videoid" style="display:none;" type="text" name="videoid"/>
+                                    <input value="$username" style="display:none;" type="text" name="username"/>
+                                    <button style="float:right; background:none; border:none;" type="submit"><span class="glyphicon glyphicon-thumbs-down"></span></button>
+                                </form>
+                                <form method="POST" action="/like">
+                                    <input value="$videoid" style="display:none;" type="text" name="videoid"/>
+                                    <input value="$username" style="display:none;" type="text" name="username"/>
+                                    <button style="float:right; margin-right:25px;  background:none; border:none;" type="submit"><span  class="glyphicon glyphicon-thumbs-up"></span></button>
+                                </form>
+                            
+                        </div><br/>
+                        
                         <hr/>
                         <h4 style="color:white; font-family: 'Montserrat', sans-serif; font-weight: bold;">DESCRIPTION</h4>
 
-                        <p style="font-family: 'Karla', sans-serif; font-weight: 100; color:white; font-size: 22px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod temp or incididunt ut labore et dolore magna aliqua. Ut enim ad minim.</p>
+                        <p style="font-family: 'Karla', sans-serif; font-weight: 100; color:white; font-size: 22px;">$videodescription</p>
                         <hr/>
                     </div>
                     <div class="recommendation" style="padding:0 10%;">

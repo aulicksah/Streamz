@@ -1,5 +1,5 @@
 $def with (username, result,videoname,uploader)
-<title>::ABOUT::</title>
+<title>::SEARCH RESULTS::</title>
 <style>
     /*
                 font-family: 'Abel', sans-serif;
@@ -310,6 +310,7 @@ $def with (username, result,videoname,uploader)
 
        
     }
+    
 
 
     @media screen and (min-width: 750px) and (max-width: 900px)
@@ -450,12 +451,7 @@ $def with (username, result,videoname,uploader)
             <a class="options" href="#home"><i class="fa fa-list fa-2x"></i></a>
             <a class="options" href="#about">$username</a>
             
-            <div class="search-container" style="">
-                <form action="">
-                <input type="text" placeholder="Search.." id="search" name="search">
-                <button type="submit"><i class="fa fa-search"></i></button>
-                </form>
-            </div>
+           
             &nbsp &nbsp &nbsp
             <select id="lang-selector">
                 <option>English</option>
@@ -470,42 +466,29 @@ $def with (username, result,videoname,uploader)
             
             
 
-                <div class="content">
+<div class="content">    <br/><br/><br/>
+    <div class="container-fluid">
+        <div class="row">
+            $for i in range(len(result)):
+                <div class="recommendation" style="padding:0 10%;">                
+                                        
 
-                        
-
-
-
-                    
-                    <br/><br/>
-                    
-<br/>
-<br/>
-
-
-        <div class="container-fluid">
-                <div class="row">
-                    <div class="recommendation" style="padding:0 10%;">
-                        
-                    $for i in range(len(result)):
-                        <div class="recommended-videos">
-                            <div style="padding:2%"><img src="http://0.0.0.0:8080/thumbnails/$result[i]" width=100%>
-                            </div>
-                                <div>
-                                    <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">$videoname[i]</p>
-                                    <p style="font-family: 'Patua One', cursive; font-size: 20px">$uploader[i]</p>
-                                </div>
+                    <div class="grid-container">            
+                        <div class="grid-item">
+                            <img  src="http://0.0.0.0:8080/thumbnails/$result[i]" width=50%>
+                                                  
                         </div>
-
-                       
-
-                                                   
-
-
-
+                    </div>
+                    <div class="grid-container">            
+                        <div class="grid-item">
+                            <div>
+                                <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">$videoname[i]</p>
+                                <p style="font-family: 'Patua One', cursive; font-size: 20px">$uploader[i]</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-        </div>
+    </div>
 </div>
  
 

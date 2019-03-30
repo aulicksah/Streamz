@@ -10,6 +10,7 @@ urls = ('/getvideodesc', 'GetVideoDesc',
         '/getthumbnail', 'GetThumbnail',
         '/getvideoname', 'GetVideoName',
         '/getuploader', 'GetUploader',
+        '/getdescription', 'GetDescription',
 	'/updatevideoinfo', 'UpdateVideoInfo',
 )
 
@@ -35,6 +36,14 @@ class GetVideoName:
                 data=web.data()
                 id=json.loads(data)['vid']
                 s=model.get_videoname(id)
+                return s
+
+class GetDescription:
+    
+        def POST(self):
+                data=web.data()
+                id=json.loads(data)['vid']
+                s=model.get_description(id)
                 return s
 
 class GetUploader:
@@ -77,15 +86,15 @@ class UpdateVideo:
         category=data['category']
         country=data['countries']
         age=data['age']
-
+        tags=data['tags']
         id=data['id']
         if filename!="":
                 fout = open('static/thumbnails' +'/'+ filename,'w')
                 fout.write(data['thumbnail_file']) 
                 fout.close() 
-                s=model.update_video_desc(id,'static/thumbnails/' + filename,videoname,description,category,country,age)
+                s=model.update_video_desc(id,'static/thumbnails/' + filename,videoname,description,category,country,age,tags)
         else:
-                s=model.update_video_desc(id,'',videoname,description,category,country,age)
+                s=model.update_video_desc(id,'',videoname,description,category,country,age,tags)
         return s
 
 

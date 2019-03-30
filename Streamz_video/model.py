@@ -15,7 +15,8 @@ def get_videodesc(id):
 	cat=row[6]
 	count=row[7]
 	age=row[8]
-	params={'id':id, 'name':nm, 'uploader':upl, 'description':des, 'category':cat, 'countries':count, 'age':age}
+	tags=row[9]
+	params={'id':id, 'name':nm, 'uploader':upl, 'description':des, 'category':cat, 'countries':count, 'age':age, 'tags':tags}
 	return json.dumps(params)
 
 def get_video(id):
@@ -43,6 +44,15 @@ def get_videoname(id):
 	params={'name':nm}
 	return json.dumps(params)
 
+def get_description(id):
+	data = db.select('video', order='id')
+	authdb = sqlite3.connect('videos.db')
+	c= authdb.execute('select * from video where id=?',[id])
+	row = c.fetchone()
+	desc=row[5]
+	params={'description':desc}
+	return json.dumps(params)
+
 def get_uploader(id):
 	data = db.select('video', order='id')
 	authdb = sqlite3.connect('videos.db')
@@ -63,11 +73,11 @@ def upload_thumbnail(name,thumbnailpath):
 	return json.dumps(params)
 		
 
-def update_video_desc(id,thumbnail,name,description,category,country,age):
+def update_video_desc(id,thumbnail,name,description,category,country,age,tags):
 	if thumbnail=='':
-		db.update('video', where='id= $id',vars=locals(), name=name,description=description,category=category,country=country,age=age)
+		db.update('video', where='id= $id',vars=locals(), name=name,description=description,category=category,country=country,age=age,tags=tags)
 	else:
-		db.update('video', where='id= $id',vars=locals(), name=name, thumbnail=thumbnail,description=description,category=category,country=country,age=age)
+		db.update('video', where='id= $id',vars=locals(), name=name, thumbnail=thumbnail,description=description,category=category,country=country,age=age,tags=tags)
 	return "success"
 
 def del_video(id):

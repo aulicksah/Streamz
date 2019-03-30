@@ -28,8 +28,8 @@ class Search:
 
     def POST(self):
         
-        keywords= web.data()
-        ids = model.send_search(json.loads(keywords)['keyword'])
+        data= web.data()
+        ids = model.send_search(json.loads(data)['keyword'],json.loads(data)['user_age'],json.loads(data)['user_country'])
         #print ids
         return ids
 
@@ -37,15 +37,13 @@ class Search:
 # delete by id
 class Delete:
 
-    def GET(self):
-        """no function"""
 
     def POST(self):
         
         index= web.data()
         res = model.delete(json.loads(index)['id'])
         #print res
-        return res  
+        return res 
 
 #insert video details
 class Details:
@@ -59,8 +57,8 @@ class Details:
         title=json.loads(data)['video_name']
         description=json.loads(data)['description']
         tags=json.loads(data)['tags']
-	countries=json.loads(data)['countries']
-	age=json.loads(data)['age']
+        countries=json.loads(data)['countries']
+        age=json.loads(data)['age']
         details=json.dumps({'id':ids,'uploader':uploader,'category':category,'title':title,'description':description,'tags':tags})
         #print details
         res = model.send_details(details)

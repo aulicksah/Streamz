@@ -20,7 +20,7 @@ def send_details(details):
 
 # function to search by keywords
 #search based on category,channel,uploader,title,tags
-def send_search(txt):
+def send_search(txt,age,keyword):
   txt=str(txt)
   print(txt)
   videos=[]
