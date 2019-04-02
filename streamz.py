@@ -18,6 +18,7 @@ urls = (
 	'/uploadvideoinfo/(\d+)','UploadVideoInfo',
 	'/uploadvideoinfo','UploadVideoInfo',
 	'/editvideo/(\d+)','EditVideo',
+	'/deletevideo/(\d+)','DeleteVideo',
 	'/comment','Comment',
 	'/logout','Logout',
 	'/search','Search',
@@ -35,6 +36,8 @@ urls = (
 	'/nonelike','Nonelike',
 	'/subscribe','Subscribe',
 	'/unsubscribe','Unsubscribe',
+	'/demo','Demo',
+	'/updatevideo','UpdateVideo',
 
 )
 
@@ -49,6 +52,27 @@ if web.config.get('_session') is None:
     web.config._session = session
 else:
     session = web.config._session
+
+class DeleteVideo:
+
+	def POST(self,video_id):
+		id=int(video_id)
+		s=model.delete_video(id)
+		if s['status']=="Deleted":
+			raise web.seeother('/uploads')
+
+class Uploads:
+
+	def GET(self):
+		s=model.get_uploads(session.user)
+		t=s['videouploads']
+ 		videonames=[]
+		for i in range(len(t)):
+			videonames.append(model.get_videoname(t[i])['name'])
+		uploaders=[]
+		for i in range(len(t)):
+			uploaders.append(model.get_uploader(t[i])['uploader'])
+		return render.uploads(session.user,t,videonames,uploaders)
 
 class Subscribe:
 	def POST(self):
@@ -87,26 +111,7 @@ class Nonelike:
 		if s['likestatus']=="Noneliked":
 			raise web.seeother('/play/'+i.videoid)
 
-class EditVideo:
-
-	def GET(self,video_id):
-		id=int(video_id)
-		s=model.get_videodesc(id)
-		#if s['id']==session.user:
-		id1=s['id']
-		name=s['name']
-		uploader=s['uploader']
-		description=s['description']
-		category=s['category']
-		if s['countries']!=None:
-			countries=ast.literal_eval(s['countries'])
-		else:
-			countries=None
-		age=s['age']		
-		tags=ast.literal_eval(s['tags'])
-		return render.editvideo(session.user,int(id1),name,description,category,countries,int(age),','.join(tags))
-		
-
+class UpdateVideo:
 	def POST(self):
 
 		i = web.input()
@@ -136,8 +141,28 @@ class EditVideo:
 		p=model.update_video(i.id,i.name,i.description,tg,countries,i.category,session.user,age,th)
 		raise web.seeother('/play/'+i.id)
 		#return p
+
+class EditVideo:
+
+	def POST(self,video_id):
+		id=int(video_id)
+		s=model.get_videodesc(id)
+		#if s['id']==session.user:
+		id1=s['id']
+		name=s['name']
+		uploader=s['uploader']
+		description=s['description']
+		category=s['category']
+		if s['countries']!=None:
+			countries=ast.literal_eval(s['countries'])
+		else:
+			countries=None
+		age=s['age']		
+		tags=ast.literal_eval(s['tags'])
+		return render.editvideo(session.user,int(id1),name,description,category,countries,int(age),','.join(tags))
 		
 
+	
 
 class UpdateProfile:
 	
@@ -357,15 +382,24 @@ class About:
 		else: 	
 			return render.about(session.user)
 
-class Uploads:
 
+
+class Demo:
 	def GET(self):
-		return render.uploads()
+		return render.demo()
 
 class Statistics:
 
 	def GET(self):
-		return render.statistics()
+		s=model.get_uploads(session.user)
+		t=s['videouploads']
+ 		videonames=[]
+		for i in range(len(t)):
+			videonames.append(model.get_videoname(t[i])['name'])
+		uploaders=[]
+		for i in range(len(t)):
+			uploaders.append(model.get_uploader(t[i])['uploader'])
+		return render.statistics(session.user,t,videonames,uploaders)
 
 
 

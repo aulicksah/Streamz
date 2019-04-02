@@ -12,7 +12,18 @@ urls = ('/getvideodesc', 'GetVideoDesc',
         '/getuploader', 'GetUploader',
         '/getdescription', 'GetDescription',
 	'/updatevideoinfo', 'UpdateVideoInfo',
+        '/getuploads','GetUploads',
+        '/deletevideo','DeleteVideo',
 )
+
+
+class DeleteVideo:
+    
+        def POST(self):
+                data=web.data()
+                id=json.loads(data)['id']
+                s=model.delete_video(id)
+                return s
 
 class GetVideo:
     
@@ -97,6 +108,12 @@ class UpdateVideo:
                 s=model.update_video_desc(id,'',videoname,description,category,country,age,tags)
         return s
 
+class GetUploads:
+        def POST(self):
+                data=web.data()
+                un=json.loads(data)['username']
+                s=model.get_uploads(un)
+                return s
 
 app = web.application(urls, globals())
 

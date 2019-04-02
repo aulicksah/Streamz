@@ -80,5 +80,19 @@ def update_video_desc(id,thumbnail,name,description,category,country,age,tags):
 		db.update('video', where='id= $id',vars=locals(), name=name, thumbnail=thumbnail,description=description,category=category,country=country,age=age,tags=tags)
 	return "success"
 
-def del_video(id):
-    db.delete('videos', where="id=$id", vars=locals())
+def get_uploads(username):
+	data = db.select('video', order='id')
+	authdb = sqlite3.connect('videos.db')
+	c= authdb.execute('select id from video where uploader=?',[username])
+	row = c.fetchall()
+	l=[]
+	for i in range(len(row)-1):
+		l.append(row[i][0])
+	params={'videouploads':l}
+	return json.dumps(params)
+
+
+def delete_video(id):
+	db.delete('video', where="id=$id", vars=locals())
+	params={'status':"Deleted"}
+	return json.dumps(params)

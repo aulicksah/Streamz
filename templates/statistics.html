@@ -1,4 +1,5 @@
-<title>::STATISTICS::</title>
+$def with (username, result,videoname,uploader)
+<title>::UPLOADS::</title>
 <style>
     /*
                 font-family: 'Abel', sans-serif;
@@ -195,12 +196,12 @@
         }
         
         .logo{
-        float: left;
-        display: block;
-        color: #e46226;
-        text-align: center;
-        padding:0px 20px;
-        text-decoration: none;        
+            float: left;
+          display: block;
+          color: #e46226;
+          text-align: center;
+            padding:0px 20px;
+          text-decoration: none;        
         font-family: 'Abel', sans-serif;
         font-size: 40px;
         font-weight: 900;
@@ -284,7 +285,7 @@
         font-size: 40px;
         font-weight: 900;
         position: absolute; 
-  left: -999em;
+        left: -999em;
         
     }  
 
@@ -292,24 +293,57 @@
         padding:70px 10px 10px 260px;
     }
 
+
+</style>
+
+<style>
+    .item1 { grid-area: video; }
+    .item2 { grid-area: menu; }
+    .item3 { grid-area: options; }
+    .searchlist{
+        padding:0px;
+    }
+    
     .grid-container {
       display: grid;
-      grid-template-columns: auto auto;
-      margin:0px;      
-      padding: 0;
-     
-    }
-    .grid-item {
-      color:#FFF;
+      grid-template-areas:
+        'video menu options';
+    grid-template-columns: 400px 400px 400px;
+      grid-gap: 10px;
       
-      padding:1%;
-      font-size: 30px;
-      text-align: center;
-
-       
+      padding: 00px;
     }
+    
+    .grid-container > div {
+      
+      color:#FFFFFF;
+      text-align: left;
+      padding: 0px 0;
+      font-size: 30px;
+    }
+    .grid-container > div > img {
+        height:200px;
+        width:400px;  
+        padding:0px;
+    }  
 
-
+</style>
+<style>
+.button {
+    
+    padding: 6px 10px;
+    margin-top: 8px;
+    margin-right: 0px;
+    background-color: #e46226;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+    text-align:center;
+    
+    
+  }
+</style>
+<style>
     @media screen and (min-width: 750px) and (max-width: 900px)
 {
     .search-container
@@ -320,7 +354,6 @@
     .content{
         padding:70px 10px 10px 0px;
     }
-
     #navicon{
         visibility: visible;
         float: left;
@@ -367,18 +400,39 @@
         padding:70px 10px 10px 0px;
     }
 
+    
     .grid-container {
       display: grid;
-      grid-template-columns: auto;
-     
-     
+      grid-template-areas:
+        'video'
+        'menu'
+        'options';
+        grid-template-columns: 100%;
+      grid-gap: 00px;
+      
+      padding: 00px;
     }
+
+    
+    .grid-container > div {
+      
+      color:#FFFFFF;
+      text-align: left;
+      font-size: 30px;
+    }  
+    .grid-container > div > img {
+        width:100%; 
+    }  
+
+    
+    .searchlist{
+        padding:0px 0px 0px 0px;
+    } 
+
 }         
     
 </style>
-<style>
 
-  </style>
 
 </head>
 <body>
@@ -489,7 +543,7 @@
             <div class="" style=" float:left; padding:1%;" >
                     <img class=".img-circle" style="border-radius: 70%; height:200px; width:200px;" src="static/image/video1.png" width=100%>                               
             </div>
-            <div class="" style="float:left; color:#FFF; width:200px; text-align:center; padding:80px;">
+            <div class="" style="float:left; color:#FFF; width:200px; text-align:center;">
                 <h1>ACMS</h1>                            
             </div>
         </div>
@@ -497,26 +551,26 @@
 <br/>
 
 
-        <h1 style="color:white; font-family: 'Montserrat', sans-serif;">STATISTICS</h1>
-        <div class="grid-container">
-            
-                <div class="grid-item">
-                        <img  src="static/image/video1.png" width=100%>
-                        <div>
-                                <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">3 Min Timer</p>
-                                <p style="font-family: 'Patua One', cursive; font-size: 20px">Plays for 3 mins</p>
-                        </div>
-                        
-                </div>
+        <h1 style="color:white; font-family: 'Montserrat', sans-serif;">UPLOADS</h1>
+        <div class="searchlist" >
+                $for i in range(len(result)):
+                    <div class="grid-container" style="width:100%;">
+                            <div class="item1" style="width:100%">
+                                <img  src="http://0.0.0.0:8080/thumbnails/$result[i]"  >
+                            </div>
+                            <div class="item2" style="width:100%">
+                                <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">$videoname[i]</p>
+                                <p style="font-family: 'Patua One', cursive; font-size: 20px">$uploader[i]</p>
+                            </div>
+                            <div class="item3" style="width:100%">
+                                <p>Likes:</p>
+                                <p>Dislikes:</p>
+                                <p>Views:</p>
+                            </div>
+                            
+                    </div><br/>
                 
-                <div class="grid-item">
-                        <img  src="static/image/video1.png" width=100%>
-                      
-                        
-                </div>
-                
-               
-            </div>
+        </div>
 </div>
  
 

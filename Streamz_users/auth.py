@@ -20,6 +20,7 @@ urls = ('/login', 'Login',
         '/subscribe','Subscribe',
         '/unsubscribe','Unsubscribe',
         '/getsubscribestatus','GetSubscribeStatus',
+        
         )
 
 class GetSubscribeStatus:

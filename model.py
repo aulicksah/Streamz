@@ -66,6 +66,17 @@ def send_comment(search_text):
 
 """--------------------------------------Video Upload-----------------------------------------"""
 
+def delete_video(id):
+    params = {'id': id} 
+    p=requests.post('http://0.0.0.0:5050/deletevideo', data=json.dumps(params))
+    return p.json()
+
+def get_uploads(username):
+    params = {'username': username} 
+    p=requests.post('http://0.0.0.0:5050/getuploads', data=json.dumps(params))
+    return p.json()
+    #return json.dumps(params)
+
 def get_videodesc(id):
     params = {'vid': id} 
     p=requests.post('http://0.0.0.0:5050/getvideodesc', data=json.dumps(params))
@@ -171,3 +182,4 @@ def get_subscribestatus(username,uploader):
     p=requests.post('http://0.0.0.0:9090/getsubscribestatus', data=json.dumps(params))
     return p.json()
     #return params
+

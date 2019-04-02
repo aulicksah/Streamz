@@ -483,8 +483,8 @@ $def with (username,id,name,description,category,countries,age,tags)
                                 <div class="panel panel-default" style=" background-color: #000; color:#FFF; border:none;">
                                         <div class="panel-heading" style=" background-color: #1a1818; color:#FFF; border:none;">  
 
-                                                <form method="POST" enctype="multipart/form-data" action="/editvideo" style="color:#FFF;">
-                                                        <input class="button" type="submit" value="PUBLISH" /><br/><br/>
+                                                <form method="POST" enctype="multipart/form-data" action="/updatevideo" style="color:#FFF;">
+                                                        <input class="button" type="submit" value="UPDATE" /><br/><br/>
                                                         <table style="color:#FFF; font-size: 20px;">
 
                                                             <tr style="padding:10%; margin:10%; display:none;"> 
@@ -603,23 +603,23 @@ $def with (username,id,name,description,category,countries,age,tags)
                                                             <tr style="padding:10%; margin:10%;">
                                                                     <td><label>Age:</label></td>
                                                                     <td style="width:100%;">
-                                                                    $if age==0:
+                                                                    $if age==10:
                                                                         <select name="age" style="font-family: 'Patua One', cursive;font-size: 20px;background-color:#FFF;color:#000;padding:5px;margin-top:7px;text-align: center;">
-                                                                            <option value="None" selected>None</option>
-                                                                            <option value="10+">10+</option>
-                                                                            <option value="12+">18+</option>
+                                                                            <option value="10" selected>None</option>
+                                                                            <option value="18">10+</option>
+                                                                            <option value="100">18+</option>
                                                                         </select>
-                                                                    $elif age==10:
+                                                                    $elif age==18:
                                                                         <select name="age" style="font-family: 'Patua One', cursive;font-size: 20px;background-color:#FFF;color:#000;padding:5px;margin-top:7px;text-align: center;">
-                                                                            <option value="None" >None</option>
-                                                                            <option value="10+" selected>10+</option>
-                                                                            <option value="12+">18+</option>
+                                                                            <option value="10" >None</option>
+                                                                            <option value="18" selected>10+</option>
+                                                                            <option value="100">18+</option>
                                                                         </select>
                                                                     $else:
                                                                     <select name="age" style="font-family: 'Patua One', cursive;font-size: 20px;background-color:#FFF;color:#000;padding:5px;margin-top:7px;text-align: center;">
-                                                                        <option value="None">None</option>
-                                                                        <option value="10+">10+</option>
-                                                                        <option value="12+" selected>18+</option>
+                                                                        <option value="10">None</option>
+                                                                        <option value="18">10+</option>
+                                                                        <option value="100" selected>18+</option>
                                                                     </select>
 
                                                                     </td>

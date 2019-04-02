@@ -160,3 +160,4 @@ def get_coverpic(id):
 	row = c.fetchone()
 	url=row[16]
 	return open(url,"rb").read()
+
