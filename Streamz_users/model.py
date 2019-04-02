@@ -147,17 +147,65 @@ def get_country(username):
 	print param
 	return json.dumps(param)
 
-def get_profilepic(id):
+def get_firstname(username):
+
+	authdb = sqlite3.connect('streamz.db')
+	c= authdb.execute('select * from user where username=?',[username])
+	row = c.fetchone()
+	coun=row[1]
+	param={'firstname':coun}
+	print param
+	return json.dumps(param)
+
+def get_profilepic(username):
 	authdb = sqlite3.connect('streamz.db')
 	c= authdb.execute('select * from user where username=?',[username])
 	row = c.fetchone()
 	url=row[15]
+	if url=='static/profilepic/':
+		url='static/profilepic/default-profile.png'
 	return open(url,"rb").read()
+	
 
-def get_coverpic(id):
+def get_coverpic(username):
 	authdb = sqlite3.connect('streamz.db')
 	c= authdb.execute('select * from user where username=?',[username])
 	row = c.fetchone()
 	url=row[16]
+	if url=='static/coverpic/':
+		url='static/coverpic/default-background-cover.jpg'
 	return open(url,"rb").read()
+
+def get_subscription(username):
+	authdb = sqlite3.connect('streamz.db')
+	c= authdb.execute('select * from subscriber where username=?',[username])
+	row = c.fetchall()
+	l=[]
+	for i in range(len(row)):
+		l.append(row[i][1])
+	params={'subscriptions':l}
+	return json.dumps(params)
+
+def comment(videoid,username,comment):
+	db.insert('comment', videoid=videoid,username=username,comment=comment)
+	params={'status':"Commented"}
+	return json.dumps(params)
+
+def comment(videoid):
+	authdb = sqlite3.connect('streamz.db')
+	c= authdb.execute('select * from comment where videoid=?',[videoid])
+	row = c.fetchall()
+
+	commentid=[]
+	for i in range(len(row)):
+		commentid.append(row[i][0])
+
+	cmtsusername=[]
+	for i in range(len(row)):
+		cmtsusername.append(row[i][2])
+	cmts=[]
+	for i in range(len(row)):
+		cmts.append(row[i][3])
+	params={'commentid':commentid,'usernames':cmtsusername,'commentlist':cmts}
+	return json.dumps(params)
 

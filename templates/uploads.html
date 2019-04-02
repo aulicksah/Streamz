@@ -1,4 +1,4 @@
-$def with (username, result,videoname,uploader)
+$def with (username, result,videoname,uploader,firstname)
 <title>::UPLOADS::</title>
 <style>
     /*
@@ -506,7 +506,7 @@ $def with (username, result,videoname,uploader)
             <a id="navicon"  onclick="openNav()" style=" width:0px;"><i class="fa fa-navicon fa-2x" style="padding:0px; margin:0px"></i></a>
             <a class="logo" href="/">STREAMZ</a>
             <a class="options" href="#home"><i class="fa fa-list fa-2x"></i></a>
-            <a class="options" href="#about">About</a>
+            <a class="options" href="#about">$username</a>
             
             <div class="search-container" style="">
                 <form action="">
@@ -531,7 +531,7 @@ $def with (username, result,videoname,uploader)
 
 
 
-        <img src="static/image/video1.png" width=100%; height=300px;>
+        <img src="http://0.0.0.0:8080/coverpic/$username" width=100%; height=300px;>
         <br/><br/>
         <div style="height:60px; background-color: #e46226; color:#FFF">
                 <div style="padding:1%; float:left;">ABOUT</div>
@@ -541,10 +541,11 @@ $def with (username, result,videoname,uploader)
 
         <div class="container-fluid">                    
             <div class="" style=" float:left; padding:1%;" >
-                    <img class=".img-circle" style="border-radius: 70%; height:200px; width:200px;" src="static/image/video1.png" width=100%>                               
+                    <img class=".img-circle" style="border-radius: 70%; height:200px; width:200px;" src="http://0.0.0.0:8080/profilepic/$username" width=100%>                               
             </div>
             <div class="" style="float:left; color:#FFF; width:200px; text-align:center;">
-                <h1>ACMS</h1>                            
+                <h1><br/><br/>$firstname</h1>      
+                <h4>$username</h4>                            
             </div>
         </div>
 <br/>
@@ -566,10 +567,14 @@ $def with (username, result,videoname,uploader)
                                 <form method="POST" action="/editvideo/$result[i]">
                                     <button type="submit" value="editvideo" class="button">EDIT</button>
                                 </form><br/>
-                                
-                                <form method="POST" action="/deletevideo/$result[i]">
+                               <!--
+                                   <form method="POST" action="/deletevideo/$result[i]">
                                     <button type="submit" class="button">DELETE</button>
                                 </form><br/>
+
+                               --> 
+                               <button class="button" onclick="deleteobj($result[i])">DELETE</button>
+                               
                             </div>
                             
                     </div><br/>
@@ -581,16 +586,42 @@ $def with (username, result,videoname,uploader)
 
 
  <script>
-                        function openNav() {
-                            var x = document.getElementById("navbar2");
-                            if(x.style.width == "250px")
-                                x.style.width = "0px";
-                            else
-                                x.style.width = "250px";
-                        
-                        }
-                                           
-                        
-                        </script>
+    function openNav() {
+    var x = document.getElementById("navbar2");
+    if(x.style.width == "250px")
+        x.style.width = "0px";
+    else
+        x.style.width = "250px";
+
+    }
+
+    var elm = document.getElementById('delete-object');
+var objectID = elm.getAttribute('data-object-id');
+var resultDiv = document.getElementById('result');
+function deleteobj(id)
+{
+  var ask = confirm('Are you sure you want to delete this video?');
+  if (ask && id) 
+  {
+      /*const Url = 'http://0.0.0.0:8080/deletevideo/'+id
+      alert(Url)
+      axios({
+          method:'post',
+          url:Url,
+          data:{id
+
+          }
+      })*/
+    window.location.href = "http://0.0.0.0:8080/deletevideo/"+id;
+
+  } 
+  else 
+  {
+    return 0;
+  }
+
+}  
+
+</script>
 
 

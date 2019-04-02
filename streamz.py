@@ -38,6 +38,11 @@ urls = (
 	'/unsubscribe','Unsubscribe',
 	'/demo','Demo',
 	'/updatevideo','UpdateVideo',
+	'/subscription','Subscription',
+	'/history','History',
+	'/profilepic/(.+)','ProfilePic',
+	'/coverpic/(.+)','CoverPic',
+
 
 )
 
@@ -53,26 +58,39 @@ if web.config.get('_session') is None:
 else:
     session = web.config._session
 
+
+class Comment:
+	def POST(self):
+		i = web.input()
+		s = model.send_comment(i.videoid,i.username,i.commenttext)
+		return s
+
+class Subscription:
+	def GET(self):
+		s=model.get_subscription(session.user)
+		t=s['subscriptions']
+		return render.subscription(session.user,t,model.get_firstname(session.user)['firstname'])
+		
+
+class ProfilePic:
+    def GET(self,username):
+		s=model.get_profilepic(username)		
+		return s
+
+class CoverPic:
+    def GET(self,username):
+		s=model.get_coverpic(username)		
+		return s
+
 class DeleteVideo:
 
-	def POST(self,video_id):
+	def GET(self,video_id):
 		id=int(video_id)
 		s=model.delete_video(id)
 		if s['status']=="Deleted":
 			raise web.seeother('/uploads')
 
-class Uploads:
 
-	def GET(self):
-		s=model.get_uploads(session.user)
-		t=s['videouploads']
- 		videonames=[]
-		for i in range(len(t)):
-			videonames.append(model.get_videoname(t[i])['name'])
-		uploaders=[]
-		for i in range(len(t)):
-			uploaders.append(model.get_uploader(t[i])['uploader'])
-		return render.uploads(session.user,t,videonames,uploaders)
 
 class Subscribe:
 	def POST(self):
@@ -87,7 +105,10 @@ class Unsubscribe:
 		i = web.input()
 		s=model.unsubscribe(i.username,i.uploader)
 		if s['subscribestatus']=="Unsubscribed":
-			raise web.seeother('/play/'+i.videoid)
+			if hasattr(s, 'videoid'):
+				raise web.seeother('/play/'+i.videoid)
+			else:
+				raise web.seeother('/subscription')
 
 
 class Like:
@@ -280,7 +301,9 @@ class Play:
 		else:
 			ls=model.get_likestatus(session.user,video_id)
 			ss=model.get_subscribestatus(session.user,model.get_uploader(video_id)['uploader'])
-			return render.play(session.user,video_id,model.get_videoname(video_id)['name'],model.get_uploader(video_id)['uploader'],model.get_description(video_id)['description'],ls['likestatus'],ss['subscribestatus'])
+			cmts=model.get_commentlist(video_id)
+			return render.play(session.user,video_id,model.get_videoname(video_id)['name'],model.get_uploader(video_id)['uploader'],model.get_description(video_id)['description'],ls['likestatus'],ss['subscribestatus'],cmts['commentid'],cmts['usernames'],cmts['commentlist'])
+
 
 class Uploadvideo:
 	def GET(self):	
@@ -339,12 +362,7 @@ class UploadVideoInfo:
 		raise web.seeother('/about')
 
 
-class Comment:
-
-	def POST(self):
-		i = web.input()
-		s = model.send_comment(i.commenttext)
-		return i	
+	
 """-----------------------------------------------------------------------------"""
 class Videos:
     def GET(self,video_id):
@@ -358,15 +376,9 @@ class Thumbnails:
 		s=model.get_thumbnail(id)		
 		return s
 
-class ProfilePic:
-    def GET(self,username):
-		s=model.get_profilepic(username)		
-		return s
 
-class CoverPic:
-    def GET(self,username):
-		s=model.get_coverpic(username)		
-		return s
+
+
 
 class Logout:
     def GET(self):
@@ -380,13 +392,20 @@ class About:
 		if session.user=='username':
 			raise web.seeother('/')
 		else: 	
-			return render.about(session.user)
+			return render.about(session.user,model.get_firstname(session.user)['firstname'])
 
+class Uploads:
 
-
-class Demo:
 	def GET(self):
-		return render.demo()
+		s=model.get_uploads(session.user)
+		t=s['videouploads']
+ 		videonames=[]
+		for i in range(len(t)):
+			videonames.append(model.get_videoname(t[i])['name'])
+		uploaders=[]
+		for i in range(len(t)):
+			uploaders.append(model.get_uploader(t[i])['uploader'])
+		return render.uploads(session.user,t,videonames,uploaders,model.get_firstname(session.user)['firstname'])
 
 class Statistics:
 
@@ -399,8 +418,19 @@ class Statistics:
 		uploaders=[]
 		for i in range(len(t)):
 			uploaders.append(model.get_uploader(t[i])['uploader'])
-		return render.statistics(session.user,t,videonames,uploaders)
+		return render.statistics(session.user,t,videonames,uploaders,model.get_firstname(session.user)['firstname'])
 
+"""-------------------------------------------------------------------------------------------------------"""
+
+
+
+class History:
+	def GET(self):
+		return render.history()
+
+class Demo:
+	def GET(self):
+		return render.demo()
 
 
 if __name__ == "__main__":

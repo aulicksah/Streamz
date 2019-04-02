@@ -1,4 +1,4 @@
-$def with (username, result,videoname,uploader,firstname)
+$def with (username, subscriptions,firstname)
 <title>::UPLOADS::</title>
 <style>
     /*
@@ -506,7 +506,7 @@ $def with (username, result,videoname,uploader,firstname)
             <a id="navicon"  onclick="openNav()" style=" width:0px;"><i class="fa fa-navicon fa-2x" style="padding:0px; margin:0px"></i></a>
             <a class="logo" href="/">STREAMZ</a>
             <a class="options" href="#home"><i class="fa fa-list fa-2x"></i></a>
-            <a class="options" href="#about">About</a>
+            <a class="options" href="#about">$firstname</a>
             
             <div class="search-container" style="">
                 <form action="">
@@ -545,28 +545,32 @@ $def with (username, result,videoname,uploader,firstname)
             </div>
             <div class="" style="float:left; color:#FFF; width:200px; text-align:center;">
                 <h1><br/><br/>$firstname</h1>      
-                <h4>$username</h4>                            
+                <h4><br/>$username</h4>                            
             </div>
         </div>
 <br/>
 <br/>
 
 
-        <h1 style="color:white; font-family: 'Montserrat', sans-serif;">UPLOADS</h1>
+        <h1 style="color:white; font-family: 'Montserrat', sans-serif;">SUBSCRIPTION</h1>
         <div class="searchlist" >
-                $for i in range(len(result)):
+                $for i in range(len(subscriptions)):
                     <div class="grid-container" style="width:100%;">
                             <div class="item1" style="width:100%">
-                                <img  src="http://0.0.0.0:8080/thumbnails/$result[i]"  >
+                                <img  src="http://0.0.0.0:8080/thumbnails/$subscriptions[i]"  >
                             </div>
                             <div class="item2" style="width:100%">
-                                <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">$videoname[i]</p>
-                                <p style="font-family: 'Patua One', cursive; font-size: 20px">$uploader[i]</p>
+                                <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">$subscriptions[i]</p>
+                                
                             </div>
                             <div class="item3" style="width:100%">
-                                <p>Likes:</p>
-                                <p>Dislikes:</p>
-                                <p>Views:</p>
+                                <form method="POST" action="/unsubscribe">
+                                    <input value="$username" style="display:none;" type="text" name="username"/>
+                                    <input value="$subscriptions[i]" style="display:none;" type="text" name="uploader"/>
+                                    <button style="background-color:grey;margin-top:2%" class="button">UNSUBSCRIBE</button>
+                                </form><br/>
+                              
+                               
                             </div>
                             
                     </div><br/>
@@ -578,16 +582,16 @@ $def with (username, result,videoname,uploader,firstname)
 
 
  <script>
-                        function openNav() {
-                            var x = document.getElementById("navbar2");
-                            if(x.style.width == "250px")
-                                x.style.width = "0px";
-                            else
-                                x.style.width = "250px";
-                        
-                        }
-                                           
-                        
-                        </script>
+    function openNav() {
+    var x = document.getElementById("navbar2");
+    if(x.style.width == "250px")
+        x.style.width = "0px";
+    else
+        x.style.width = "250px";
+
+    }
+
+
+</script>
 
 

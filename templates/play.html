@@ -1,4 +1,4 @@
-$def with (username,videoid,videoname,uploader,videodescription,likestatus,subscribestatus)
+$def with (username,videoid,videoname,uploader,videodescription,likestatus,subscribestatus,commentid,commentusername,commentlist)
 <title>::VIDEO::</title>
 <style>
     /*
@@ -606,12 +606,29 @@ $def with (username,videoid,videoname,uploader,videodescription,likestatus,subsc
                     <div class="comments" >
                             <p style="color:white; font-family: 'Montserrat', sans-serif;">COMMENTS</p>
                             <div class="comment-container">
-                                <form action="comment" method="POST">
+                                <form action="/comment" method="POST">
+                                <input value="$videoid" style="display:none;" type="text" name="videoid"/>
+                                <input value="$username" style="display:none;" type="text" name="username"/>
                                 <input type="text" placeholder="Write your comments here..." name="commenttext">    
                                 <input type="submit" class="button fa-fa-search" value="Comment" >
                                 </form>
-                            </div>
-                        
+                            </div><br/>
+
+
+
+                            <div style="color:#FFF; background-color: #3a3535;">
+                            $for i in range(len(commentid)):
+                                <div style="">
+                                    <div  style="width:70px;float:left; padding:1%; ">
+                                        <img class=".img-circle" style="border-radius: 70%; height:50px; width:50px;" src="http://0.0.0.0:8080/profilepic/$commentusername[i]" width=100%>                               
+                                    </div>
+                                    <div style="width:100%-70px;float:left;padding-top:1%;">
+                                        <p style="font-family: 'Patua One', cursive;font-size: 20px; font-weight: bold;">$commentusername[i]</p>
+                                        <p style="font-family: 'Patua One', cursive; font-size: 15px">$commentlist[i]</p>                                                                              
+                                    </div>
+                                </div><br/><br/>
+                                <hr/>
+                            </div>      
                     </div>
                   </div>
 

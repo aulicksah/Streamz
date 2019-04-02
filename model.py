@@ -29,12 +29,12 @@ def get_country(username):
     p=requests.post('http://0.0.0.0:9090/getcountry', data=json.dumps(params))
     return p.json()
 
-def get_profilepic(id):
+def get_profilepic(username):
     params = {'username':username} 
     p=requests.post('http://0.0.0.0:9090/getprofilepic', data=json.dumps(params))
     return p
 
-def get_coverpic(id):
+def get_coverpic(username):
     params = {'username':username} 
     p=requests.post('http://0.0.0.0:9090/getcoverpic', data=json.dumps(params))
     return p
@@ -44,6 +44,8 @@ def update_profile(firstname,lastname,username,about,phone,email,category,countr
     p = requests.post('http://0.0.0.0:9090/updateprofile', files=paramspic)
     return p
     #return json.dumps(params)
+
+
 
 """--------------------------------------Search---------------------------------"""
 
@@ -59,10 +61,16 @@ def search_upload_video(path):
     return json.dumps(params)
 """--------------------------------------Comments---------------------------------"""
 
-def send_comment(search_text):
-    params = {'comment_text':search_text} 
-    #requests.post(url1, data=json.dumps(params))
-    return json.dumps(params)
+def send_comment(videoid,username,comment_text):
+    params = {'videoid':videoid,'username':username,'comment':comment_text} 
+    p=requests.post('http://0.0.0.0:9090/comment', data=json.dumps(params))
+    return p.json()
+    #return json.dumps(params)
+
+def get_commentlist(videoid):
+    params = {'videoid':videoid} 
+    p=requests.post('http://0.0.0.0:9090/getcommentlist', data=json.dumps(params))
+    return p.json()
 
 """--------------------------------------Video Upload-----------------------------------------"""
 
@@ -183,3 +191,12 @@ def get_subscribestatus(username,uploader):
     return p.json()
     #return params
 
+def get_subscription(username):
+    params = {'username':username} 
+    p=requests.post('http://0.0.0.0:9090/getsubscription', data=json.dumps(params))
+    return p.json()
+
+def get_firstname(username):
+    params = {'username':username} 
+    p=requests.post('http://0.0.0.0:9090/getfirstname', data=json.dumps(params))
+    return p.json()

@@ -86,7 +86,7 @@ def get_uploads(username):
 	c= authdb.execute('select id from video where uploader=?',[username])
 	row = c.fetchall()
 	l=[]
-	for i in range(len(row)-1):
+	for i in range(len(row)):
 		l.append(row[i][0])
 	params={'videouploads':l}
 	return json.dumps(params)

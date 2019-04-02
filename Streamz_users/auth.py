@@ -13,15 +13,49 @@ urls = ('/login', 'Login',
         '/getcountry', 'GetCountry',
         '/getprofilepic', 'GetProfilePic',
         '/getcoverpic', 'GetCoverPic',
+        '/getsubscription', 'GetSubscription',
         '/updatelike','UpdateLike',
         '/updatedislike','UpdateDislike',
         '/updatenonelike','UpdateNonelike',
         '/getlikestatus','GetLikeStatus',
+        '/getfirstname','GetFirstname',
         '/subscribe','Subscribe',
         '/unsubscribe','Unsubscribe',
         '/getsubscribestatus','GetSubscribeStatus',
+        '/comment','Comment',
+        '/getcommentlist','GetCommentList',
         
         )
+
+class GetCommentList:
+        def POST(self):
+                data=web.data()
+                vid=json.loads(data)['videoid']
+                s=model.comment(vid)
+                return s
+
+class Comment:
+        def POST(self):
+                data=web.data()
+                vid=json.loads(data)['videoid']
+                un=json.loads(data)['username']
+                cmt=json.loads(data)['comment']
+                s=model.comment(vid,un,cmt)
+                return s
+
+class GetFirstname:
+        def POST(self):
+                data=web.data()
+                un=json.loads(data)['username']
+                s=model.get_firstname(un)
+                return s
+
+class GetSubscription:
+        def POST(self):
+                data=web.data()
+                un=json.loads(data)['username']
+                s=model.get_subscription(un)
+                return s
 
 class GetSubscribeStatus:
         def POST(self):
@@ -84,16 +118,16 @@ class GetProfilePic:
     
         def POST(self):
                 data=web.data()
-                id=json.loads(data)['username']
-                s=model.get_profilepic(id)
+                un=json.loads(data)['username']
+                s=model.get_profilepic(un)
                 return s
 
 class GetCoverPic:
     
         def POST(self):
                 data=web.data()
-                id=json.loads(data)['username']
-                s=model.get_coverpic(id)
+                un=json.loads(data)['username']
+                s=model.get_coverpic(un)
                 return s
 
 class Register:
@@ -170,7 +204,7 @@ class UpdateProfile:
                         fout = open('static/coverpic' +'/'+ coverpicname,'w')
                         fout.write(data['coverpic_file']) 
                         fout.close()
-                s=model.update_user('static/profilepic/' + profilepicname,'static/coverpicpic/' + coverpicname,fn,ln,ph,eml,un,db,cntry,cat,abt)
+                s=model.update_user('static/profilepic/' + profilepicname,'static/coverpic/' + coverpicname,fn,ln,ph,eml,un,db,cntry,cat,abt)
 
 		return s
 
