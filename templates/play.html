@@ -432,13 +432,19 @@ $def with (username,videoid,videoname,uploader,videodescription,likestatus,subsc
                                    HISTORY
                                 </span></a>
                             </li>
-                        
+                    <div style=" padding:0px 10px;"><hr/></div>
                     <li>
-                            <a href=""><i class="fa fa-bar-chart-o fa-2x"></i>
-                            <span class="nav-text">
-                                WATCH LATER
-                            </span></a>
-                        </li>
+                        <a href=""><i class="fa fa-bar-chart-o fa-2x"></i>
+                        <span class="nav-text">
+                            ABOUT
+                        </span></a>
+                    </li>
+                    <li>
+                        <a href=""><i class="fa fa-bar-chart-o fa-2x"></i>
+                        <span class="nav-text">
+                            UPLOADS
+                        </span></a>
+                    </li>
 
                         <div style=" padding:0px 10px;"><hr/></div> 
                     <li>
@@ -521,35 +527,35 @@ $def with (username,videoid,videoname,uploader,videodescription,likestatus,subsc
                                 <form method="POST" action="/dislike">
                                     <input value="$videoid" style="display:none;" type="text" name="videoid"/>
                                     <input value="$username" style="display:none;" type="text" name="username"/>
-                                    <button style="float:right; background:none; border:none;" type="submit"><span class="glyphicon glyphicon-thumbs-down"></span></button>
+                                    <button style="float:right; background:none; border:none;" type="submit"><i style="font-size:40px;" class="fa fa-thumbs-down fa-2x"></i></button>
                                 </form>
                                 <form method="POST" action="/nonelike">
                                     <input value="$videoid" style="display:none;" type="text" name="videoid"/>
                                     <input value="$username" style="display:none;" type="text" name="username"/>
-                                    <button style="float:right; margin-right:25px; color:#e46226; background:none; border:none;" type="submit"><span  class="glyphicon glyphicon-thumbs-up"></span></button>
+                                    <button style="float:right; margin-right:25px; color:#e46226; background:none; border:none;" type="submit"><i style="font-size:40px;" class="fa fa-thumbs-up fa-2x"></i></button>
                                 </form>
                                 
                             $elif likestatus==2:
                                 <form method="POST" action="/nonelike">
                                     <input value="$videoid" style="display:none;" type="text" name="videoid"/>
                                     <input value="$username" style="display:none;" type="text" name="username"/>
-                                    <button style="float:right; background:none; color:#e46226; border:none;" type="submit"><span class="glyphicon glyphicon-thumbs-down"></span></button>
+                                    <button style="float:right; background:none; color:#e46226; border:none;" type="submit"><i style="font-size:40px;" class="fa fa-thumbs-down fa-2x"></i></button>
                                 </form>
                                 <form method="POST" action="/like">
                                     <input value="$videoid" style="display:none;" type="text" name="videoid"/>
                                     <input value="$username" style="display:none;" type="text" name="username"/>
-                                    <button style="float:right; margin-right:25px;  background:none; border:none;" type="submit"><span  class="glyphicon glyphicon-thumbs-up"></span></button>
+                                    <button style="float:right; margin-right:25px;  background:none; border:none;" type="submit"><i style="font-size:40px;" class="fa fa-thumbs-up fa-2x"></i></button>
                                 </form>
                             $else:
                                 <form method="POST" action="/dislike">
                                     <input value="$videoid" style="display:none;" type="text" name="videoid"/>
                                     <input value="$username" style="display:none;" type="text" name="username"/>
-                                    <button style="float:right; background:none; border:none;" type="submit"><span class="glyphicon glyphicon-thumbs-down"></span></button>
+                                    <button style="float:right; background:none; border:none;" type="submit"><i style="font-size:40px;" class="fa fa-thumbs-down fa-2x"></i></button>
                                 </form>
                                 <form method="POST" action="/like">
                                     <input value="$videoid" style="display:none;" type="text" name="videoid"/>
                                     <input value="$username" style="display:none;" type="text" name="username"/>
-                                    <button style="float:right; margin-right:25px;  background:none; border:none;" type="submit"><span  class="glyphicon glyphicon-thumbs-up"></span></button>
+                                    <button style="float:right; margin-right:25px;  background:none; border:none;" type="submit"><i style="font-size:40px;" class="fa fa-thumbs-up fa-2x"></i></button>
                                 </form>
                             
                         </div><br/>
@@ -616,7 +622,7 @@ $def with (username,videoid,videoname,uploader,videodescription,likestatus,subsc
 
 
 
-                            <div style="color:#FFF; background-color: #3a3535;">
+                            <div style="color:#FFF; ">
                             $for i in range(len(commentid)):
                                 <div style="">
                                     <div  style="width:70px;float:left; padding:1%; ">

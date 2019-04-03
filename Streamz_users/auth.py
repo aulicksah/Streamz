@@ -24,14 +24,47 @@ urls = ('/login', 'Login',
         '/getsubscribestatus','GetSubscribeStatus',
         '/comment','Comment',
         '/getcommentlist','GetCommentList',
+        '/getlikestatuscount','GetLikeStatusCount',
+        '/getsubscribestatuscount','GetSubscribeStatusCount',
         
         )
+
+class GetSubscribeStatusCount:
+        def POST(self):
+                data=web.data()
+                upl=json.loads(data)['uploader']
+                s=model.get_subscribe_count(upl)
+                return s
+
+class Subscribe:
+        def POST(self):
+                data=web.data()
+                un=json.loads(data)['username']
+                upl=json.loads(data)['uploader']
+                s=model.subscribe(un,upl)
+                return s
+
+class Unsubscribe:
+        def POST(self):
+                data=web.data()
+                un=json.loads(data)['username']
+                upl=json.loads(data)['uploader']
+                s=model.unsubscribe(un,upl)
+                return s
+
+class GetLikeStatusCount:
+        def POST(self):
+                data=web.data()
+                vid=json.loads(data)['videoid']
+                s=model.get_likestatus_count(vid)
+                return s
+
 
 class GetCommentList:
         def POST(self):
                 data=web.data()
                 vid=json.loads(data)['videoid']
-                s=model.comment(vid)
+                s=model.get_comment(vid)
                 return s
 
 class Comment:
@@ -65,21 +98,7 @@ class GetSubscribeStatus:
                 s=model.get_subscribestatus(un,upl)
                 return s
 
-class Subscribe:
-        def POST(self):
-                data=web.data()
-                un=json.loads(data)['username']
-                upl=json.loads(data)['uploader']
-                s=model.subscribe(un,upl)
-                return s
 
-class Unsubscribe:
-        def POST(self):
-                data=web.data()
-                un=json.loads(data)['username']
-                upl=json.loads(data)['uploader']
-                s=model.unsubscribe(un,upl)
-                return s
 
 class GetLikeStatus:
         def POST(self):
@@ -88,6 +107,7 @@ class GetLikeStatus:
                 vid=json.loads(data)['videoid']
                 s=model.get_likestatus(un,vid)
                 return s
+
 
 class UpdateLike:
         def POST(self):

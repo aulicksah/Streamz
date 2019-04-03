@@ -39,11 +39,12 @@ urls = (
 	'/demo','Demo',
 	'/updatevideo','UpdateVideo',
 	'/subscription','Subscription',
+	'/profile/(.+)','Profile',
+	'/profileuploads/(.+)','ProfileUploads',
 	'/history','History',
 	'/profilepic/(.+)','ProfilePic',
 	'/coverpic/(.+)','CoverPic',
-
-
+	'/entertainment','Entertainment',
 )
 
 
@@ -57,6 +58,58 @@ if web.config.get('_session') is None:
     web.config._session = session
 else:
     session = web.config._session
+
+class Profile:
+
+	def GET(self,profileusername):	
+			return render.profile(profileusername,model.get_firstname(profileusername)['firstname'])
+
+class ProfileUploads:
+
+	def GET(self,profileusername):
+		s=model.get_uploads(profileusername)
+		t=s['videouploads']
+ 		videonames=[]
+		for i in range(len(t)):
+			videonames.append(model.get_videoname(t[i])['name'])
+		uploaders=[]
+		for i in range(len(t)):
+			uploaders.append(model.get_uploader(t[i])['uploader'])
+		return render.profileuploads(session.user,t,videonames,uploaders,model.get_firstname(profileusername)['firstname'])
+
+
+class Subscribe:
+	def POST(self):
+		i = web.input()
+		s=model.subscribe(i.username,i.uploader)
+		if s['subscribestatus']=="Subscribed":
+			t=model.get_subscribestatus_count(i.uploader)
+			model.update_subscribestatus(t)
+			raise web.seeother('/play/'+i.videoid)
+
+
+class Unsubscribe:
+	def POST(self):
+		i = web.input()
+		s=model.unsubscribe(i.username,i.uploader)
+		if s['subscribestatus']=="Unsubscribed":
+			t=model.get_subscribestatus_count(i.uploader)
+			model.update_subscribestatus(t)
+			raise web.seeother('/play/'+i.videoid)
+				
+			
+
+class Entertainment:
+	def GET(self):
+		s = model.send_search("entertainment",model.calculate_Age(model.get_dob(session.user)['dob']),model.get_country(session.user)['country'])
+		t=s['id']
+ 		videonames=[]
+		for i in range(len(t)):
+			videonames.append(model.get_videoname(t[i])['name'])
+		uploaders=[]
+		for i in range(len(t)):
+			uploaders.append(model.get_uploader(t[i])['uploader'])
+		return render.entertainment(session.user,t,videonames,uploaders)
 
 
 class Comment:
@@ -90,32 +143,14 @@ class DeleteVideo:
 		if s['status']=="Deleted":
 			raise web.seeother('/uploads')
 
-
-
-class Subscribe:
-	def POST(self):
-		i = web.input()
-		s=model.subscribe(i.username,i.uploader)
-		if s['subscribestatus']=="Subscribed":
-			raise web.seeother('/play/'+i.videoid)
-
-
-class Unsubscribe:
-	def POST(self):
-		i = web.input()
-		s=model.unsubscribe(i.username,i.uploader)
-		if s['subscribestatus']=="Unsubscribed":
-			if hasattr(s, 'videoid'):
-				raise web.seeother('/play/'+i.videoid)
-			else:
-				raise web.seeother('/subscription')
-
-
 class Like:
+
 	def POST(self):
 		i = web.input()
 		s=model.update_like(i.username,i.videoid)
 		if s['likestatus']=="Liked":
+			t=model.get_likestatus_count(i.videoid)
+			model.update_likestatus(t)
 			raise web.seeother('/play/'+i.videoid)
 
 class Dislike:
@@ -123,6 +158,8 @@ class Dislike:
 		i = web.input()
 		s=model.update_dislike(i.username,i.videoid)
 		if s['likestatus']=="Disliked":
+			t=model.get_likestatus_count(i.videoid)
+			model.update_likestatus(t)
 			raise web.seeother('/play/'+i.videoid)
 
 class Nonelike:
@@ -130,6 +167,8 @@ class Nonelike:
 		i = web.input()
 		s=model.update_nonelike(i.username,i.videoid)
 		if s['likestatus']=="Noneliked":
+			t=model.get_likestatus_count(i.videoid)
+			model.update_likestatus(t)
 			raise web.seeother('/play/'+i.videoid)
 
 class UpdateVideo:
@@ -302,8 +341,10 @@ class Play:
 			ls=model.get_likestatus(session.user,video_id)
 			ss=model.get_subscribestatus(session.user,model.get_uploader(video_id)['uploader'])
 			cmts=model.get_commentlist(video_id)
+			#s=get_recommendation(video_id)
 			return render.play(session.user,video_id,model.get_videoname(video_id)['name'],model.get_uploader(video_id)['uploader'],model.get_description(video_id)['description'],ls['likestatus'],ss['subscribestatus'],cmts['commentid'],cmts['usernames'],cmts['commentlist'])
 
+		
 
 class Uploadvideo:
 	def GET(self):	

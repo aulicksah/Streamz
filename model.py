@@ -48,6 +48,10 @@ def update_profile(firstname,lastname,username,about,phone,email,category,countr
 
 
 """--------------------------------------Search---------------------------------"""
+def get_recommnedation(videoid):
+    params = {'videoid':videoid} 
+    p=requests.post('http://0.0.0.0:7070/getrecommendation', data=json.dumps(params))
+    return p.json()
 
 def send_search(search_text,age,country):
     params = {'keyword': search_text,'user_age':age,'user_country':country} 
@@ -75,7 +79,9 @@ def get_commentlist(videoid):
 """--------------------------------------Video Upload-----------------------------------------"""
 
 def delete_video(id):
-    params = {'id': id} 
+
+    params = {'id': id}
+    p=requests.post('http://0.0.0.0:7070/deletevideo', data=json.dumps(params))
     p=requests.post('http://0.0.0.0:5050/deletevideo', data=json.dumps(params))
     return p.json()
 
@@ -142,6 +148,14 @@ def get_uploader(id):
     p=requests.post('http://0.0.0.0:5050/getuploader', data=json.dumps(params))
     return p.json()
 
+def update_likestatus(s):
+    p=requests.post('http://0.0.0.0:5050/updatelikestatus', data=json.dumps(s))
+    return p.json()
+
+def update_subscribestatus(s):
+    p=requests.post('http://0.0.0.0:5050/updatesubscribestatus', data=json.dumps(s))
+    return p.json()
+
 def calculate_Age(db):
     db=datetime.datetime.strptime(db, '%Y-%m-%d').date()
     today = date.today()
@@ -172,6 +186,19 @@ def get_likestatus(username,videoid):
     p=requests.post('http://0.0.0.0:9090/getlikestatus', data=json.dumps(params))
     return p.json()
     #return params
+
+def get_likestatus_count(videoid):
+    params = {'videoid':videoid}
+    p=requests.post('http://0.0.0.0:9090/getlikestatuscount', data=json.dumps(params))
+    return p.json()
+    #return params
+
+def get_subscribestatus_count(uploader):
+    params = {'uploader':uploader}
+    p=requests.post('http://0.0.0.0:9090/getsubscribestatuscount', data=json.dumps(params))
+    return p.json()
+    #return params
+
 
 def subscribe(username,uploader):
     params = {'username': username,'uploader':uploader}

@@ -339,50 +339,85 @@ $def with (username)
                 <ul>
     
     
-                    <li>
-                        <a href=""><i class="fa fa-home fa-2x"></i>
-                        <span class="nav-text">
-                            HOME
-                        </span></a>
-                    </li>
-    
-    
-                    <li class="has-subnav">
-                            <a href=""><i class="fa fa-laptop fa-2x"></i>
-                            <span class="nav-text">
-                                TRENDING
-                            </span></a>
-                        </li>
-    
-                    <li class="has-subnav">
-                            <a href=""><i class="fa fa-list fa-2x"></i>
-                            <span class="nav-text">
-                                SUBSCRIPTION
-                            </span></a>
-                        </li>
-                      <div style=" padding:0px 10px;"><hr/></div> 
-                     <li class="has-subnav">
-                                <a href=""><i class="fa fa-folder-open fa-2x"></i>
-                                <span class="nav-text">
-                                   HISTORY
-                                </span></a>
-                            </li>
-                        
-                    <li>
-                            <a href=""><i class="fa fa-bar-chart-o fa-2x"></i>
-                            <span class="nav-text">
-                                WATCH LATER
-                            </span></a>
-                        </li>
+            <li>
+                <a href="/home"><i class="fa fa-home fa-2x"></i>
+                <span class="nav-text">
+                    HOME
+                </span></a>
+            </li>
 
-                        <div style=" padding:0px 10px;"><hr/></div> 
-                    <li>
-                            <a href=""><i class="fa fa-font fa-2x"></i>
-                            <span class="nav-text">
-                                FILTERS
-                            </span></a>
-                    </li>
-                   
+
+            <li class="has-subnav">
+                <a href=""><i class="fa fa-laptop fa-2x"></i>
+                <span class="nav-text">
+                    TRENDING
+                </span></a>
+            </li>
+
+            <li class="has-subnav">
+                <a href="/subscription"><i class="fa fa-list fa-2x"></i>
+                <span class="nav-text">
+                    SUBSCRIPTION
+                </span></a>
+            </li>
+                <div style=" padding:0px 10px;"><hr/></div> 
+            <li class="has-subnav">
+            <a href=""><i class="fa fa-folder-open fa-2x"></i>
+            <span class="nav-text">
+                HISTORY
+            </span></a>
+        </li>
+            <div style=" padding:0px 10px;"><hr/></div>
+            <li>
+                    <a href="/about"><i class="fa fa-user-circle fa-2x"></i>
+                    <span class="nav-text">
+                        ABOUT
+                    </span></a>
+                </li>
+            <li>
+                <a href="/uploads"><i class="fa fa-upload fa-2x"></i>
+                <span class="nav-text">
+                    UPLOADS
+                </span></a>
+            </li>
+            <li>
+                <a href="/statistics"><i class="fa fa-bar-chart-o fa-2x"></i>
+                <span class="nav-text">
+                    STATISTICS
+                </span></a>
+            </li>
+
+                <div style=" padding:0px 10px;"><hr/></div> 
+            <li>
+                <a href="/entertainement"><i class="fa fa-television fa-2x"></i>
+                <span class="nav-text">
+                    ENTERTAINMENT
+                </span></a>
+            </li>
+            <li>
+                <a href="/news"><i class="fa fa-newspaper-o fa-2x"></i>
+                <span class="nav-text">
+                    NEWS
+                </span></a>
+            </li>
+            <li>
+                <a href="/education"><i class="fa fa-pencil fa-2x"></i>
+                <span class="nav-text">
+                    EDUCATION
+                </span></a>
+            </li>
+            <li>
+                <a href="/sports"><i class="fa fa-soccer-ball-o fa-2x"></i>
+                <span class="nav-text">
+                    SPORTS
+                </span></a>
+            </li>
+            <li>
+                <a href="/kids"><i class="fa fa-child fa-2x"></i>
+                <span class="nav-text">
+                    KIDS
+                </span></a>
+            </li>
     
     
                 </ul>
@@ -412,13 +447,7 @@ $def with (username)
                 </form>
             </div>
             &nbsp &nbsp &nbsp
-            <select id="lang-selector">
-                <option>English</option>
-                <option>Hindi</option>
-                <option>Kannada</option>
-              
-
-            </select>
+            <div style="float:right; margin-top:20px;" id="google_translate_element"></div>
 
             </div>
 
@@ -531,4 +560,10 @@ $def with (username)
                         
                         </script>
 
-
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+    }
+    </script>
+    
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

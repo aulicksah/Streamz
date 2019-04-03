@@ -191,7 +191,7 @@ def comment(videoid,username,comment):
 	params={'status':"Commented"}
 	return json.dumps(params)
 
-def comment(videoid):
+def get_comment(videoid):
 	authdb = sqlite3.connect('streamz.db')
 	c= authdb.execute('select * from comment where videoid=?',[videoid])
 	row = c.fetchall()
@@ -209,3 +209,18 @@ def comment(videoid):
 	params={'commentid':commentid,'usernames':cmtsusername,'commentlist':cmts}
 	return json.dumps(params)
 
+def get_likestatus_count(videoid):
+	authdb = sqlite3.connect('streamz.db')
+	likes= authdb.execute('select * from likestatus where videoid=? and status=1',[videoid])
+	row1 = likes.fetchall()
+	dislikes= authdb.execute('select * from likestatus where videoid=? and status=2',[videoid])
+	row2 = dislikes.fetchall()
+	params={'likes':len(row1),'dislikes':len(row2)}
+	return json.dumps(params)
+	
+def get_subscribe_count(uploader):
+	authdb = sqlite3.connect('streamz.db')
+	c= authdb.execute('select * from subscriber where channel=?',[uploader])
+	row = c.fetchall()	
+	params={'Subscribers':len(row)}
+	return json.dumps(params)

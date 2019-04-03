@@ -378,7 +378,7 @@ $def with (username, result,videoname,uploader,firstname)
         width:0px;
     }
         
-    #google_translate_element
+    #lang-selector
     {
         display:none;
     }
@@ -515,7 +515,13 @@ $def with (username, result,videoname,uploader,firstname)
                 </form>
             </div>
             &nbsp &nbsp &nbsp
-            <div style="float:right; margin-top:20px;" id="google_translate_element"></div>
+            <select id="lang-selector">
+                <option>English</option>
+                <option>Hindi</option>
+                <option>Kannada</option>
+              
+
+            </select>
 
     </div>
 
@@ -557,19 +563,7 @@ $def with (username, result,videoname,uploader,firstname)
                                 <p style="font-family: 'Patua One', cursive;font-size: 30px; font-weight: bold;">$videoname[i]</p>
                                 <p style="font-family: 'Patua One', cursive; font-size: 20px">$uploader[i]</p>
                             </div>
-                            <div class="item3" style="width:100%">
-                                <form method="POST" action="/editvideo/$result[i]">
-                                    <button type="submit" value="editvideo" class="button">EDIT</button>
-                                </form><br/>
-                               <!--
-                                   <form method="POST" action="/deletevideo/$result[i]">
-                                    <button type="submit" class="button">DELETE</button>
-                                </form><br/>
-
-                               --> 
-                               <button class="button" onclick="deleteobj($result[i])">DELETE</button>
-                               
-                            </div>
+                            
                             
                     </div><br/>
                 
@@ -618,10 +612,4 @@ function deleteobj(id)
 
 </script>
 
-<script type="text/javascript">
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
-    }
-    </script>
-    
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
