@@ -26,8 +26,34 @@ urls = ('/login', 'Login',
         '/getcommentlist','GetCommentList',
         '/getlikestatuscount','GetLikeStatusCount',
         '/getsubscribestatuscount','GetSubscribeStatusCount',
-        
+        '/updatesubscribestatus','UpdateSubscribeStatus',
+        '/updatechannellikestatuscount','UpdateChannelLikesStatusCount',
+        '/getuserstats','GetUserStats',
         )
+
+class GetUserStats:
+        def POST(self):
+                data=web.data()
+                un=json.loads(data)['username']
+                s=model.get_user_stats(un)
+                return s
+
+class UpdateChannelLikesStatusCount:
+        def POST(self):
+                data=web.data()
+                upl=json.loads(data)['uploader']
+                lkscnt=json.loads(data)['likescount']
+                dlkscnt=json.loads(data)['dislikescount']
+                s=model.update_channel_likescount_count(upl,lkscnt,dlkscnt)
+                return s
+
+class UpdateSubscribeStatus:
+        def POST(self):
+                data=web.data()
+                upl=json.loads(data)['uploader']
+                sbs=json.loads(data)['subscribers']
+                s=model.update_subscribestatus(upl,sbs)
+                return s
 
 class GetSubscribeStatusCount:
         def POST(self):

@@ -96,3 +96,22 @@ def delete_video(id):
 	db.delete('video', where="id=$id", vars=locals())
 	params={'status':"Deleted"}
 	return json.dumps(params)
+
+def update_likestatus(id,likes,dislikes):
+	db.update('video', where='id= $id',vars=locals(), likes=likes,dislikes=dislikes)
+	params={'status':"updated"}
+	return json.dumps(params)
+
+def get_channel_likes_count(uploader):
+	data = db.select('video', order='id')
+	authdb = sqlite3.connect('videos.db')
+	c= authdb.execute('select likes,dislikes from video where uploader=?',[uploader])
+	row = c.fetchall()
+	likes=0
+	for i in range(len(row)):
+		likes+=row[i][0]
+	dislikes=0
+	for i in range(len(row)):
+		dislikes+=row[i][1]
+	params={'uploader':uploader,'likescount':likes,'dislikescount':dislikes}
+	return json.dumps(params)

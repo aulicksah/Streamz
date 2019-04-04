@@ -224,3 +224,20 @@ def get_subscribe_count(uploader):
 	row = c.fetchall()	
 	params={'Subscribers':len(row)}
 	return json.dumps(params)
+
+def update_subscribestatus(uploader,subscribers):
+	db.update('user', where='username= $uploader',vars=locals(), subscribers=subscribers)
+	params={'status':"updated"}
+	return json.dumps(params)
+
+def update_channel_likescount_count(uploader,likescount,dislikescount):
+	db.update('user', where='username= $uploader',vars=locals(), likes=likescount,dislikes=dislikescount)
+	params={'status':"updated"}
+	return json.dumps(params)
+
+def get_user_stats(username):
+	authdb = sqlite3.connect('streamz.db')
+	c= authdb.execute('select joined,likes,dislikes,subscribers from user where username=?',[username])
+	row = c.fetchall()
+	params={'joined':row[0][0],'likes':row[0][1],'dislikes':row[0][2],'subscribers':row[0][3]}
+	return json.dumps(params)

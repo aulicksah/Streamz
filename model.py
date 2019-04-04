@@ -48,8 +48,8 @@ def update_profile(firstname,lastname,username,about,phone,email,category,countr
 
 
 """--------------------------------------Search---------------------------------"""
-def get_recommnedation(videoid):
-    params = {'videoid':videoid} 
+def get_recommnedation(videoid,age,country):
+    params = {'videoid':videoid,'user_age':age,'user_country':country} 
     p=requests.post('http://0.0.0.0:7070/getrecommendation', data=json.dumps(params))
     return p.json()
 
@@ -59,10 +59,11 @@ def send_search(search_text,age,country):
     return p.json()
     #return json.dumps(params)
 
-def search_upload_video(path):
-    params = {'name':name,'description':description,'tags':tags} 
-    #requests.post(url1, data=json.dumps(params))
-    return json.dumps(params)
+def get_category_videoids(category,age,country):
+    params = {'category': category,'user_age':age,'user_country':country}
+    p=requests.post('http://0.0.0.0:7070/getcategoryvideo', data=json.dumps(params))
+    return p.json()
+
 """--------------------------------------Comments---------------------------------"""
 
 def send_comment(videoid,username,comment_text):
@@ -148,14 +149,6 @@ def get_uploader(id):
     p=requests.post('http://0.0.0.0:5050/getuploader', data=json.dumps(params))
     return p.json()
 
-def update_likestatus(s):
-    p=requests.post('http://0.0.0.0:5050/updatelikestatus', data=json.dumps(s))
-    return p.json()
-
-def update_subscribestatus(s):
-    p=requests.post('http://0.0.0.0:5050/updatesubscribestatus', data=json.dumps(s))
-    return p.json()
-
 def calculate_Age(db):
     db=datetime.datetime.strptime(db, '%Y-%m-%d').date()
     today = date.today()
@@ -226,4 +219,30 @@ def get_subscription(username):
 def get_firstname(username):
     params = {'username':username} 
     p=requests.post('http://0.0.0.0:9090/getfirstname', data=json.dumps(params))
+    return p.json()
+
+"""--------------------------------------------------------------------------------------------------------"""
+def update_likestatus(videoid,likes,dislikes):
+    params = {'videoid':videoid,'likes':likes,'dislikes':dislikes} 
+    #q=requests.post('http://0.0.0.0:7070/updatelikestatus', data=json.dumps(params))
+    p=requests.post('http://0.0.0.0:5050/updatelikestatus', data=json.dumps(params))
+
+    return p.json()
+
+def update_subscribestatus(uploader,subscribers):
+    params = {'uploader':uploader,'subscribers':subscribers}
+    #q=requests.post('http://0.0.0.0:7070/updatesubscribestatus', data=json.dumps(params))
+    p=requests.post('http://0.0.0.0:9090/updatesubscribestatus', data=json.dumps(params))
+    return p.json()
+
+def update_channel_likes_count(uploader):
+    params = {'uploader':uploader}
+    p=requests.post('http://0.0.0.0:5050/getchannellikescount', data=json.dumps(params))
+    p=p.json()
+    q=requests.post('http://0.0.0.0:9090/updatechannellikestatuscount', data=json.dumps(p))
+    return q
+
+def get_user_stats(username):
+    params = {'username':username} 
+    p=requests.post('http://0.0.0.0:9090/getuserstats', data=json.dumps(params))
     return p.json()
