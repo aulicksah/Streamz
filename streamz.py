@@ -60,16 +60,17 @@ else:
 class Categories:
 
 	def GET(self,category):	
-			#s=model.get_category_videoids(category,model.calculate_Age(model.get_dob(session.user)['dob']),model.get_country(session.user)['country'])
-			return category
-			t=s['id']
+			s=model.get_category_videoids(category,model.calculate_Age(model.get_dob(session.user)['dob']),model.get_country(session.user)['country'])
+			return s
+			"""t=s['id']
 			videonames=[]
 			for i in range(len(t)):
 				videonames.append(model.get_videoname(t[i])['name'])
 			uploaders=[]
 			for i in range(len(t)):
 				uploaders.append(model.get_uploader(t[i])['uploader'])
-			return render.profile(category,videonames,uploaders)
+			return render.profile(category,videonames,uploaders)"""
+
 
 class Profile:
 
@@ -155,8 +156,9 @@ class DeleteVideo:
 	def GET(self,video_id):
 		id=int(video_id)
 		s=model.delete_video(id)
-		if s['status']=="Deleted":
-			raise web.seeother('/uploads')
+		return s
+		"""if s['status']=="Deleted":
+			raise web.seeother('/uploads')"""
 
 class Like:
 
@@ -168,7 +170,7 @@ class Like:
 			lks=t['likes']
 			dlks=t['dislikes']
 			model.update_likestatus(i.videoid,lks,dlks)
-			model.update_channel_likes_count(i.uploader)
+			#model.update_channel_likes_count(i.uploader)
 			raise web.seeother('/play/'+i.videoid)
 
 class Dislike:
@@ -180,7 +182,7 @@ class Dislike:
 			lks=t['likes']
 			dlks=t['dislikes']
 			model.update_likestatus(i.videoid,lks,dlks)
-			model.update_channel_likes_count(i.uploader)
+			#model.update_channel_likes_count(i.uploader)
 			raise web.seeother('/play/'+i.videoid)
 
 class Nonelike:
@@ -192,7 +194,7 @@ class Nonelike:
 			lks=t['likes']
 			dlks=t['dislikes']
 			model.update_likestatus(i.videoid,lks,dlks)
-			model.update_channel_likes_count(i.uploader)
+			#model.update_channel_likes_count(i.uploader)
 			raise web.seeother('/play/'+i.videoid)
 
 class UpdateVideo:
@@ -223,7 +225,8 @@ class UpdateVideo:
 		t=str(i.tags)
 		tg=json.dumps(t.split(","))
 		p=model.update_video(i.id,i.name,i.description,tg,countries,i.category,session.user,age,th)
-		raise web.seeother('/play/'+i.id)
+		return p
+		#raise web.seeother('/play/'+i.id)
 		#return p
 
 class EditVideo:
@@ -349,23 +352,25 @@ class Search:
 
 class Homepage:
 	def GET(self):
-		if session.user=='username':
+		x= model.get_trending(model.calculate_Age(model.get_dob(session.user)['dob']),model.get_country(session.user)['country'])
+		return x
+		"""if session.user=='username':
 				raise web.seeother('/')
 		else: 	
-			return render.homepage(model.get_firstname(session.user)['firstname'])
+			return render.homepage(model.get_firstname(session.user)['firstname'])"""
 
 class Play:
 	def GET(self,video_id):
-		if session.user=='username':
+		"""if session.user=='username':
 			raise web.seeother('/')
 		else:
+			model.add_history(session.user,video_id)
 			ls=model.get_likestatus(session.user,video_id)
 			ss=model.get_subscribestatus(session.user,model.get_uploader(video_id)['uploader'])
-			cmts=model.get_commentlist(video_id)
-			#s=get_recommendation(video_id,model.calculate_Age(model.get_dob(session.user)['dob']),model.get_country(session.user)['country'])
-			return render.play(session.user,video_id,model.get_videoname(video_id)['name'],model.get_uploader(video_id)['uploader'],model.get_description(video_id)['description'],ls['likestatus'],ss['subscribestatus'],cmts['commentid'],cmts['usernames'],cmts['commentlist'])
-
-		
+			cmts=model.get_commentlist(video_id)"""
+		s=model.get_recommendation(video_id,model.calculate_Age(model.get_dob(session.user)['dob']),model.get_country(session.user)['country'])
+		#return render.play(session.user,video_id,model.get_videoname(video_id)['name'],model.get_uploader(video_id)['uploader'],model.get_description(video_id)['description'],ls['likestatus'],ss['subscribestatus'],cmts['commentid'],cmts['usernames'],cmts['commentlist'])
+		return s
 
 class Uploadvideo:
 	def GET(self):	
@@ -421,7 +426,7 @@ class UploadVideoInfo:
 		t=str(i.tags)
 		tg=json.dumps(t.split(","))
 		p=model.upload_video_info(i.id,i.name,i.description,tg,countries,i.category,session.user,age,th)
-		raise web.seeother('/about')
+		raise web.seeother('/myprofile')
 
 
 	
@@ -486,6 +491,8 @@ class Statistics:
 
 class History:
 	def GET(self):
+		u=model.get_history(session.user)
+		return u
 		return render.history()
 
 class Demo:
