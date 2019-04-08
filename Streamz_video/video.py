@@ -16,7 +16,24 @@ urls = ('/getvideodesc', 'GetVideoDesc',
         '/deletevideo','DeleteVideo',
         '/updatelikestatus','UpdateLikeStatus',
         '/getchannellikescount','GetChannelLikesCount',
+        '/getagerestriction','GetAgerestriction',
+        '/getcountryrestriction','GetCountryrestriction',
 )
+
+class GetCountryrestriction:
+        def POST(self):
+                data=web.data()
+                vid=json.loads(data)['videoid']
+                s=model.get_countryrestriction(vid)
+                return s
+
+class GetAgerestriction:
+        def POST(self):
+                data=web.data()
+                vid=json.loads(data)['videoid']
+                s=model.get_agerestriction(vid)
+                return s
+
 class GetChannelLikesCount:
         def POST(self):
                 data=web.data()
@@ -98,7 +115,13 @@ class UploadVideo:
                 fout = open('static/videos' +'/'+ filename,'w')
                 fout.write(data['file']) 
                 fout.close() 
-                res = model.upload_video(filename,'static/videos/' + filename, uploader)
+
+                thumbnail_filename=data['thumbnail_name']
+                fout = open('static/thumbnails' +'/'+ thumbnail_filename,'w')
+                fout.write(data['thumbnail_file']) 
+                fout.close() 
+               
+                res = model.upload_video(filename,'static/videos/' + filename, 'static/thumbnails/' + thumbnail_filename, uploader)
                 return res
 
 class UpdateVideo:
@@ -113,7 +136,7 @@ class UpdateVideo:
                 country=data['countries']
                 age=data['age']
                 tags=data['tags']
-                id=data['id']
+                id=data['id']                
                 if filename!="":
                         fout = open('static/thumbnails' +'/'+ filename,'w')
                         fout.write(data['thumbnail_file']) 

@@ -33,6 +33,14 @@ urls = ('/login', 'Login',
         '/gethistory','GetHistory',
         )
 
+class AddViews:
+        def POST(self):
+                data=web.data()
+                un=json.loads(data)['username']
+                vid=json.loads(data)['videoid']
+                s=model.add_views(un,vid)
+                return s
+
 class GetHistory:
         def POST(self):
                 data=web.data()

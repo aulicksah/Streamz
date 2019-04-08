@@ -62,8 +62,8 @@ def get_uploader(id):
 	params={'uploader':ul}
 	return json.dumps(params)
 
-def upload_video(name,videopath, uploader):
-	id=db.insert('video', name=name, urlpath=videopath, uploader=uploader)
+def upload_video(name,videopath,thumbnail,uploader):
+	id=db.insert('video', name=name, urlpath=videopath,thumbnail=thumbnail, uploader=uploader)
 	params={'id':id}
 	return json.dumps(params)
 
@@ -114,4 +114,20 @@ def get_channel_likes_count(uploader):
 	for i in range(len(row)):
 		dislikes+=row[i][1]
 	params={'uploader':uploader,'likescount':likes,'dislikescount':dislikes}
+	return json.dumps(params)
+
+def get_agerestriction(videoid):
+	data = db.select('video', order='id')
+	authdb = sqlite3.connect('videos.db')
+	c= authdb.execute('select age from video where id=?',[videoid])
+	row = c.fetchall()
+	params={'AgeRestriction':int(row[0][0])}
+	return json.dumps(params)
+
+def get_countryrestriction(videoid):
+	data = db.select('video', order='id')
+	authdb = sqlite3.connect('videos.db')
+	c= authdb.execute('select country from video where id=?',[videoid])
+	row = c.fetchall()
+	params={'CountryRestriction':row[0][0]}
 	return json.dumps(params)

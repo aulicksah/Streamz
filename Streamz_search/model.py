@@ -53,10 +53,18 @@ def delete(index):
     
 def update_details(details):
   ids=json.loads(details)['id']
+  uploader=json.loads(details)['uploader']
+  category=json.loads(details)['category']
+  title=json.loads(details)['video_name']
+  description=json.loads(details)['description']
+  tags=json.loads(details)['tags']
+  countries=json.loads(details)['countries']
+  age=json.loads(details)['age']
   #Connect to the elastic cluster
   es=Elasticsearch([{'host':'localhost','port':9200}])
-  res=es.update(index='streams2',doc_type='video',id=ids,body={"doc":{details}})
-  return details
+  body={"doc":{'id':ids,'uploader':uploader,'category':category,'title':title,'description':description,'tags':tags,'countries':countries,'age':age}}
+  res=es.update(index='streams2',doc_type='video',id=ids,body=body)
+  return res
 
 def update_likes(ids,likes,dislikes,score):
 
@@ -132,7 +140,7 @@ def trending(age,country):
     channel_name.append(hit1['_source']['uploader'])
 
   video_ids={'trend_video': video_id,'trend_channel':channel_name}
-  return video_ids  
+  return json.dumps(video_ids)
 
 
 
@@ -214,4 +222,5 @@ def recommendation(ids,age,country):
   for hit in res1['hits']['hits']:
     recom.append(hit['_source']['id'])                    
   ids = {'recom_id':recom}
+  print ids
   return json.dumps(ids)

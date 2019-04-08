@@ -255,4 +255,5 @@ def get_history(username):
 	for i in range(len(row)):
 		videoids.append(row[i][0])
 	params={'videoids':videoids}
-	return row
+	return json.dumps(params)
+

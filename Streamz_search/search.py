@@ -76,17 +76,7 @@ class Update:
     def POST(self):
         
         data= web.data()
-        ids=json.loads(data)['id']
-        uploader=json.loads(data)['uploader']
-        category=json.loads(data)['category']
-        title=json.loads(data)['video_name']
-        description=json.loads(data)['description']
-        tags=json.loads(data)['tags']
-        countries=json.loads(data)['countries']
-        age=json.loads(data)['age']
-        details=json.dumps({'id':ids,'uploader':uploader,'category':category,'title':title,'description':description,'tags':tags,'countries':countries,'age':age})
-        #print details
-        res = model.update_details(details)
+        res = model.update_details(data)
         return res
 
 class UpdateLikestatus:
@@ -122,7 +112,6 @@ class Category:
 		
 class Recommendation:
     def POST(self):
-        
         info= web.data()
         ids = model.recommendation(json.loads(info)['videoid'],json.loads(info)['user_age'],json.loads(info)['user_country']) 
         #print ids

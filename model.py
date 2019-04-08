@@ -93,8 +93,8 @@ def get_videodesc(id):
     #return json.dumps(params)
 
 
-def upload_video(x,uploader):
-    file1 = {'file': x.myfile.file.read(),'name':x.myfile.filename,'uploader':uploader}
+def upload_video(x,th,uploader):
+    file1 = {'file': x.myfile.file.read(),'name':x.myfile.filename,'thumbnail_file': th.mythumbnail.file.read(),'thumbnail_name':th.mythumbnail.filename,'uploader':uploader}
     p = requests.post("http://0.0.0.0:5050/upload", files=file1)
     return p.json()
 
@@ -106,16 +106,16 @@ def upload_video_info(id,name,description,tags,countries,category,uploader,age,t
 
     paramsth = {'thumbnail_file': th.mythumbnail.file.read(),'thumbnail_name':th.mythumbnail.filename,'id':id,'video_name':name,'description':description,'tags':tags,'category':category,'countries':json.dumps(countries),'age':age}
     q = requests.post('http://0.0.0.0:5050/updatevideo', files=paramsth)
-    #return p.json() 
-    #return paramsth   
+    return paramsth
+    #return paramsth  
 
 def update_video(id,name,description,tags,countries,category,uploader,age,th):
 
     params = {'id':id,'video_name':name,'description':description,'tags':tags,'category':category,'countries':json.dumps(countries),'uploader':uploader,'age':age} 
     p=requests.post('http://0.0.0.0:7070/updatevideo', data=json.dumps(params))
 
-    #paramsth = {'thumbnail_file': th.mythumbnail.file.read(),'thumbnail_name':th.mythumbnail.filename,'id':id,'video_name':name,'description':description,'tags':tags,'category':category,'countries':json.dumps(countries),'age':age}
-    #q = requests.post('http://0.0.0.0:5050/updatevideo', files=paramsth)
+    paramsth = {'thumbnail_file': th.mythumbnail.file.read(),'thumbnail_name':th.mythumbnail.filename,'id':id,'video_name':name,'description':description,'tags':tags,'category':category,'countries':json.dumps(countries),'age':age}
+    q = requests.post('http://0.0.0.0:5050/updatevideo', files=paramsth)
     return p
 
 def get_video(id):
@@ -251,19 +251,31 @@ def add_history(username,videoid):
 def get_history(username):
     params = {'username':username}
     p=requests.post('http://0.0.0.0:9090/gethistory', data=json.dumps(params))
-    return p
+    return p.json()
 
 def get_trending(age,country):
     params={'user_age':age,'user_country':country}
     p=requests.post('http://0.0.0.0:7070/gettrending', data=json.dumps(params))
-    return p
+    return p.json()
 
 def get_category_videoids(category,age,country):
     params = {'category': category,'user_age':age,'user_country':country}
     p=requests.post('http://0.0.0.0:7070/getcategoryvideo', data=json.dumps(params))
-    return p
+    return p.json()
 
 def get_recommendation(videoid,age,country):
     params = {'videoid':videoid,'user_age':age,'user_country':country} 
     p=requests.post('http://0.0.0.0:7070/getrecommendation', data=json.dumps(params))
     return p.json()
+    #return json.dumps(params)
+
+def get_agerestriction(videoid):
+    params = {'videoid':videoid}
+    p=requests.post('http://0.0.0.0:5050/getagerestriction', data=json.dumps(params))
+    return p.json()
+
+def get_countryrestriction(videoid):
+    params = {'videoid':videoid}
+    p=requests.post('http://0.0.0.0:5050/getcountryrestriction', data=json.dumps(params))
+    return p.json()
+
