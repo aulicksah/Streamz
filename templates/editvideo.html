@@ -539,6 +539,10 @@ width:100%;
                                     <td><label>Thumbnail:</label></td>
                                     <td style="width:100%;"><input style="width:100%; color:#FFF; padding:10px;" type="file" name="mythumbnail"/></td>
                                 </tr>
+                                <tr style="padding:10%; margin:10%;">
+                                    <td><label>Subtitles:</label></td>
+                                    <td style="width:100%;"><input type="file" name="mysubtitles"/></td>
+                                </tr>
                             </table><br/><br/>
                             <p>RESTRICTION</p>
                             <table style="color:#FFF;">     
@@ -565,6 +569,10 @@ width:100%;
                                         <input type="checkbox" checked value="Germany" name="Germany"/>Germany<br/></td>
                                     $else:
                                         <input type="checkbox" value="Germany" name="Germany"/>Germany<br/>
+                                    $if '' in countries:
+                                        <input type="checkbox" checked value="None1" name="None"/>None<br/></td>
+                                    $else:
+                                        <input type="checkbox" checked value="None1" name="None"/>None<br/>
                                 </td>
                             </tr>
                             <tr style="padding:10%;">

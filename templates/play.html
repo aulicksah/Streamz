@@ -289,17 +289,7 @@ $def with (username,firstname,videoid,videoname,uploader,videodescription,likest
         width:100%;   
       }
 
-/*Subscribe*/
-    .subscribebutton {
-        float: right;
-        padding: 6px 10px;
-        
-        font-size: 17px;
-        border: none;
-        cursor: pointer;
-        text-align:center;
-        width:20%;        
-    }
+
         
 /*Comment*/
     .comment-container input[type=text] {
@@ -326,6 +316,10 @@ $def with (username,firstname,videoid,videoname,uploader,videodescription,likest
         width:20%;
           
         }
+    .video{
+        min-width:1000px; 
+        width:100%;
+    }
 
 </style>
     
@@ -334,6 +328,19 @@ $def with (username,firstname,videoid,videoname,uploader,videodescription,likest
     {
         .search-container {
             width:20%;
+        }
+        .video{
+        min-width:100%; 
+        width:100%;
+    }
+    .grid-container {
+            display: grid;
+            grid-template-areas:'video '
+            'recom'
+            'comment';
+            padding:5px;
+            padding-top:90px;  
+            padding-left:120px;     
         }
     }
         
@@ -398,6 +405,11 @@ $def with (username,firstname,videoid,videoname,uploader,videodescription,likest
             width:50%;
             margin-left:1%;
         }
+        .video{
+        min-width:100%; 
+        width:100%;
+    }
+
     }    
 </style>
 
@@ -477,7 +489,7 @@ $def with (username,firstname,videoid,videoname,uploader,videodescription,likest
 
             <div class="grid-container">
                     <div class="video-content" >
-                        <video autoplay loop width="100%"src="http://0.0.0.0:8080/videos/$videoid" type="video/mp4" controls>
+                        <video class="video" autoplay loop  src="http://0.0.0.0:8080/videos/$videoid" type="video/mp4" controls>
                                 Your browser does not support the video tag.
                         </video>
                     <div>
@@ -489,14 +501,14 @@ $def with (username,firstname,videoid,videoname,uploader,videodescription,likest
                                     <input value="$videoid" style="display:none;" type="text" name="videoid"/>
                                     <input value="$username" style="display:none;" type="text" name="username"/>
                                     <input value="$uploader" style="display:none;" type="text" name="uploader"/>
-                                    <button style="float:right; background-color: beige;margin-top:2%" class="subscribebutton">SUBSCRIBED</button>
+                                    <button style="float:right; background-color: beige;margin-top:1%" class="button">SUBSCRIBED</button>
                                 </form>
                             $else:
                                 <form method="POST" action="/subscribe">
                                     <input value="$videoid" style="display:none;" type="text" name="videoid"/>
                                     <input value="$username" style="display:none;" type="text" name="username"/>
                                     <input value="$uploader" style="display:none;" type="text" name="uploader"/>
-                                    <button style="float:right; background-color:#e46226; margin-top:2%" class="button">SUBSCRIBE</button>
+                                    <button style="float:right; background-color:#e46226; margin-top:1%" class="button">SUBSCRIBE</button>
                                 </form>
                             
                             $if likestatus==1:

@@ -73,11 +73,18 @@ def upload_thumbnail(name,thumbnailpath):
 	return json.dumps(params)
 		
 
-def update_video_desc(id,thumbnail,name,description,category,country,age,tags):
-	if thumbnail=='':
-		db.update('video', where='id= $id',vars=locals(), name=name,description=description,category=category,country=country,age=age,tags=tags)
-	else:
-		db.update('video', where='id= $id',vars=locals(), name=name, thumbnail=thumbnail,description=description,category=category,country=country,age=age,tags=tags)
+def update_video_desc(id,name,description,category,country,age,tags):
+	age=int(age)
+	db.update('video', where='id= $id',vars=locals(), name=name,description=description,category=category,country=country,age=age,tags=tags)
+	params={'status':"updated"}
+	return json.dumps(params)
+
+def update_video_thumbnail(id,thumbnail):
+	db.update('video', where='id= $id',vars=locals(), thumbnail=thumbnail)
+	return "success"
+
+def update_video_subtitles(id,subtitles):
+	db.update('video', where='id= $id',vars=locals(), subtitles=subtitles)
 	return "success"
 
 def get_uploads(username):

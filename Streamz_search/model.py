@@ -14,27 +14,50 @@ def send_details(details):
   ids=json.loads(details)['id']
   # Connect to the elastic cluster
   es=Elasticsearch([{'host':'localhost','port':9200}])
-  res = es.index(index='streams2',doc_type='video',body=details,id=ids)  #index_name=streams1, doc_type=videos
+  res = es.index(index='streamz',doc_type='video',body=details,id=ids)  #index_name=streams1, doc_type=videos
   return res
 
 
 # function to search by keywords
 #search based on category,channel,uploader,title,tags
-def send_search(txt,age,keyword):
-  txt=str(txt)
-  print(txt)
+def send_search(keyword,age,country):
+  txt=str(keyword)
+  country=str(country)
+  age=int(age)
+
   videos=[]
   es=Elasticsearch([{'host':'localhost','port':9200}])
-  res= es.search(index='streams2',body={"query" : {
-                "bool" : {
+  res= es.search(index='streamz',body={"query": {
+    
+    "bool": {
+                    "must":[
+
+                    
+                    
+                    { "range": {
+                        "age": {
+                "lt": age
+            }
+        }
+        },
+        {"bool":
+        {"must_not":[
+        {"match": {"countries":country}}]}},
+    
+                    {
+                    "bool":
+
+                    {
                     "should" : [
-                    { "match" : {"channel" : txt}},
                     { "match" : {"category" : txt} },
                     {"match":{ "uploader" : txt }},
                     {"match": {"tags": txt}},
                     {"match": {"title":{"query":txt,"analyzer": "english"}}},
-                    
-                     ]
+                    ]
+
+                    }
+                    }
+                    ]
                     }
                     }
                     })
@@ -43,12 +66,13 @@ def send_search(txt,age,keyword):
   ids = {'id': videos}
   return json.dumps(ids)
 
+
   
  # function to delete from server 
 def delete(index):
   #print index
   es=Elasticsearch([{'host':'localhost','port':9200}])
-  res = es.delete(index='streams2', doc_type='video', id=index)
+  res = es.delete(index='streamz', doc_type='video', id=index)
   return res	
     
 def update_details(details):
@@ -63,13 +87,13 @@ def update_details(details):
   #Connect to the elastic cluster
   es=Elasticsearch([{'host':'localhost','port':9200}])
   body={"doc":{'id':ids,'uploader':uploader,'category':category,'title':title,'description':description,'tags':tags,'countries':countries,'age':age}}
-  res=es.update(index='streams2',doc_type='video',id=ids,body=body)
+  res=es.update(index='streamz',doc_type='video',id=ids,body=body)
   return res
 
 def update_likes(ids,likes,dislikes,score):
 
   es=Elasticsearch([{'host':'localhost','port':9200}])
-  res=es.update(index='streams2',doc_type='video',id=ids,body={"doc": {'likes':likes,'dislikes':dislikes,'score':score}})
+  res=es.update(index='streamz',doc_type='video',id=ids,body={"doc": {'likes':likes,'dislikes':dislikes,'score':score}})
   params={'status':"Updated"}
   return json.dumps(params)
 
@@ -80,37 +104,36 @@ def trending(age,country):
   channel_name=[]
   es=Elasticsearch([{'host':'localhost','port':9200}])
 
-  res= es.search(index='streams2',body={
+  res= es.search(index='streamz',body={
   
     "query": {
     
     "bool": {
-                    "must":[
+              "must":[
 
-                    {"match": {"countries":country}},
-                    
                     { "range": {
                         "age": {
-                "lte": age
+                "lt": age
             }
         }
-        }],
+        },
+        {"bool":
+        {"must_not":[
+        {"match": {"countries":country}}]}}
+        ]
         }
         },
-    
-    
-                    "sort" : [
+        "sort" : [
       {"score" : {"order" : "desc", "mode" : "avg"}},]
                     
                     }
-                    
+                    )
 
-    )
 
   for hit in res['hits']['hits']:
     video_id.append(hit['_source']['id'])
   
-  res1= es.search(index='streams2',body={
+  res1= es.search(index='streamz',body={
   
     "query": {
     
@@ -152,25 +175,41 @@ def sort_category(category,age,country):
   category=str(category) 
   videos=[]
   es=Elasticsearch([{'host':'localhost','port':9200}])
-  res= es.search(index='streams2',body={
+  res= es.search(index='streamz',body={
 
    "query": {
     
     "bool": {
                     "must":[
-
-                    {"match": {"countries":country}},
-                    {"match":{"category":category}},
-                    
                     { "range": {
                         "age": {
-                "lte": age
+                "lt": age
             }
         }
-        }],
-        }
-        }
-   })
+        },
+        {"bool":
+        {"must_not":[
+        {"match": {"countries":country}}]}},
+    
+                    {
+                    "bool":
+
+                    {
+                    "must" : 
+                    
+                    { "match" : {"category" : category} },
+            
+                    
+
+                    }
+                    }
+                    ]
+                    }
+                    }
+                    }
+                   
+                  
+                    )
   for hit in res['hits']['hits']:
     videos.append(hit['_source']['id'])
   ids = {'id': videos}
@@ -179,26 +218,29 @@ def sort_category(category,age,country):
 def recommendation(ids,age,country):
 
   es=Elasticsearch([{'host':'localhost','port':9200}])
-  res = es.get(index='streams2',doc_type='video',id=ids)
+  res = es.get(index='streamz',doc_type='video',id=ids)
   category=res['_source']['category']
   uploader=res['_source']['uploader']
   recom=[]
 
-  res1= es.search(index='streams2',body={
+  res1= es.search(index='streamz',body={
 
   "query": {
     
     "bool": {
                     "must":[
 
-                    {"match": {"countries":country}},
+                    
                     
                     { "range": {
                         "age": {
-                "lte": age
+                "lt": age
             }
         }
         },
+        {"bool":
+        {"must_not":[
+        {"match": {"countries":country}}]}},
     
                     {
                     "bool":

@@ -155,7 +155,6 @@ class DeleteVideo:
 	def GET(self,video_id):
 		id=int(video_id)
 		s=model.delete_video(id)
-		return s
 		if s['status']=="Deleted":
 			raise web.seeother('/uploads')
 
@@ -169,7 +168,7 @@ class Like:
 			lks=t['likes']
 			dlks=t['dislikes']
 			model.update_likestatus(i.videoid,lks,dlks)
-			model.update_channel_likes_count(i.uploader)
+			#model.update_channel_likes_count(i.uploader)
 			raise web.seeother('/play/'+i.videoid)
 
 class Dislike:
@@ -181,7 +180,7 @@ class Dislike:
 			lks=t['likes']
 			dlks=t['dislikes']
 			model.update_likestatus(i.videoid,lks,dlks)
-			model.update_channel_likes_count(i.uploader)
+			#model.update_channel_likes_count(i.uploader)
 			raise web.seeother('/play/'+i.videoid)
 
 class Nonelike:
@@ -193,7 +192,7 @@ class Nonelike:
 			lks=t['likes']
 			dlks=t['dislikes']
 			model.update_likestatus(i.videoid,lks,dlks)
-			model.update_channel_likes_count(i.uploader)
+			#model.update_channel_likes_count(i.uploader)
 			raise web.seeother('/play/'+i.videoid)
 
 
@@ -202,7 +201,7 @@ class UpdateVideo:
 
 		i = web.input()
 		th = web.input(mythumbnail={})
-			
+		st = web.input(mysubtitles={})
 		countries=[]
 		if hasattr(i, 'India'):
 			countries.append(i.India)
@@ -214,17 +213,12 @@ class UpdateVideo:
 			countries.append(i.China)
 		if hasattr(i, 'Germany'):
 			countries.append(i.Germany)
-		if countries==[]:
-			countries= None
-		if i.age=="None":
-			age=0
-		elif i.age=="10+":
-			age=10
-		else:
-			age=18
+		if hasattr(i, 'None1'):
+			countries.append(i.None1)
+
 		t=str(i.tags)
 		tg=json.dumps(t.split(","))
-		p=model.update_video(i.id,i.name,i.description,tg,countries,i.category,session.user,age,th)
+		p=model.update_video(i.id,i.name,i.description,tg,countries,i.category,session.user,i.age,th,st)
 		raise web.seeother('/play/'+i.id)
 
 class EditVideo:
@@ -349,7 +343,10 @@ class Search:
 		uploaders=[]
 		for i in range(len(t)):
 			uploaders.append(model.get_uploader(t[i])['uploader'])
-		return render.search(session.user,t,videonames,uploaders)
+		descriptions=[]
+		for i in range(len(t)):
+			descriptions.append(model.get_description(t[i])['description'])
+		return render.search(session.user,t,videonames,uploaders,descriptions)
 		
 
 class Homepage:
@@ -393,6 +390,8 @@ class Play:
 					cmts=model.get_commentlist(video_id)
 					x=model.get_recommendation(int(video_id),int(model.calculate_Age(model.get_dob(session.user)['dob'])),model.get_country(session.user)['country'])
 					t= x['recom_id']
+					if range(len(t))>7:
+						t=t[0:7]
 					videonames=[]
 					for i in range(len(t)):
 						videonames.append(model.get_videoname(t[i])['name'])
@@ -440,6 +439,7 @@ class UploadVideoInfo:
 
 		i = web.input()
 		th = web.input(mythumbnail={})
+		st = web.input(mysubtitles={})
 			
 		countries=[]
 		if hasattr(i, 'India'):
@@ -452,15 +452,15 @@ class UploadVideoInfo:
 			countries.append(i.China)
 		if hasattr(i, 'Germany'):
 			countries.append(i.Germany)
-		if countries==[]:
-			countries= None
+		if hasattr(i, 'None1'):
+			countries.append(i.None1)
 		
 		if i.tags=="":
 			tg='null'
 		else:
 			t=i.tags
 			tg=json.dumps(t.split(","))
-		model.upload_video_info(i.id,i.name,i.description,tg,countries,i.category,session.user,i.age,th)
+		model.upload_video_info(i.id,i.name,i.description,tg,countries,i.category,session.user,i.age,th,st)
 
 		raise web.seeother('/myprofile')
 

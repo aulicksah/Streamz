@@ -130,20 +130,25 @@ class UpdateVideo:
                 web.header('Access-Control-Allow-Credentials', 'true')
                 data = web.input()
                 filename=data['thumbnail_name']
+                subtitles_filename=data['subtitles_name']
                 videoname=data['video_name']
                 description=data['description']
                 category=data['category']
                 country=data['countries']
                 age=data['age']
                 tags=data['tags']
-                id=data['id']                
+                id=data['id']
+                s=model.update_video_desc(id,videoname,description,category,country,age,tags)              
                 if filename!="":
                         fout = open('static/thumbnails' +'/'+ filename,'w')
                         fout.write(data['thumbnail_file']) 
                         fout.close() 
-                        s=model.update_video_desc(id,'static/thumbnails/' + filename,videoname,description,category,country,age,tags)
-                else:
-                        s=model.update_video_desc(id,'',videoname,description,category,country,age,tags)
+                        t=model.update_video_thumbnail(id,'static/thumbnails/'+filename)
+                if subtitles_filename!="":
+                        fout = open('static/subtitles' +'/'+ subtitles_filename,'w')
+                        fout.write(data['subtitles_file']) 
+                        fout.close() 
+                        u=model.update_video_subtitles(id,'static/subtitles/'+subtitles_filename)
                 return s
 
 class GetUploads:

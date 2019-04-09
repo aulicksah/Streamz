@@ -54,7 +54,7 @@ def send_search(search_text,age,country):
     params = {'keyword': search_text,'user_age':age,'user_country':country} 
     p=requests.post('http://0.0.0.0:7070/search', data=json.dumps(params))
     return p.json()
-    #return json.dumps(params)
+    r#eturn json.dumps(params)
 
 
 
@@ -99,24 +99,24 @@ def upload_video(x,th,uploader):
     return p.json()
 
 
-def upload_video_info(id,name,description,tags,countries,category,uploader,age,th):
+def upload_video_info(id,name,description,tags,countries,category,uploader,age,th,st):
 
     params = {'id':id,'video_name':name,'description':description,'tags':tags,'category':category,'countries':json.dumps(countries),'uploader':uploader,'age':age} 
     p=requests.post('http://0.0.0.0:7070/details', data=json.dumps(params))
 
-    paramsth = {'thumbnail_file': th.mythumbnail.file.read(),'thumbnail_name':th.mythumbnail.filename,'id':id,'video_name':name,'description':description,'tags':tags,'category':category,'countries':json.dumps(countries),'age':age}
+    paramsth = {'thumbnail_file': th.mythumbnail.file.read(),'thumbnail_name':th.mythumbnail.filename,'subtitles_file': st.mysubtitles.file.read(),'subtitles_name':st.mysubtitles.filename,'id':id,'video_name':name,'description':description,'tags':tags,'category':category,'countries':json.dumps(countries),'age':age}
     q = requests.post('http://0.0.0.0:5050/updatevideo', files=paramsth)
     return paramsth
     #return paramsth  
 
-def update_video(id,name,description,tags,countries,category,uploader,age,th):
+def update_video(id,name,description,tags,countries,category,uploader,age,th,st):
 
     params = {'id':id,'video_name':name,'description':description,'tags':tags,'category':category,'countries':json.dumps(countries),'uploader':uploader,'age':age} 
     p=requests.post('http://0.0.0.0:7070/updatevideo', data=json.dumps(params))
 
-    paramsth = {'thumbnail_file': th.mythumbnail.file.read(),'thumbnail_name':th.mythumbnail.filename,'id':id,'video_name':name,'description':description,'tags':tags,'category':category,'countries':json.dumps(countries),'age':age}
+    paramsth = {'thumbnail_file': th.mythumbnail.file.read(),'thumbnail_name':th.mythumbnail.filename,'subtitles_file': st.mysubtitles.file.read(),'subtitles_name':st.mysubtitles.filename,'id':id,'video_name':name,'description':description,'tags':tags,'category':category,'countries':json.dumps(countries),'age':age}
     q = requests.post('http://0.0.0.0:5050/updatevideo', files=paramsth)
-    return p
+    return q
 
 def get_video(id):
     params = {'vid': id} 
