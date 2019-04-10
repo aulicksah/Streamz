@@ -50,6 +50,7 @@ def send_search(keyword,age,country):
                     {
                     "should" : [
                     { "match" : {"category" : txt} },
+                    { "match" : {"description" : txt} },
                     {"match":{ "uploader" : txt }},
                     {"match": {"tags": txt}},
                     {"match": {"title":{"query":txt,"analyzer": "english"}}},
@@ -100,70 +101,65 @@ def update_likes(ids,likes,dislikes,score):
 
 
 def trending(age,country):
-  video_id=[]
-  channel_name=[]
+  age=int(age)
+  country=str(country)
+  videos=[]
+  videos1=[]
+
   es=Elasticsearch([{'host':'localhost','port':9200}])
-
   res= es.search(index='streamz',body={
-  
+
     "query": {
-    
-    "bool": {
-              "must":[
+      
+      "range": {
+                  "age": {
+                  "lt": age
+              }
+          }
+          },
 
-                    { "range": {
-                        "age": {
-                "lt": age
-            }
-        }
-        },
-        {"bool":
-        {"must_not":[
-        {"match": {"countries":country}}]}}
-        ]
-        }
-        },
-        "sort" : [
-      {"score" : {"order" : "desc", "mode" : "avg"}},]
-                    
-                    }
-                    )
-
-
+          "sort" : [
+        {"score" : {"order" : "desc", "mode" : "avg"}},]
+                      
+                      }
+                      )
   for hit in res['hits']['hits']:
-    video_id.append(hit['_source']['id'])
-  
+      videos.append(hit['_source']['id'])
+      if(hit['_source']['age']>age):
+        print hit['_source']['age'],"true"
+      else:
+        print hit['_source']['age'],"false"
+
   res1= es.search(index='streamz',body={
-  
+
     "query": {
-    
-    "bool": {
-                    "must":[
+      
+      "bool": {
+                      
+          "must_not":[
+          {"match": {"countries":country}}]
+          }
+          },
 
-                    {"match": {"countries":country}},
-                    
-                    { "range": {
-                        "age": {
-                "lte": age
-            }
-        }
-        }],
-        }
-        },
-    
-    
-                    "sort" : [
-      {"subcount" : {"order" : "desc", "mode" : "avg"}},]
-                    }
-                    
-                    
-
-    )
+          "sort" : [
+        {"score" : {"order" : "desc", "mode" : "avg"}},]
+                      
+                      }
+                      )
   for hit1 in res1['hits']['hits']:
-    channel_name.append(hit1['_source']['uploader'])
+      videos1.append(hit1['_source']['id'])
+  #return list(set(videos)& set(videos1))
+  return videos,age
+    
+    
+                      
+                      
 
-  video_ids={'trend_video': video_id,'trend_channel':channel_name}
-  return json.dumps(video_ids)
+    
+
+  #video_ids={'trend_video': video_id}
+  
+  #return json.dumps(video_ids)
 
 
 
