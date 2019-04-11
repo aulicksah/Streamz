@@ -262,7 +262,7 @@ def get_history(username):
 def get_trending(age,country):
     params={'user_age':age,'user_country':country}
     p=requests.post('http://0.0.0.0:7070/gettrending', data=json.dumps(params))
-    return p
+    return p.json()
 
 def get_category_videoids(category,age,country):
     params = {'category': category,'user_age':age,'user_country':country}

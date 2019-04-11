@@ -104,67 +104,38 @@ def trending(age,country):
   age=int(age)
   country=str(country)
   videos=[]
-  videos1=[]
-
   es=Elasticsearch([{'host':'localhost','port':9200}])
   res= es.search(index='streamz',body={
 
-    "query": {
-      
-      "range": {
-                  "age": {
-                  "lt": age
-              }
-          }
-          },
+  "query": {
+    
+    "bool": {
+                 "must":[
+                    
+                    { "range": {
+                        "age": {
+                "lt": age
+            }
+        }
+        }
+        ],
+        "must_not":[
+        {"match": {"countries":country}}]
+        }
+        },
 
-          "sort" : [
-        {"score" : {"order" : "desc", "mode" : "avg"}},]
-                      
-                      }
-                      )
+        "sort" : [
+      {"score" : {"order" : "desc", "mode" : "avg"}},]
+                    
+        }
+        )
+
+
   for hit in res['hits']['hits']:
-      videos.append(hit['_source']['id'])
-      if(hit['_source']['age']>age):
-        print hit['_source']['age'],"true"
-      else:
-        print hit['_source']['age'],"false"
-
-  res1= es.search(index='streamz',body={
-
-    "query": {
-      
-      "bool": {
-                      
-          "must_not":[
-          {"match": {"countries":country}}]
-          }
-          },
-
-          "sort" : [
-        {"score" : {"order" : "desc", "mode" : "avg"}},]
-                      
-                      }
-                      )
-  for hit1 in res1['hits']['hits']:
-      videos1.append(hit1['_source']['id'])
-  #return list(set(videos)& set(videos1))
-  return videos,age
-    
-    
-                      
-                      
-
-    
-
-  #video_ids={'trend_video': video_id}
-  
-  #return json.dumps(video_ids)
-
-
-
-
-
+    videos.append(hit['_source']['id'])
+    print hit['_source']['id']
+  ids = {'trend_video': videos}
+  return json.dumps(ids)
 
 
 def sort_category(category,age,country):

@@ -228,7 +228,8 @@ class UpdateVideo:
 		t=str(i.tags)
 		tg=json.dumps(t.split(","))
 		p=model.update_video(i.id,i.name,i.description,tg,countries,i.category,session.user,int(i.age),th,st)
-		raise web.seeother('/play/'+i.id)
+		#raise web.seeother('/play/'+i.id)
+		raise web.seeother('/uploads')
 
 class EditVideo:
 
@@ -365,8 +366,8 @@ class Homepage:
 				raise web.seeother('/')
 		else:
 			x= model.get_trending(int(model.calculate_Age(model.get_dob(session.user)['dob'])),model.get_country(session.user)['country'])
-			#t= x['trend_video']
-			return x
+			t= x['trend_video']
+
 			videonames=[]
 			for i in range(len(t)):
 				videonames.append(model.get_videoname(t[i])['name'])
