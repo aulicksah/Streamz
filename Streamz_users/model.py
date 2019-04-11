@@ -91,11 +91,11 @@ def check_user(username,password):
     c= authdb.execute('select * from user where username=? and pwd=?',(username,password))
     row = c.fetchone()
     if row == None:
-		logged={"loggedin":"false"}
-		return json.dumps(loggedin) 
+		params={'status':'LoggedIn','username':"username"}
+		return json.dumps(params) 
     else: 
-			params={'status':'LoggedIn','username':username}
-			return json.dumps(params)
+		params={'status':'LoggedIn','username':username}
+		return json.dumps(params)
 	#error={"loggedin":"true","username":username} 
 
 def get_user(username):

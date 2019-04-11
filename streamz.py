@@ -302,8 +302,11 @@ class Index:
 			s= model.check_user(un,pwd)			
 			if s['status']== "LoggedIn":
 				session.loggedin = True
-        		session.user = s['username']
-        	raise web.seeother('/home')
+				session.user = s['username']
+				raise web.seeother('/home')
+			else:
+				raise web.seeother('/')
+        	
 			
 
 class Register:
