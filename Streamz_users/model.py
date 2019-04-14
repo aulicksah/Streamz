@@ -257,3 +257,8 @@ def get_history(username):
 	params={'videoids':videoids}
 	return json.dumps(params)
 
+
+def delete_video(id):
+	db.delete('history', where="videoid=$id", vars=locals())
+	params={'status':"Deleted"}
+	return json.dumps(params)

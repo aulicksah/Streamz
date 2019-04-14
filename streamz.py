@@ -380,7 +380,11 @@ class Homepage:
 			descriptions=[]
 			for i in range(len(t)):
 				descriptions.append(model.get_description(t[i])['description'])
-			return render.homepage(model.get_firstname(session.user)['firstname'],t,videonames,uploaders,descriptions)
+			views=[]
+			for i in range(len(t)):
+				views.append(model.get_views(t[i])['views'])
+			print views
+			return render.homepage(model.get_firstname(session.user)['firstname'],t,videonames,uploaders,descriptions,views)
 
 class Play:
 	def GET(self,video_id):
@@ -398,6 +402,8 @@ class Play:
 				if (z not in y):
 					
 					model.add_history(session.user,video_id)
+					model.update_views(video_id)
+
 					ls=model.get_likestatus(session.user,video_id)
 					ss=model.get_subscribestatus(session.user,model.get_uploader(video_id)['uploader'])
 					cmts=model.get_commentlist(video_id)
@@ -580,6 +586,7 @@ class History:
 		if session.user=='username':
 			raise web.seeother('/')
 		t=model.get_history(session.user)['videoids']
+
 		videonames=[]
 		for i in range(len(t)):
 			videonames.append(model.get_videoname(t[i])['name'])
