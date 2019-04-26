@@ -206,8 +206,8 @@ class Dislike:
 			lks=t['likes']
 			dlks=t['dislikes']
 			model.update_likestatus(i.videoid,lks,dlks)
-			s=model.update_channel_likes_count(i.uploader)
-			return s
+			model.update_channel_likes_count(i.uploader)
+
 			raise web.seeother('/play/'+i.videoid)
 
 class Nonelike:
@@ -292,13 +292,14 @@ class UpdateProfile:
 		x = web.input(myprofilepic={})
 		y = web.input(mycoverpic={})
 		s = model.update_profile(i.firstname,i.lastname,i.username,i.about,i.phone,i.email,i.country,i.dob,x,y)
+		session.kill()
 		raise web.seeother('/myprofile')
 
 class Index:
 
 	login = form.Form(
-	form.Textbox('username'),
-	form.Password('password'),
+	form.Textbox('username',form.notnull),
+	form.Password('password',form.notnull),
 	form.Button('Login'),
 	)
 
@@ -328,13 +329,15 @@ class Index:
 			
 
 class Register:
+
+
 	register = form.Form(
-	form.Textbox('firstname'),
-	form.Textbox('lastname'),
-	form.Textbox('phone'),
-	form.Textbox('email'),
-	form.Password('username'),
-	form.Password('password'),
+	form.Textbox('firstname',form.notnull),
+	form.Textbox('lastname',form.notnull),
+	form.Textbox('phone',form.notnull),
+	form.Textbox('email',form.notnull),
+	form.Textbox('username',form.notnull),
+	form.Password('password',form.notnull),
 	form.Button('Register'),
 	)
 
@@ -345,7 +348,7 @@ class Register:
 	def POST(self):
 		register = self.register()
 		if not register.validates():            
-			return "Unsuccessful"
+			raise web.seeother('/')
 
 		fn=register.d.firstname
 		ln=register.d.lastname
